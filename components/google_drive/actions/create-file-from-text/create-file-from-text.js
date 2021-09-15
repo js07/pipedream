@@ -1,0 +1,89 @@
+const googleDrive = require("../../google_drive.app");
+const common = require("../common.js");
+const { Readable } = require("stream");
+
+module.exports = {
+  ...common,
+  key: "google_drive-create-file-from-text",
+  name: "Create New File From Text ",
+  description: "Create a new file from plain text",
+  version: "0.0.3",
+  type: "action",
+  props: {
+    googleDrive,
+    drive: {
+      propDefinition: [
+        googleDrive,
+        "watchedDrive",
+      ],
+      description: "The drive you want to create a file in",
+    },
+    folder: {
+      type: "string",
+      label: "Folder",
+      description: "(Optional) The folder you want to add the file to",
+      optional: true,
+      default: "",
+      options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const baseOpts = {
+          q: "mimeType = 'application/vnd.google-apps.folder'",
+        };
+        const opts = this.isMyDrive()
+          ? baseOpts
+          : {
+            ...baseOpts,
+            corpora: "drive",
+            driveId: this.getDriveId(),
+            includeItemsFromAllDrives: true,
+            supportsAllDrives: true,
+          };
+        return this.googleDrive.listFilesOptions(nextPageToken, opts);
+      },
+    },
+    fileName: {
+      type: "string",
+      label: "File Name",
+      description: "The name of the file you want to create, e.g. myFile.txt",
+      optional: true,
+      default: "",
+    },
+    content: {
+      type: "string",
+      label: "Content",
+      description: "The plain text of the new file",
+      optional: true,
+      default: "",
+    },
+  },
+  methods: {
+    ...common.methods,
+  },
+  async run() {
+    const {
+      folder,
+      fileName,
+      content,
+    } = this;
+    const drive = this.googleDrive.drive();
+    const file = Readable.from([
+      content,
+    ]);
+    return (
+      await drive.files.create({
+        media: {
+          mimeType: "text/plain",
+          body: file,
+        },
+        requestBody: {
+          name: fileName,
+          parents: folder
+            ? [
+              folder,
+            ]
+            : undefined,
+        },
+      })
+    ).data;
+  },
+};
