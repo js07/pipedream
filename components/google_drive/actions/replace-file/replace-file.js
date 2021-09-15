@@ -2,13 +2,14 @@ const fs = require("fs");
 const googleDrive = require("../../google_drive.app");
 const common = require("../common.js");
 const axios = require("axios");
+const path = require("path");
 
 module.exports = {
   ...common,
   key: "google_drive-replace-file",
   name: "Replace File",
   description: "Upload a file that replaces an existing file",
-  version: "0.0.12",
+  version: "0.0.18",
   type: "action",
   props: {
     googleDrive,
@@ -51,9 +52,23 @@ module.exports = {
     },
     filePath: {
       type: "string",
-      label: "File path",
+      label: "File Path",
       description:
         "The path to the file saved to the /tmp, e.g. /tmp/myFile.csv . Must specify either File URL or File Path.",
+      optional: true,
+      default: "",
+    },
+    fileName: {
+      type: "string",
+      label: "File Name",
+      description: "The new name of the file.",
+      optional: true,
+      default: "",
+    },
+    fileType: {
+      type: "string",
+      label: "File Type",
+      description: "The new file MIME type, e.g. image/jpeg .",
       optional: true,
       default: "",
     },
@@ -66,22 +81,29 @@ module.exports = {
       throw new Error("One of File URL and File Path is required.");
     }
     const drive = this.googleDrive.drive();
-    const file = this.fileUrl
-      ? (
-        await axios({
-          url: this.fileUrl,
-          method: "GET",
-          responseType: "stream",
-        })
-      ).data
-      : fs.createReadStream(this.filePath);
+    let file;
+    let fileType = this.fileType || undefined;
+    if (this.fileUrl) {
+      const response = await axios({
+        url: this.fileUrl,
+        method: "GET",
+        responseType: "stream",
+      });
+      fileType = response.headers["content-type"];
+      file = response.data;
+    } else {
+      file = fs.createReadStream(this.filePath);
+    }
     return (
       await drive.files.update({
         fileId: this.fileId,
         media: {
-          mimeType: this.filetype,
+          mimeType: fileType,
           uploadType: "media",
           body: file,
+        },
+        requestBody: {
+          name: this.fileName || path.basename(this.fileUrl || this.filePath),
         },
       })
     ).data;
