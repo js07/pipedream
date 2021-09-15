@@ -8,7 +8,7 @@ module.exports = {
   key: "google_drive-replace-file",
   name: "Replace File",
   description: "Upload a file that replaces an existing file",
-  version: "0.0.10",
+  version: "0.0.12",
   type: "action",
   props: {
     googleDrive,
@@ -26,7 +26,9 @@ module.exports = {
       optional: false,
       options({ prevContext }) {
         const { nextPageToken } = prevContext;
-        const baseOpts = {};
+        const baseOpts = {
+          q: "'me' in writers",
+        };
         const opts = this.isMyDrive()
           ? baseOpts
           : {
