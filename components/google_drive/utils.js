@@ -1,4 +1,4 @@
-const { MY_DRIVE_VALUE } = require("./constants");
+const { MY_DRIVE_VALUE } = require('./constants');
 
 /**
  * Returns whether the specified drive ID corresponds to the authenticated
@@ -19,13 +19,25 @@ function isMyDrive(drive) {
  * @returns the proper Google Drive ID to be used in Google Drive API calls
  */
 function getDriveId(drive) {
-  return isMyDrive(drive)
-    ? null
-    : drive;
+  return isMyDrive(drive) ? null : drive;
+}
+
+function getListFilesOpts(drive, baseOpts = {}) {
+  const opts = isMyDrive(drive)
+    ? baseOpts
+    : {
+        ...baseOpts,
+        corpora: 'drive',
+        driveId: getDriveId(drive),
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true,
+      };
+  return opts;
 }
 
 module.exports = {
   MY_DRIVE_VALUE,
   isMyDrive,
   getDriveId,
+  getListFilesOpts,
 };

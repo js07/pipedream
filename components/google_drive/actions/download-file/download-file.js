@@ -1,0 +1,75 @@
+const googleDrive = require("../../google_drive.app");
+const common = require("../common.js");
+const fs = require("fs");
+const stream = require("stream");
+const { promisify } = require("util");
+
+module.exports = {
+  ...common,
+  key: "google_drive-download-file",
+  name: "Download File",
+  description: "Download a file",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    googleDrive,
+    drive: {
+      propDefinition: [
+        googleDrive,
+        "watchedDrive",
+      ],
+      description: "The drive containing the file to download",
+    },
+    fileId: {
+      propDefinition: [
+        googleDrive,
+        "fileId",
+        (c) => ({
+          drive: c.drive,
+        }),
+      ],
+      description: "The file to download.",
+    },
+    filePath: {
+      type: "string",
+      label: "Destination File Path",
+      description:
+        "The destination path for the file in /tmp, e.g. `/tmp/myFile.csv`.",
+    },
+  },
+  methods: {
+    ...common.methods,
+  },
+  async run() {
+    // Get file metadata to get mime type
+    // Use .export for google file types, .get other
+    const drive = this.googleDrive.drive();
+    // Get file mimeType
+    const fileMetadata = (
+      await drive.files.get({
+        fileId: this.fileId,
+        fields: "mimeType",
+      })
+    ).data;
+    const mimeType = fileMetadata.mimeType;
+    // Download
+    let file;
+    if (mimeType.includes("application/vnd.google-appls")) {
+      // Google MIME type
+      // See https://developers.google.com/drive/api/v3/mime-types for a list of
+      // Google MIME types.
+      file = await drive.files.export({
+        fileId: this.fileId,
+        mimeType: "application/pdf",
+      });
+    } else {
+      file = await drive.files.get({
+        fileId: this.fileId,
+        alt: "media",
+      });
+    }
+    const pipeline = promisify(stream.pipeline);
+    await pipeline(file, fs.createWriteStream(this.filePath));
+    return fileMetadata;
+  },
+};

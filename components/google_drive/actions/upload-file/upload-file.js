@@ -9,7 +9,7 @@ module.exports = {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Copy an existing file to Google Drive",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     googleDrive,
