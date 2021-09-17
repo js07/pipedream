@@ -15,7 +15,9 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive containing the file to copy",
+      description: "The drive containing the file to copy.",
+      optional: true,
+      default: "",
     },
     fileId: {
       propDefinition: [

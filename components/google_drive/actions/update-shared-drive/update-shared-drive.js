@@ -15,14 +15,13 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "Select a drive to update",
+      description: "Select a drive to update.",
     },
     useDomainAdminAccess: {
-      type: "boolean",
-      label: "Use Domain Admin Access",
-      description: "Issue the request as a domain administrator.",
-      optional: true,
-      default: false,
+      propDefinition: [
+        googleDrive,
+        "useDomainAdminAccess",
+      ],
     },
     backgroundImageLink: {
       type: "string",
@@ -52,7 +51,7 @@ module.exports = {
       type: "object",
       label: "Restrictions",
       description:
-        "A set of restrictions that apply to this shared drive or items inside this shared drive. See `restrictions` in the [Drive resource representation](https://developers.google.com/drive/api/v3/reference/drives#resource-representations)",
+        "A set of restrictions that apply to this shared drive or items inside this shared drive. See `restrictions` in the [Drive resource representation](https://developers.google.com/drive/api/v3/reference/drives#resource-representations).",
       optional: true,
       default: {},
     },

@@ -17,11 +17,10 @@ module.exports = {
         "The shared drives search query. See [query terms](https://developers.google.com/drive/api/v3/ref-search-terms?authuser=2#drive_properties).",
     },
     useDomainAdminAccess: {
-      type: "boolean",
-      label: "Use Domain Admin Access",
-      description: "Issue the request as a domain administrator.",
-      optional: true,
-      default: false,
+      propDefinition: [
+        googleDrive,
+        "useDomainAdminAccess",
+      ],
     },
   },
   methods: {

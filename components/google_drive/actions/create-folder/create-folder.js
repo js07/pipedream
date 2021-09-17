@@ -16,6 +16,8 @@ module.exports = {
         "watchedDrive",
       ],
       description: "The drive you want to create the folder in.",
+      optional: true,
+      default: "",
     },
     folderId: {
       propDefinition: [
@@ -29,8 +31,11 @@ module.exports = {
       optional: true,
       default: "",
     },
-    folderName: {
-      type: "string",
+    name: {
+      propDefinition: [
+        googleDrive,
+        "fileName",
+      ],
       label: "Name",
       description: "The name of the new folder.",
       optional: true,
@@ -43,7 +48,7 @@ module.exports = {
   async run() {
     const {
       folderId,
-      folderName = undefined,
+      name = undefined,
     } = this;
     const drive = this.googleDrive.drive();
     return (
@@ -51,7 +56,7 @@ module.exports = {
         fields: "*",
         requestBody: {
           mimeType: "application/vnd.google-apps.folder",
-          name: folderName,
+          name: name,
           parents: folderId
             ? [
               folderId,

@@ -40,8 +40,7 @@ module.exports = {
         },
       }) {
         const { nextPageToken } = prevContext;
-        const opts = getListFilesOpts(drive, baseOpts);
-        return this.listFilesOptions(nextPageToken, opts);
+        return this.listDriveFilesOptions(drive, nextPageToken, baseOpts);
       },
     },
     fileId: {
@@ -56,8 +55,7 @@ module.exports = {
         },
       }) {
         const { nextPageToken } = prevContext;
-        const opts = getListFilesOpts(drive, baseOpts);
-        return this.listFilesOptions(nextPageToken, opts);
+        return this.listDriveFilesOptions(drive, nextPageToken, baseOpts);
       },
     },
     fileOrFolderId: {
@@ -68,8 +66,7 @@ module.exports = {
         prevContext, drive, baseOpts = {},
       }) {
         const { nextPageToken } = prevContext;
-        const opts = getListFilesOpts(drive, baseOpts);
-        return this.listFilesOptions(nextPageToken, opts);
+        return this.listDriveFilesOptions(drive, nextPageToken, baseOpts);
       },
     },
     updateTypes: {
@@ -110,6 +107,27 @@ module.exports = {
       description: "The new name of the file (e.g. `/myFile.csv`).",
       optional: true,
       default: "",
+    },
+    fileNameSearchTerm: {
+      type: "string",
+      label: "Search Name",
+      description: "The name of the file to search for.",
+      optional: true,
+      default: "",
+    },
+    fileType: {
+      type: "string",
+      label: "File Type",
+      description: "The file's MIME type, (e.g., `image/jpeg`).",
+      optional: true,
+      default: "",
+    },
+    useDomainAdminAccess: {
+      type: "boolean",
+      label: "Use Domain Admin Access",
+      description: "Issue the request as a domain administrator.",
+      optional: true,
+      default: false,
     },
   },
   methods: {
@@ -401,6 +419,12 @@ module.exports = {
           nextPageToken,
         },
       };
+    },
+    // TODO: Document
+    async listDriveFilesOptions(drive, pageToken = null, baseOpts = {}) {
+      const opts = getListFilesOpts(drive, baseOpts);
+      console.log("opts", opts);
+      return this.listFilesOptions(pageToken, opts);
     },
     /**
      * This method yields comments made to a particular GDrive file. It is a

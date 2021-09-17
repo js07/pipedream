@@ -16,6 +16,8 @@ module.exports = {
         "watchedDrive",
       ],
       description: "The drive you want to find a file or folder in.",
+      optional: true,
+      default: "",
     },
     fileOrFolderId: {
       propDefinition: [

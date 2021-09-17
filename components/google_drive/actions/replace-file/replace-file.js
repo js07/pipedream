@@ -10,7 +10,7 @@ module.exports = {
   key: "google_drive-replace-file",
   name: "Replace File",
   description: "Upload a file that replaces an existing file",
-  version: "0.0.18",
+  version: "0.0.41",
   type: "action",
   props: {
     googleDrive,
@@ -20,6 +20,8 @@ module.exports = {
         "watchedDrive",
       ],
       description: "The drive you want to replace a file in.",
+      optional: true,
+      default: "",
     },
     fileId: {
       propDefinition: [
@@ -28,7 +30,7 @@ module.exports = {
         (c) => ({
           drive: c.drive,
           baseOpts: {
-            q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and 'me' in writers`,
+            q: `mimeType != '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and 'me' in writers`,
           },
         }),
       ],
@@ -36,34 +38,35 @@ module.exports = {
       description: "The file to update.",
     },
     fileUrl: {
-      type: "string",
-      label: "File URL",
+      propDefinition: [
+        googleDrive,
+        "fileUrl",
+      ],
       description:
         "The URL of the file to attach. Must specify either File URL or File Path.",
-      optional: true,
-      default: "",
     },
     filePath: {
-      type: "string",
-      label: "File Path",
+      propDefinition: [
+        googleDrive,
+        "filePath",
+      ],
       description:
         "The path to the file saved to the /tmp (e.g., `/tmp/myFile.csv`). Must specify either File URL or File Path.",
-      optional: true,
-      default: "",
     },
-    fileName: {
-      type: "string",
-      label: "File Name",
+    name: {
+      propDefinition: [
+        googleDrive,
+        "fileName",
+      ],
+      label: "Name",
       description: "The new name of the file (e.g., `myFile.csv`).",
-      optional: true,
-      default: "",
     },
     fileType: {
-      type: "string",
-      label: "File Type",
-      description: "The new file MIME type, (e.g., `image/jpeg`).",
-      optional: true,
-      default: "",
+      propDefinition: [
+        googleDrive,
+        "fileType",
+      ],
+      description: "The new file's MIME type, (e.g., `image/jpeg`).",
     },
   },
   methods: {
@@ -74,7 +77,7 @@ module.exports = {
       fileId,
       fileUrl,
       filePath,
-      fileName,
+      name,
       fileType,
     } = this;
     if (!fileUrl && !filePath) {
@@ -95,7 +98,7 @@ module.exports = {
     // } else {
     //   file = fs.createReadStream(this.filePath);
     // }
-    const file = getFileStream({
+    const file = await getFileStream({
       fileUrl,
       filePath,
     });
@@ -108,7 +111,7 @@ module.exports = {
           body: file,
         },
         requestBody: {
-          name: fileName || path.basename(fileUrl || filePath),
+          name: name || path.basename(fileUrl || filePath),
         },
       })
     ).data;

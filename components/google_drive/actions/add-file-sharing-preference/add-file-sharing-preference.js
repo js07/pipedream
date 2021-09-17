@@ -16,28 +16,22 @@ module.exports = {
         "watchedDrive",
       ],
       description: "The drive you want to find a file in",
+      optional: true,
+      default: "",
     },
     fileId: {
-      type: "string",
-      label: "File",
-      description: "The file to add a file sharing preference to.",
+      propDefinition: [
+        googleDrive,
+        "fileId",
+        (c) => ({
+          drive: c.drive,
+          baseOpts: {
+            q: "'me' in owners",
+          },
+        }),
+      ],
       optional: false,
-      options({ prevContext }) {
-        const { nextPageToken } = prevContext;
-        const baseOpts = {
-          q: "'me' in owners",
-        };
-        const opts = this.isMyDrive()
-          ? baseOpts
-          : {
-            ...baseOpts,
-            corpora: "drive",
-            driveId: this.getDriveId(),
-            includeItemsFromAllDrives: true,
-            supportsAllDrives: true,
-          };
-        return this.googleDrive.listFilesOptions(nextPageToken, opts);
-      },
+      description: "The file to add a file sharing preference to.",
     },
     role: {
       type: "string",

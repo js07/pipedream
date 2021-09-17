@@ -16,7 +16,9 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to find a file in",
+      description: "The drive you want to find a file in.",
+      optional: true,
+      default: "",
     },
     fileId: {
       propDefinition: [
@@ -29,33 +31,33 @@ module.exports = {
       description: "The file to update.",
     },
     fileUrl: {
-      type: "string",
-      label: "File URL",
+      propDefinition: [
+        googleDrive,
+        "fileUrl",
+      ],
       description: "The URL of the file to use to update content.",
-      optional: true,
-      default: "",
     },
     filePath: {
-      type: "string",
-      label: "File Path",
+      propDefinition: [
+        googleDrive,
+        "filePath",
+      ],
       description:
         "The path to the file to saved to the /tmp, e.g. /tmp/myFile.csv to update content with.",
-      optional: true,
-      default: "",
     },
-    fileName: {
-      type: "string",
-      label: "File Name",
+    name: {
+      propDefinition: [
+        googleDrive,
+        "fileName",
+      ],
       description: "The new name of the file.",
-      optional: true,
-      default: "",
     },
     fileType: {
-      type: "string",
-      label: "File Type",
+      propDefinition: [
+        googleDrive,
+        "fileType",
+      ],
       description: "The new file MIME type, e.g. image/jpeg .",
-      optional: true,
-      default: "",
     },
     addParents: {
       type: "string",
@@ -112,7 +114,7 @@ module.exports = {
       fileId,
       fileUrl,
       filePath,
-      fileName = undefined,
+      name = undefined,
       fileType = undefined,
       addParents,
       removeParents,
@@ -126,7 +128,7 @@ module.exports = {
       fileUrl || filePath
         ? {
           mimeType: fileType,
-          body: getFileStream({
+          body: await getFileStream({
             fileUrl,
             filePath,
           }),
@@ -143,7 +145,7 @@ module.exports = {
         ocrLanguage,
         useContentAsIndexableText,
         requestBody: {
-          name: fileName,
+          name: name,
           mimeType: fileType,
           ...advanced,
         },

@@ -11,7 +11,7 @@ module.exports = {
   type: "action",
   props: {
     googleDrive,
-    driveName: {
+    name: {
       type: "string",
       label: "Name",
       description: "The name of the new shared drive.",
@@ -28,7 +28,7 @@ module.exports = {
       await drive.files.create({
         requestId: uuid(),
         requestBody: {
-          name: this.props.driveName,
+          name: this.name,
         },
       })
     ).data;

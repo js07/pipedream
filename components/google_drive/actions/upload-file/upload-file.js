@@ -18,6 +18,8 @@ module.exports = {
         "watchedDrive",
       ],
       description: "The drive you want to upload the file to.",
+      optional: true,
+      default: "",
     },
     folderId: {
       propDefinition: [
@@ -47,7 +49,7 @@ module.exports = {
       description:
         "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`). Must specify either File URL or File Path.",
     },
-    fileName: {
+    name: {
       propDefinition: [
         googleDrive,
         "fileName",
@@ -63,7 +65,7 @@ module.exports = {
       folderId,
       fileUrl,
       filePath,
-      fileName,
+      name,
       fileType,
     } = this;
     if (!fileUrl && !filePath) {
@@ -83,7 +85,7 @@ module.exports = {
     // } else {
     //   file = fs.createReadStream(this.filePath);
     // }
-    const file = getFileStream({
+    const file = await getFileStream({
       fileUrl,
       filePath,
     });
@@ -94,7 +96,7 @@ module.exports = {
           body: file,
         },
         requestBody: {
-          name: fileName || path.basename(fileUrl || filePath),
+          name: name || path.basename(fileUrl || filePath),
           parents: folderId
             ? [
               folderId,

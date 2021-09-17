@@ -18,11 +18,10 @@ module.exports = {
       description: "Select a drive.",
     },
     useDomainAdminAccess: {
-      type: "boolean",
-      label: "Use Domain Admin Access",
-      description: "Issue the request as a domain administrator.",
-      optional: true,
-      default: false,
+      propDefinition: [
+        googleDrive,
+        "useDomainAdminAccess",
+      ],
     },
   },
   methods: {

@@ -17,6 +17,8 @@ module.exports = {
         "watchedDrive",
       ],
       description: "The drive you want to create a file in.",
+      optional: true,
+      default: "",
     },
     folderId: {
       propDefinition: [
@@ -30,7 +32,7 @@ module.exports = {
       optional: true,
       default: "",
     },
-    fileName: {
+    name: {
       propDefinition: [
         googleDrive,
         "fileName",
@@ -53,7 +55,7 @@ module.exports = {
   async run() {
     const {
       folderId,
-      fileName,
+      name,
       content,
     } = this;
     const drive = this.googleDrive.drive();
@@ -67,7 +69,7 @@ module.exports = {
           body: file,
         },
         requestBody: {
-          name: fileName,
+          name,
           parents: folderId
             ? [
               folderId,

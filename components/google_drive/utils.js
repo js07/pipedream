@@ -1,6 +1,6 @@
-const fs = require('fs');
-const got = require('got');
-const { MY_DRIVE_VALUE } = require('./constants');
+const fs = require("fs");
+const axios = require("axios");
+const { MY_DRIVE_VALUE } = require("./constants");
 
 /**
  * Returns whether the specified drive ID corresponds to the authenticated
@@ -21,26 +21,38 @@ function isMyDrive(drive) {
  * @returns the proper Google Drive ID to be used in Google Drive API calls
  */
 function getDriveId(drive) {
-  return isMyDrive(drive) ? null : drive;
+  return isMyDrive(drive)
+    ? null
+    : drive;
 }
 
 function getListFilesOpts(drive, baseOpts = {}) {
   const opts = isMyDrive(drive)
     ? baseOpts
     : {
-        ...baseOpts,
-        corpora: 'drive',
-        driveId: getDriveId(drive),
-        includeItemsFromAllDrives: true,
-        supportsAllDrives: true,
-      };
+      ...baseOpts,
+      corpora: drive
+        ? "drive"
+        : "allDrives",
+      driveId: getDriveId(drive),
+      includeItemsFromAllDrives: true,
+      supportsAllDrives: true,
+    };
   return opts;
 }
 
-function getFileStream({ fileUrl, filePath }) {
+async function getFileStream({
+  fileUrl, filePath,
+}) {
   return fileUrl
-    ? (file = got.stream(fileUrl))
-    : (file = fs.createReadStream(filePath));
+    ? (
+      await axios({
+        url: fileUrl,
+        method: "GET",
+        responseType: "stream",
+      })
+    ).data
+    : fs.createReadStream(filePath);
 }
 
 module.exports = {

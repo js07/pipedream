@@ -15,7 +15,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "Select a drive to delete",
+      description: "Select a drive to delete.",
     },
   },
   methods: {

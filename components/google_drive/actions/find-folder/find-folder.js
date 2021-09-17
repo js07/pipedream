@@ -20,12 +20,12 @@ module.exports = {
       optional: true,
       default: "",
     },
-    folderName: {
-      type: "string",
-      label: "Search Name",
+    nameSearchTerm: {
+      propDefinition: [
+        googleDrive,
+        "fileNameSearchTerm",
+      ],
       description: "The name of the folder to search for.",
-      optional: true,
-      default: "",
     },
   },
   methods: {
@@ -34,7 +34,7 @@ module.exports = {
   async run() {
     const drive = this.googleDrive.drive();
     const opts = getListFilesOpts(this.drive, {
-      q: `mimeType = 'application/vnd.google-apps.folder' and name contains '${this.folderName}'`,
+      q: `mimeType = 'application/vnd.google-apps.folder' and name contains '${this.nameSearchTerm}'`,
     });
     return (await drive.files.list(opts)).data.files;
   },

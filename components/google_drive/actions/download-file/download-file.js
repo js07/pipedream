@@ -18,7 +18,9 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive containing the file to download",
+      description: "The drive containing the file to download.",
+      optional: true,
+      default: "",
     },
     fileId: {
       propDefinition: [
@@ -34,7 +36,7 @@ module.exports = {
       type: "string",
       label: "Destination File Path",
       description:
-        "The destination path for the file in /tmp, e.g. `/tmp/myFile.csv`.",
+        "The destination path for the file in /tmp (e.g., `/tmp/myFile.csv`).",
     },
   },
   methods: {
