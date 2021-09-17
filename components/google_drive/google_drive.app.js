@@ -1,6 +1,8 @@
 const axios = require("axios");
 const { google } = require("googleapis");
 const { uuid } = require("uuidv4");
+const mimeDb = require("mime-db");
+const mimeTypes = Object.keys(mimeDb);
 
 const {
   GOOGLE_DRIVE_UPDATE_TYPES,
@@ -8,6 +10,7 @@ const {
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
 } = require("./constants");
+const googleMimeTypes = require("./actions/google-mime-types");
 
 const {
   isMyDrive,
@@ -121,6 +124,12 @@ module.exports = {
       description: "The file's MIME type, (e.g., `image/jpeg`).",
       optional: true,
       default: "",
+      async options({ page = 0 }) {
+        const allTypes = googleMimeTypes.concat(mimeTypes);
+        const start = (page - 1) * 10;
+        const end = start + 10;
+        return allTypes.slice(start, end);
+      },
     },
     useDomainAdminAccess: {
       type: "boolean",

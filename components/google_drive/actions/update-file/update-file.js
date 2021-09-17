@@ -1,6 +1,7 @@
 const googleDrive = require("../../google_drive.app");
 const { getFileStream } = require("../../utils");
 const common = require("../common.js");
+const isoLanguages = require("../language-codes.js");
 
 module.exports = {
   ...common,
@@ -88,6 +89,7 @@ module.exports = {
         "A language hint for OCR processing during image import (ISO 639-1 code).",
       optional: true,
       default: "",
+      options: isoLanguages,
     },
     useContentAsIndexableText: {
       type: "boolean",
