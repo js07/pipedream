@@ -54,7 +54,16 @@ module.exports = {
         googleDrive,
         "fileName",
       ],
-      description: "The name of the new file (e.g. `/myFile.csv`).",
+      description:
+        "The name of the new file (e.g. `/myFile.csv`). By default, the name is the same as the source file's.",
+    },
+    mimeType: {
+      propDefinition: [
+        googleDrive,
+        "mimeType",
+      ],
+      description:
+        "The file's MIME type, (e.g., `image/jpeg`). Google Drive will attempt to automatically detect an appropriate value from uploaded content if no value is provided.",
     },
   },
   methods: {
@@ -66,25 +75,12 @@ module.exports = {
       fileUrl,
       filePath,
       name,
-      fileType,
+      mimeType,
     } = this;
     if (!fileUrl && !filePath) {
       throw new Error("One of File URL and File Path is required.");
     }
     const drive = this.googleDrive.drive();
-    // let file;
-    // let fileType = this.fileType || undefined;
-    // if (this.fileUrl) {
-    //   const response = await axios({
-    //     url: this.fileUrl,
-    //     method: 'GET',
-    //     responseType: 'stream',
-    //   });
-    //   fileType = response.headers['content-type'];
-    //   file = response.data;
-    // } else {
-    //   file = fs.createReadStream(this.filePath);
-    // }
     const file = await getFileStream({
       fileUrl,
       filePath,
@@ -92,7 +88,7 @@ module.exports = {
     return (
       await drive.files.create({
         media: {
-          mimeType: fileType || undefined,
+          mimeType: mimeType || undefined,
           body: file,
         },
         requestBody: {

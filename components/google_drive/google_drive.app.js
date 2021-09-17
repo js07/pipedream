@@ -115,9 +115,9 @@ module.exports = {
       optional: true,
       default: "",
     },
-    fileType: {
+    mimeType: {
       type: "string",
-      label: "File Type",
+      label: "MIME Type",
       description: "The file's MIME type, (e.g., `image/jpeg`).",
       optional: true,
       default: "",

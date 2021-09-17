@@ -61,10 +61,10 @@ module.exports = {
       label: "Name",
       description: "The new name of the file (e.g., `myFile.csv`).",
     },
-    fileType: {
+    mimeType: {
       propDefinition: [
         googleDrive,
-        "fileType",
+        "mimeType",
       ],
       description: "The new file's MIME type, (e.g., `image/jpeg`).",
     },
@@ -78,7 +78,7 @@ module.exports = {
       fileUrl,
       filePath,
       name,
-      fileType,
+      mimeType,
     } = this;
     if (!fileUrl && !filePath) {
       throw new Error("One of File URL and File Path is required.");
@@ -106,7 +106,7 @@ module.exports = {
       await drive.files.update({
         fileId,
         media: {
-          mimeType: fileType || undefined,
+          mimeType: mimeType || undefined,
           uploadType: "media",
           body: file,
         },

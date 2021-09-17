@@ -9,49 +9,49 @@
  *
  * @type {UpdateType}
  */
-const GOOGLE_DRIVE_NOTIFICATION_SYNC = 'sync';
+const GOOGLE_DRIVE_NOTIFICATION_SYNC = "sync";
 
 /**
  * A new resource was created or shared
  *
  * @type {UpdateType}
  */
-const GOOGLE_DRIVE_NOTIFICATION_ADD = 'add';
+const GOOGLE_DRIVE_NOTIFICATION_ADD = "add";
 
 /**
  * An existing resource was deleted or unshared
  *
  * @type {UpdateType}
  */
-const GOOGLE_DRIVE_NOTIFICATION_REMOVE = 'remove';
+const GOOGLE_DRIVE_NOTIFICATION_REMOVE = "remove";
 
 /**
  * One or more properties (metadata) of a resource have been updated
  *
  * @type {UpdateType}
  */
-const GOOGLE_DRIVE_NOTIFICATION_UPDATE = 'update';
+const GOOGLE_DRIVE_NOTIFICATION_UPDATE = "update";
 
 /**
  * A resource has been moved to the trash
  *
  * @type {UpdateType}
  */
-const GOOGLE_DRIVE_NOTIFICATION_TRASH = 'trash';
+const GOOGLE_DRIVE_NOTIFICATION_TRASH = "trash";
 
 /**
  * A resource has been removed from the trash
  *
  * @type {UpdateType}
  */
-const GOOGLE_DRIVE_NOTIFICATION_UNTRASH = 'untrash';
+const GOOGLE_DRIVE_NOTIFICATION_UNTRASH = "untrash";
 
 /**
  * One or more new changelog items have been added
  *
  * @type {UpdateType}
  */
-const GOOGLE_DRIVE_NOTIFICATION_CHANGE = 'change';
+const GOOGLE_DRIVE_NOTIFICATION_CHANGE = "change";
 
 /**
  * All the available Google Drive update types
@@ -73,7 +73,7 @@ const GOOGLE_DRIVE_UPDATE_TYPES = [
  * code by avoiding null values, we assign this special value to the 'My Drive'
  * drive.
  */
-const MY_DRIVE_VALUE = 'myDrive';
+const MY_DRIVE_VALUE = "myDrive";
 
 /**
  * The maximum amount of time a subscription can be active without expiring is
@@ -99,10 +99,16 @@ const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS =
   (WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS * 0.95) / 1000;
 
 /**
+ * The MIME type prefix of Google Drive MIME types as defined by the [Google
+ * Drive API docs](https://developers.google.com/drive/api/v3/mime-types)
+ */
+const GOOGLE_DRIVE_MIME_TYPE_PREFIX = "application/vnd.google-appls";
+
+/**
  * The MIME type of Google Drive folders as defined by the [Google Drive API
  * docs](https://developers.google.com/drive/api/v3/mime-types)
  */
-const GOOGLE_DRIVE_FOLDER_MIME_TYPE = 'application/vnd.google-apps.folder';
+const GOOGLE_DRIVE_FOLDER_MIME_TYPE = "application/vnd.google-apps.folder";
 
 module.exports = {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
@@ -116,5 +122,6 @@ module.exports = {
   MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+  GOOGLE_DRIVE_MIME_TYPE_PREFIX,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
 };

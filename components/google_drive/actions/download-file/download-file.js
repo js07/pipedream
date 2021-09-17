@@ -3,6 +3,7 @@ const common = require("../common.js");
 const fs = require("fs");
 const stream = require("stream");
 const { promisify } = require("util");
+const { GOOGLE_DRIVE_MIME_TYPE_PREFIX } = require("../../constants");
 
 module.exports = {
   ...common,
@@ -56,7 +57,7 @@ module.exports = {
     const mimeType = fileMetadata.mimeType;
     // Download
     let file;
-    if (mimeType.includes("application/vnd.google-appls")) {
+    if (mimeType.includes(GOOGLE_DRIVE_MIME_TYPE_PREFIX)) {
       // Google MIME type
       // See https://developers.google.com/drive/api/v3/mime-types for a list of
       // Google MIME types.

@@ -52,10 +52,10 @@ module.exports = {
       ],
       description: "The new name of the file.",
     },
-    fileType: {
+    mimeType: {
       propDefinition: [
         googleDrive,
-        "fileType",
+        "mimeType",
       ],
       description: "The new file MIME type, e.g. image/jpeg .",
     },
@@ -115,7 +115,7 @@ module.exports = {
       fileUrl,
       filePath,
       name = undefined,
-      fileType = undefined,
+      mimeType = undefined,
       addParents,
       removeParents,
       keepRevisionForever,
@@ -127,7 +127,7 @@ module.exports = {
     const media =
       fileUrl || filePath
         ? {
-          mimeType: fileType,
+          mimeType,
           body: await getFileStream({
             fileUrl,
             filePath,
@@ -146,7 +146,7 @@ module.exports = {
         useContentAsIndexableText,
         requestBody: {
           name: name,
-          mimeType: fileType,
+          mimeType: mimeType,
           ...advanced,
         },
       })
