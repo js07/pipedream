@@ -14,7 +14,14 @@ module.exports = {
       type: "string",
       label: "Search Query",
       description:
-        "The shared drives search query. See [query terms](https://developers.google.com/drive/api/v3/ref-search-terms?authuser=2#drive_properties)",
+        "The shared drives search query. See [query terms](https://developers.google.com/drive/api/v3/ref-search-terms?authuser=2#drive_properties).",
+    },
+    useDomainAdminAccess: {
+      type: "boolean",
+      label: "Use Domain Admin Access",
+      description: "Issue the request as a domain administrator.",
+      optional: true,
+      default: false,
     },
   },
   methods: {
@@ -25,6 +32,7 @@ module.exports = {
     return (
       await drive.drives.list({
         q: this.query,
+        useDomainAdminAccess: this.useDomainAdminAccess,
       })
     ).data;
   },

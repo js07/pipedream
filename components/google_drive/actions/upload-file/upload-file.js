@@ -1,8 +1,7 @@
 const googleDrive = require("../../google_drive.app");
 const common = require("../common.js");
-const fs = require("fs");
-const axios = require("axios");
 const path = require("path");
+const { getFileStream } = require("../../utils");
 
 module.exports = {
   ...common,
@@ -18,73 +17,89 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to upload the file to",
+      description: "The drive you want to upload the file to.",
     },
-    folder: {
+    folderId: {
       propDefinition: [
         googleDrive,
-        "folder",
+        "folderId",
         (c) => ({
           drive: c.drive,
         }),
       ],
-      description: "The folder you want to upload the file to",
+      description: "The folder you want to upload the file to.",
       optional: true,
       default: "",
     },
     fileUrl: {
-      type: "string",
-      label: "File URL",
+      propDefinition: [
+        googleDrive,
+        "fileUrl",
+      ],
       description:
         "The URL of the file to upload. Must specify either File URL or File Path.",
-      optional: true,
-      default: "",
     },
     filePath: {
-      type: "string",
-      label: "File Path",
+      propDefinition: [
+        googleDrive,
+        "filePath",
+      ],
       description:
-        "The path to the file saved to the /tmp, e.g. /tmp/myFile.csv . Must specify either File URL or File Path.",
-      optional: true,
-      default: "",
+        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`). Must specify either File URL or File Path.",
     },
     fileName: {
-      type: "string",
-      label: "Name",
-      description: "The name of the new file",
-      optional: true,
-      default: "",
+      propDefinition: [
+        googleDrive,
+        "fileName",
+      ],
+      description: "The name of the new file (e.g. `/myFile.csv`).",
     },
   },
   methods: {
     ...common.methods,
   },
   async run() {
-    if (!this.fileUrl && !this.filePath) {
+    const {
+      folderId,
+      fileUrl,
+      filePath,
+      fileName,
+      fileType,
+    } = this;
+    if (!fileUrl && !filePath) {
       throw new Error("One of File URL and File Path is required.");
     }
     const drive = this.googleDrive.drive();
-    let file;
-    let fileType = this.fileType || undefined;
-    if (this.fileUrl) {
-      const response = await axios({
-        url: this.fileUrl,
-        method: "GET",
-        responseType: "stream",
-      });
-      fileType = response.headers["content-type"];
-      file = response.data;
-    } else {
-      file = fs.createReadStream(this.filePath);
-    }
+    // let file;
+    // let fileType = this.fileType || undefined;
+    // if (this.fileUrl) {
+    //   const response = await axios({
+    //     url: this.fileUrl,
+    //     method: 'GET',
+    //     responseType: 'stream',
+    //   });
+    //   fileType = response.headers['content-type'];
+    //   file = response.data;
+    // } else {
+    //   file = fs.createReadStream(this.filePath);
+    // }
+    const file = getFileStream({
+      fileUrl,
+      filePath,
+    });
     return (
       await drive.files.create({
         media: {
-          mimeType: fileType,
+          mimeType: fileType || undefined,
           body: file,
         },
         requestBody: {
-          name: this.fileName || path.basename(this.fileUrl || this.filePath),
+          name: fileName || path.basename(fileUrl || filePath),
+          parents: folderId
+            ? [
+              folderId,
+            ]
+            : undefined,
         },
       })
     ).data;

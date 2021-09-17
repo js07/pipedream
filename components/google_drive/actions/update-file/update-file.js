@@ -1,7 +1,6 @@
 const googleDrive = require("../../google_drive.app");
+const { getFileStream } = require("../../utils");
 const common = require("../common.js");
-const fs = require("fs");
-const got = require("got");
 
 module.exports = {
   ...common,
@@ -122,19 +121,17 @@ module.exports = {
       useContentAsIndexableText,
       advanced,
     } = this;
-    // If fileUrl or filePath are used, get ReadStream for file
-    let media = undefined;
-    if (fileUrl) {
-      media = {
-        mimeType: fileType,
-        body: got.stream(fileUrl),
-      };
-    } else if (filePath) {
-      media = {
-        mimeType: fileType,
-        body: fs.createReadStream(filePath),
-      };
-    }
+    // If fileUrl or filePath is used, get ReadStream for file
+    const media =
+      fileUrl || filePath
+        ? {
+          mimeType: fileType,
+          body: getFileStream({
+            fileUrl,
+            filePath,
+          }),
+        }
+        : undefined;
     const drive = this.googleDrive.drive();
     return (
       await drive.files.update({

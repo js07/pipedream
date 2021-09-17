@@ -1,3 +1,5 @@
+const fs = require('fs');
+const got = require('got');
 const { MY_DRIVE_VALUE } = require('./constants');
 
 /**
@@ -35,9 +37,16 @@ function getListFilesOpts(drive, baseOpts = {}) {
   return opts;
 }
 
+function getFileStream({ fileUrl, filePath }) {
+  return fileUrl
+    ? (file = got.stream(fileUrl))
+    : (file = fs.createReadStream(filePath));
+}
+
 module.exports = {
   MY_DRIVE_VALUE,
   isMyDrive,
   getDriveId,
   getListFilesOpts,
+  getFileStream,
 };

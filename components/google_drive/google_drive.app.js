@@ -1,68 +1,80 @@
-const axios = require('axios');
-const { google } = require('googleapis');
-const { uuid } = require('uuidv4');
+const axios = require("axios");
+const { google } = require("googleapis");
+const { uuid } = require("uuidv4");
 
 const {
   GOOGLE_DRIVE_UPDATE_TYPES,
   MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
-} = require('./constants');
+  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
+} = require("./constants");
 
-const { isMyDrive, getDriveId, getListFilesOpts } = require('./utils');
+const {
+  isMyDrive,
+  getDriveId,
+  getListFilesOpts,
+} = require("./utils");
 
 module.exports = {
-  type: 'app',
-  app: 'google_drive',
+  type: "app",
+  app: "google_drive",
   propDefinitions: {
     watchedDrive: {
-      type: 'string',
-      label: 'Drive',
-      description: 'The drive you want to watch for changes',
+      type: "string",
+      label: "Drive",
+      description: "The drive you want to watch for changes,",
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this._listDriveOptions(nextPageToken);
       },
     },
-    folder: {
-      type: 'string',
-      label: 'Folder',
-      description: 'The folder in the drive.',
-      options({ prevContext, drive }) {
+    folderId: {
+      type: "string",
+      label: "Folder",
+      description: "The folder in the drive.",
+      options({
+        prevContext,
+        drive,
+        baseOpts = {
+          q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}'`,
+        },
+      }) {
         const { nextPageToken } = prevContext;
-        const baseOpts = {
-          q: "mimeType = 'application/vnd.google-apps.folder'",
-        };
         const opts = getListFilesOpts(drive, baseOpts);
         return this.listFilesOptions(nextPageToken, opts);
       },
     },
     fileId: {
-      type: 'string',
-      label: 'File',
-      description: 'The file in the drive.',
-      options({ prevContext, drive }) {
+      type: "string",
+      label: "File",
+      description: "The file in the drive.",
+      options({
+        prevContext,
+        drive,
+        baseOpts = {
+          q: `mimeType != '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}'`,
+        },
+      }) {
         const { nextPageToken } = prevContext;
-        const baseOpts = {
-          q: "mimeType != 'application/vnd.google-apps.folder'",
-        };
         const opts = getListFilesOpts(drive, baseOpts);
         return this.listFilesOptions(nextPageToken, opts);
       },
     },
     fileOrFolderId: {
-      type: 'string',
-      label: 'File or Folder',
-      description: 'The file or folder in the drive.',
-      options({ prevContext, drive }) {
+      type: "string",
+      label: "File or Folder",
+      description: "The file or folder in the drive.",
+      options({
+        prevContext, drive, baseOpts = {},
+      }) {
         const { nextPageToken } = prevContext;
-        const baseOpts = {};
         const opts = getListFilesOpts(drive, baseOpts);
         return this.listFilesOptions(nextPageToken, opts);
       },
     },
     updateTypes: {
-      type: 'string[]',
-      label: 'Types of updates',
+      type: "string[]",
+      label: "Types of updates",
       description:
         "The types of updates you want to watch for on these files. [See Google's docs](https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).",
       // https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events
@@ -70,12 +82,34 @@ module.exports = {
       options: GOOGLE_DRIVE_UPDATE_TYPES,
     },
     watchForPropertiesChanges: {
-      type: 'boolean',
-      label: 'Watch for changes to file properties',
+      type: "boolean",
+      label: "Watch for changes to file properties",
       description:
-        'Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties) in addition to changes to content. **Defaults to `false`, watching for only changes to content**.',
+        "Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties) in addition to changes to content. **Defaults to `false`, watching for only changes to content**.",
       optional: true,
       default: false,
+    },
+    fileUrl: {
+      type: "string",
+      label: "File URL",
+      description: "The URL of the file to upload.",
+      optional: true,
+      default: "",
+    },
+    filePath: {
+      type: "string",
+      label: "File Path",
+      description:
+        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`).",
+      optional: true,
+      default: "",
+    },
+    fileName: {
+      type: "string",
+      label: "Name",
+      description: "The new name of the file (e.g. `/myFile.csv`).",
+      optional: true,
+      default: "",
     },
   },
   methods: {
@@ -90,7 +124,7 @@ module.exports = {
         access_token: this.$auth.oauth_access_token,
       });
       return google.drive({
-        version: 'v3',
+        version: "v3",
         auth,
       });
     },
@@ -100,7 +134,7 @@ module.exports = {
     async getFileMetadata(url) {
       return (
         await axios({
-          method: 'GET',
+          method: "GET",
           headers: {
             Authorization: `Bearer ${this.$auth.oauth_access_token}`,
           },
@@ -153,13 +187,17 @@ module.exports = {
 
       while (true) {
         const { data } = await drive.changes.list(changeRequest);
-        const { changes = [], newStartPageToken, nextPageToken } = data;
+        const {
+          changes = [],
+          newStartPageToken,
+          nextPageToken,
+        } = data;
 
         // Some changes do not include an associated file object. Return only
         // those that do
         const changedFiles = changes
           .map((change) => change.file)
-          .filter((f) => typeof f === 'object');
+          .filter((f) => typeof f === "object");
 
         yield {
           changedFiles,
@@ -179,35 +217,35 @@ module.exports = {
       const drive = this.drive();
       const request = driveId
         ? {
-            driveId,
-            supportsAllDrives: true,
-          }
+          driveId,
+          supportsAllDrives: true,
+        }
         : {};
       const { data } = await drive.changes.getStartPageToken(request);
       return data.startPageToken;
     },
     checkHeaders(headers, subscription, channelID) {
       if (
-        !headers['x-goog-resource-state'] ||
-        !headers['x-goog-resource-id'] ||
-        !headers['x-goog-resource-uri'] ||
-        !headers['x-goog-message-number']
+        !headers["x-goog-resource-state"] ||
+        !headers["x-goog-resource-id"] ||
+        !headers["x-goog-resource-uri"] ||
+        !headers["x-goog-message-number"]
       ) {
-        console.log('Request missing necessary headers: ', headers);
+        console.log("Request missing necessary headers: ", headers);
         return false;
       }
 
-      const incomingChannelID = headers['x-goog-channel-id'];
+      const incomingChannelID = headers["x-goog-channel-id"];
       if (incomingChannelID !== channelID) {
         console.log(
-          `Channel ID of ${incomingChannelID} not equal to deployed component channel of ${channelID}`
+          `Channel ID of ${incomingChannelID} not equal to deployed component channel of ${channelID}`,
         );
         return false;
       }
 
-      if (headers['x-goog-resource-id'] !== subscription.resourceId) {
+      if (headers["x-goog-resource-id"] !== subscription.resourceId) {
         console.log(
-          `Resource ID of ${subscription.resourceId} not currently being tracked. Exiting`
+          `Resource ID of ${subscription.resourceId} not currently being tracked. Exiting`,
         );
         return false;
       }
@@ -253,8 +291,11 @@ module.exports = {
       let pageToken;
 
       while (true) {
-        const { drives = [], nextPageToken } = await this.listDrivesInPage(
-          pageToken
+        const {
+          drives = [],
+          nextPageToken,
+        } = await this.listDrivesInPage(
+          pageToken,
         );
 
         for (const drive in drives) {
@@ -272,7 +313,10 @@ module.exports = {
       }
     },
     async _listDriveOptions(pageToken) {
-      const { drives, nextPageToken } = await this.listDrivesInPage(pageToken);
+      const {
+        drives,
+        nextPageToken,
+      } = await this.listDrivesInPage(pageToken);
 
       // "My Drive" isn't returned from the list of drives, so we add it to the
       // list and assign it a static ID that we can refer to when we need. We
@@ -282,11 +326,11 @@ module.exports = {
         pageToken !== undefined
           ? []
           : [
-              {
-                label: 'My Drive',
-                value: MY_DRIVE_VALUE,
-              },
-            ];
+            {
+              label: "My Drive",
+              value: MY_DRIVE_VALUE,
+            },
+          ];
       for (const d of drives) {
         options.push({
           label: d.name,
@@ -340,9 +384,12 @@ module.exports = {
      * @returns a list of prop options
      */
     async listFilesOptions(pageToken, extraOpts = {}) {
-      const { files, nextPageToken } = await this.listFilesInPage(
+      const {
+        files,
+        nextPageToken,
+      } = await this.listFilesInPage(
         pageToken,
-        extraOpts
+        extraOpts,
       );
       const options = files.map((file) => ({
         label: file.name,
@@ -370,7 +417,7 @@ module.exports = {
       const drive = this.drive();
       const opts = {
         fileId,
-        fields: '*',
+        fields: "*",
         pageSize: 100,
       };
 
@@ -380,7 +427,10 @@ module.exports = {
 
       while (true) {
         const { data } = await drive.comments.list(opts);
-        const { comments = [], nextPageToken } = data;
+        const {
+          comments = [],
+          nextPageToken,
+        } = data;
 
         for (const comment of comments) {
           yield comment;
@@ -401,7 +451,7 @@ module.exports = {
         Date.now() + WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS;
       return {
         id, // the component-specific channel ID, a UUID
-        type: 'web_hook',
+        type: "web_hook",
         address, // the component-specific HTTP endpoint
         expiration,
       };
@@ -430,7 +480,10 @@ module.exports = {
       // When watching for changes to an entire account, we must pass a pageToken,
       // which points to the moment in time we want to start watching for changes:
       // https://developers.google.com/drive/api/v3/manage-changes
-      const { expiration, resourceId } = (
+      const {
+        expiration,
+        resourceId,
+      } = (
         await drive.changes.watch(watchRequest)
       ).data;
       console.log(`Watch request for drive successful, expiry: ${expiration}`);
@@ -442,7 +495,10 @@ module.exports = {
     async watchFile(id, address, fileId) {
       const drive = this.drive();
       const requestBody = this._makeWatchRequestBody(id, address);
-      const { expiration, resourceId } = (
+      const {
+        expiration,
+        resourceId,
+      } = (
         await drive.files.watch({
           fileId,
           requestBody,
@@ -450,7 +506,7 @@ module.exports = {
         })
       ).data;
       console.log(
-        `Watch request for file ${fileId} successful, expiry: ${expiration}`
+        `Watch request for file ${fileId} successful, expiry: ${expiration}`,
       );
       return {
         expiration: parseInt(expiration),
@@ -476,7 +532,7 @@ module.exports = {
         console.log(`Stopped push notifications on channel ${id}`);
       } catch (err) {
         console.error(
-          `Failed to stop channel ${id} for resource ${resourceId}: ${err}`
+          `Failed to stop channel ${id} for resource ${resourceId}: ${err}`,
         );
       }
     },
@@ -485,7 +541,7 @@ module.exports = {
       return (
         await drive.files.get({
           fileId,
-          fields: '*',
+          fields: "*",
         })
       ).data;
     },
@@ -499,11 +555,14 @@ module.exports = {
     },
     async activateHook(channelID, url, drive) {
       const startPageToken = await this.getPageToken();
-      const { expiration, resourceId } = await this.watchDrive(
+      const {
+        expiration,
+        resourceId,
+      } = await this.watchDrive(
         channelID,
         url,
         startPageToken,
-        drive
+        drive,
       );
       return {
         startPageToken,
@@ -514,14 +573,14 @@ module.exports = {
     async deactivateHook(channelID, resourceId) {
       if (!channelID) {
         console.log(
-          'Channel not found, cannot stop notifications for non-existent channel'
+          "Channel not found, cannot stop notifications for non-existent channel",
         );
         return;
       }
 
       if (!resourceId) {
         console.log(
-          'No resource ID found, cannot stop notifications for non-existent resource'
+          "No resource ID found, cannot stop notifications for non-existent resource",
         );
         return;
       }
@@ -533,12 +592,15 @@ module.exports = {
       const driveId = this.getDriveId(drive);
       const newPageToken = pageToken || (await this.getPageToken(driveId));
 
-      const { expiration, resourceId } = await this.checkResubscription(
+      const {
+        expiration,
+        resourceId,
+      } = await this.checkResubscription(
         subscription,
         newChannelID,
         newPageToken,
         url,
-        drive
+        drive,
       );
 
       return {
@@ -553,21 +615,24 @@ module.exports = {
       channelID,
       pageToken,
       endpoint,
-      drive
+      drive,
     ) {
       const driveId = this.getDriveId(drive);
       if (subscription && subscription.resourceId) {
         console.log(
-          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`
+          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`,
         );
         await this.stopNotifications(channelID, subscription.resourceId);
       }
 
-      const { expiration, resourceId } = await this.watchDrive(
+      const {
+        expiration,
+        resourceId,
+      } = await this.watchDrive(
         channelID,
         endpoint,
         pageToken,
-        driveId
+        driveId,
       );
       return {
         expiration,
@@ -575,16 +640,18 @@ module.exports = {
       };
     },
 
-    async findFolder({ drive, name, parentId } = {}) {
+    async findFolder({
+      drive: driveProp, name, parentId,
+    } = {}) {
       const drive = this.drive();
-      const q = "mimeType = 'application/vnd.google-apps.folder'";
+      let q = "mimeType = 'application/vnd.google-apps.folder'";
       if (name) {
         q += ` and name contains '${name}'`;
       }
       if (parentId) {
         q += ` '${parentId}' in parents`;
       }
-      const opts = getListFilesOpts(drive, {
+      const opts = getListFilesOpts(driveProp, {
         q,
       });
       return (await drive.files.list(opts)).data.folders;

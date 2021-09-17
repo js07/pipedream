@@ -16,42 +16,33 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to create a file in",
+      description: "The drive you want to create a file in.",
     },
-    folder: {
-      type: "string",
-      label: "Folder",
-      description: "(Optional) The folder you want to add the file to",
+    folderId: {
+      propDefinition: [
+        googleDrive,
+        "folderId",
+        (c) => ({
+          drive: c.drive,
+        }),
+      ],
+      description: "The folder you want to add the file to.",
       optional: true,
       default: "",
-      options({ prevContext }) {
-        const { nextPageToken } = prevContext;
-        const baseOpts = {
-          q: "mimeType = 'application/vnd.google-apps.folder'",
-        };
-        const opts = this.isMyDrive()
-          ? baseOpts
-          : {
-            ...baseOpts,
-            corpora: "drive",
-            driveId: this.getDriveId(),
-            includeItemsFromAllDrives: true,
-            supportsAllDrives: true,
-          };
-        return this.googleDrive.listFilesOptions(nextPageToken, opts);
-      },
     },
     fileName: {
-      type: "string",
-      label: "File Name",
-      description: "The name of the file you want to create, e.g. myFile.txt",
-      optional: true,
+      propDefinition: [
+        googleDrive,
+        "fileName",
+      ],
+      description:
+        "The name of the file you want to create (e.g., `myFile.txt`)",
       default: "",
     },
     content: {
       type: "string",
       label: "Content",
-      description: "The plain text of the new file",
+      description: "The plain text of the new file.",
       optional: true,
       default: "",
     },
@@ -61,7 +52,7 @@ module.exports = {
   },
   async run() {
     const {
-      folder,
+      folderId,
       fileName,
       content,
     } = this;
@@ -77,9 +68,9 @@ module.exports = {
         },
         requestBody: {
           name: fileName,
-          parents: folder
+          parents: folderId
             ? [
-              folder,
+              folderId,
             ]
             : undefined,
         },

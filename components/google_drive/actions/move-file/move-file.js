@@ -27,10 +27,10 @@ module.exports = {
       ],
       description: "The file to move.",
     },
-    folder: {
+    folderId: {
       propDefinition: [
         googleDrive,
-        "folder",
+        "folderId",
         (c) => ({
           drive: c.drive,
         }),
@@ -53,7 +53,7 @@ module.exports = {
         fileId: this.fileId,
         fields: "*",
         removeParents: file.parents.join(","),
-        addParents: this.folder,
+        addParents: this.folderId,
       })
     ).data;
   },
