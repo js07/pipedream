@@ -20,7 +20,7 @@ module.exports = {
       optional: true,
       default: "",
     },
-    folderId: {
+    parentId: {
       propDefinition: [
         googleDrive,
         "folderId",
@@ -54,7 +54,7 @@ module.exports = {
   },
   async run() {
     const {
-      folderId,
+      parentId,
       name,
       content,
     } = this;
@@ -70,9 +70,9 @@ module.exports = {
         },
         requestBody: {
           name,
-          parents: folderId
+          parents: parentId
             ? [
-              folderId,
+              parentId,
             ]
             : undefined,
         },

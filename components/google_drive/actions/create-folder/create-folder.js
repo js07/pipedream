@@ -19,7 +19,7 @@ module.exports = {
       optional: true,
       default: "",
     },
-    folderId: {
+    parentId: {
       propDefinition: [
         googleDrive,
         "folderId",
@@ -47,7 +47,7 @@ module.exports = {
   },
   async run() {
     const {
-      folderId,
+      parentId,
       name = undefined,
     } = this;
     const drive = this.googleDrive.drive();
@@ -57,9 +57,9 @@ module.exports = {
         requestBody: {
           mimeType: "application/vnd.google-apps.folder",
           name: name,
-          parents: folderId
+          parents: parentId
             ? [
-              folderId,
+              parentId,
             ]
             : undefined,
         },

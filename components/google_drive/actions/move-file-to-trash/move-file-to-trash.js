@@ -19,7 +19,7 @@ module.exports = {
       optional: true,
       default: "",
     },
-    fileOrFolderId: {
+    fileId: {
       propDefinition: [
         googleDrive,
         "fileOrFolderId",
