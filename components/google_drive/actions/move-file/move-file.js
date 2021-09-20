@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-move-file",
   name: "Move File",
   description: "Move a file from one folder to another",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
@@ -48,15 +48,20 @@ module.exports = {
   async run() {
     // Find file
     // Update file, removing old parents, adding new parent (folder)
-    const drive = this.googleDrive.drive();
+    // const drive = this.googleDrive.drive();
     const file = await this.googleDrive.getFile(this.fileId);
-    return (
-      await drive.files.update({
-        fileId: this.fileId,
-        fields: "*",
-        removeParents: file.parents.join(","),
-        addParents: this.folderId,
-      })
-    ).data;
+    // return (
+    //   await drive.files.update({
+    //     fileId: this.fileId,
+    //     fields: "*",
+    //     removeParents: file.parents.join(","),
+    //     addParents: this.folderId,
+    //   })
+    // ).data;
+    return await this.googleDrive.updateFile(this.fileId, {
+      fields: "*",
+      removeParents: file.parents.join(","),
+      addParents: this.folderId,
+    });
   },
 };

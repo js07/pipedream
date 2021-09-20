@@ -8,7 +8,7 @@ module.exports = {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Copy an existing file to Google Drive",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     googleDrive,
@@ -80,26 +80,32 @@ module.exports = {
     if (!fileUrl && !filePath) {
       throw new Error("One of File URL and File Path is required.");
     }
-    const drive = this.googleDrive.drive();
+    // const drive = this.googleDrive.drive();
     const file = await getFileStream({
       fileUrl,
       filePath,
     });
-    return (
-      await drive.files.create({
-        media: {
-          mimeType: mimeType || undefined,
-          body: file,
-        },
-        requestBody: {
-          name: name || path.basename(fileUrl || filePath),
-          parents: parentId
-            ? [
-              parentId,
-            ]
-            : undefined,
-        },
-      })
-    ).data;
+    // return (
+    //   await drive.files.create({
+    //     media: {
+    //       mimeType: mimeType || undefined,
+    //       body: file,
+    //     },
+    //     requestBody: {
+    //       name: name || path.basename(fileUrl || filePath),
+    //       parents: parentId
+    //         ? [
+    //           parentId,
+    //         ]
+    //         : undefined,
+    //     },
+    //   })
+    // ).data;
+    return await this.googleDrive.createFile({
+      file,
+      mimeType: mimeType || undefined,
+      name: name || path.basename(fileUrl || filePath),
+      parentId,
+    });
   },
 };

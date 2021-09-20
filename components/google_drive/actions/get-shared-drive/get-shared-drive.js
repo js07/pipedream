@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-get-shared-drive",
   name: "Get Shared Drive",
   description: "Get a shared drive's metadata by ID",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
@@ -28,12 +28,18 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const drive = this.googleDrive.drive();
-    return (
-      await drive.drives.get({
-        driveId: this.googleDrive.getDriveId(this.drive),
+    // const drive = this.googleDrive.drive();
+    // return (
+    //   await drive.drives.get({
+    //     driveId: this.googleDrive.getDriveId(this.drive),
+    //     useDomainAdminAccess: this.useDomainAdminAccess,
+    //   })
+    // ).data;
+    return this.googleDrive.getSharedDrive(
+      this.googleDrive.getDriveId(this.drive),
+      {
         useDomainAdminAccess: this.useDomainAdminAccess,
-      })
-    ).data;
+      },
+    );
   },
 };

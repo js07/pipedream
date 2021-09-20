@@ -8,7 +8,7 @@ module.exports = {
   key: "google_drive-update-file",
   name: "Update File",
   description: "Update a file's metadata and/or content",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
@@ -126,32 +126,53 @@ module.exports = {
       advanced,
     } = this;
     // If fileUrl or filePath is used, get ReadStream for file
-    const media =
+    // const media =
+    //   fileUrl || filePath
+    //     ? {
+    //       mimeType,
+    //       body: await getFileStream({
+    //         fileUrl,
+    //         filePath,
+    //       }),
+    //     }
+    //     : undefined;
+    const file =
       fileUrl || filePath
-        ? {
-          mimeType,
-          body: await getFileStream({
-            fileUrl,
-            filePath,
-          }),
-        }
+        ? await getFileStream({
+          fileUrl,
+          filePath,
+        })
         : undefined;
-    const drive = this.googleDrive.drive();
-    return (
-      await drive.files.update({
-        fileId,
-        media,
-        addParents,
-        removeParents,
-        keepRevisionForever,
-        ocrLanguage,
-        useContentAsIndexableText,
-        requestBody: {
-          name: name,
-          mimeType: mimeType,
-          ...advanced,
-        },
-      })
-    ).data;
+    // const drive = this.googleDrive.drive();
+    // return (
+    //   await drive.files.update({
+    //     fileId,
+    //     media,
+    //     addParents,
+    //     removeParents,
+    //     keepRevisionForever,
+    //     ocrLanguage,
+    //     useContentAsIndexableText,
+    //     requestBody: {
+    //       name: name,
+    //       mimeType: mimeType,
+    //       ...advanced,
+    //     },
+    //   })
+    // ).data;
+
+    return await this.googleDrive.update(fileId, {
+      name,
+      file,
+      mimeType,
+      addParents,
+      removeParents,
+      keepRevisionForever,
+      ocrLanguage,
+      useContentAsIndexableText,
+      requestBody: {
+        ...advanced,
+      },
+    });
   },
 };

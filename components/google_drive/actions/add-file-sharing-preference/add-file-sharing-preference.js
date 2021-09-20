@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-add-file-sharing-preference",
   name: "Add File Sharing Preference",
   description: "Add File Sharing Preference",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     googleDrive,
@@ -82,15 +82,28 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const drive = this.googleDrive.drive();
-    await drive.permissions.create({
-      fileId: this.fileId,
-      requestBody: {
-        role: this.role,
-        type: this.type,
-        domain: this.domain || undefined,
-        emailAddress: this.emailAddress || undefined,
-      },
+    // const drive = this.googleDrive.drive();
+    const {
+      fileId,
+      role,
+      type,
+      domain,
+      emailAddress,
+    } = this;
+    // await drive.permissions.create({
+    //   fileId: this.fileId,
+    //   requestBody: {
+    //     role: this.role,
+    //     type: this.type,
+    //     domain: this.domain || undefined,
+    //     emailAddress: this.emailAddress || undefined,
+    //   },
+    // });
+    await this.googleDrive.createPermission(fileId, {
+      role,
+      type,
+      domain,
+      emailAddress,
     });
 
     return (await this.googleDrive.getFile(this.fileId)).webViewLink;

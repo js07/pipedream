@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-get-folder-id-for-path",
   name: "Get Folder ID for a Path",
   description: "Retrieve a folderId for a path",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,

@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-update-shared-drive",
   name: "Update Shared Drive",
   description: "Update an existing shared drive",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
@@ -67,18 +67,27 @@ module.exports = {
       themeId = undefined,
       restrictions,
     } = this;
-    const drive = this.googleDrive.drive();
-    return (
-      await drive.drives.update({
-        driveId: this.driveId,
-        useDomainAdminAccess,
-        requestBody: {
-          backgroundImageLink,
-          colorRgb,
-          themeId,
-          restrictions,
-        },
-      })
-    ).data;
+    // const drive = this.googleDrive.drive();
+    // return (
+    //   await drive.drives.update({
+    //     driveId: this.driveId,
+    //     useDomainAdminAccess,
+    //     requestBody: {
+    //       backgroundImageLink,
+    //       colorRgb,
+    //       themeId,
+    //       restrictions,
+    //     },
+    //   })
+    // ).data;
+    return await this.googleDrive.updateSharedDrive(this.driveId, {
+      useDomainAdminAccess,
+      requestBody: {
+        backgroundImageLink,
+        colorRgb,
+        themeId,
+        restrictions,
+      },
+    });
   },
 };

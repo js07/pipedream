@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-create-folder",
   name: "Create Folder",
   description: "Create a new empty folder",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     googleDrive,
@@ -50,20 +50,24 @@ module.exports = {
       parentId,
       name = undefined,
     } = this;
-    const drive = this.googleDrive.drive();
-    return (
-      await drive.files.create({
-        fields: "*",
-        requestBody: {
-          mimeType: "application/vnd.google-apps.folder",
-          name: name,
-          parents: parentId
-            ? [
-              parentId,
-            ]
-            : undefined,
-        },
-      })
-    ).data;
+    // const drive = this.googleDrive.drive();
+    // return (
+    //   await drive.files.create({
+    //     fields: "*",
+    //     requestBody: {
+    //       mimeType: "application/vnd.google-apps.folder",
+    //       name: name,
+    //       parents: parentId
+    //         ? [
+    //           parentId,
+    //         ]
+    //         : undefined,
+    //     },
+    //   })
+    // ).data;
+    return await this.googleDrive.createFolder({
+      name,
+      parentId,
+    });
   },
 };

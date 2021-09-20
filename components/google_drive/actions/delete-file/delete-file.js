@@ -7,7 +7,7 @@ module.exports = {
   name: "Delete File",
   description:
     "Permanently delete a file or folder without moving it to the trash",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
@@ -35,11 +35,12 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const drive = this.googleDrive.drive();
-    return (
-      await drive.files.delete({
-        fileId: this.fileId,
-      })
-    ).data;
+    // const drive = this.googleDrive.drive();
+    // return (
+    //   await drive.files.delete({
+    //     fileId: this.fileId,
+    //   })
+    // ).data;
+    return await this.googleDrive.deleteFile(this.fileId);
   },
 };

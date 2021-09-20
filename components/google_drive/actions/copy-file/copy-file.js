@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-copy-file",
   name: "Copy File",
   description: "Create a copy of the specified file",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     googleDrive,
@@ -34,12 +34,14 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const drive = this.googleDrive.drive();
-    return (
-      await drive.files.copy({
-        fields: "*",
-        fileId: this.fileId,
-      })
-    ).data;
+    // const drive = this.googleDrive.drive();
+    // return (
+    //   await drive.files.copy({
+    //     fields: "*",
+    //     fileId: this.fileId,
+    //   })
+    // ).data;
+
+    return await this.googleDrive.copyFile(this.fileId);
   },
 };

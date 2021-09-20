@@ -7,7 +7,7 @@ module.exports = {
   key: "google_drive-create-file-from-text",
   name: "Create New File From Text ",
   description: "Create a new file from plain text",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     googleDrive,
@@ -58,25 +58,31 @@ module.exports = {
       name,
       content,
     } = this;
-    const drive = this.googleDrive.drive();
+    // const drive = this.googleDrive.drive();
     const file = Readable.from([
       content,
     ]);
-    return (
-      await drive.files.create({
-        media: {
-          mimeType: "text/plain",
-          body: file,
-        },
-        requestBody: {
-          name,
-          parents: parentId
-            ? [
-              parentId,
-            ]
-            : undefined,
-        },
-      })
-    ).data;
+    // return (
+    //   await drive.files.create({
+    //     media: {
+    //       mimeType: "text/plain",
+    //       body: file,
+    //     },
+    //     requestBody: {
+    //       name,
+    //       parents: parentId
+    //         ? [
+    //           parentId,
+    //         ]
+    //         : undefined,
+    //     },
+    //   })
+    // ).data;
+    return await this.googleDrive.createFile({
+      mimeType: "text/plain",
+      file,
+      name,
+      parentId,
+    });
   },
 };

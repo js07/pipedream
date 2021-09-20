@@ -569,12 +569,13 @@ module.exports = {
         );
       }
     },
-    async getFile(fileId) {
+    async getFile(fileId, params = {}) {
+      const { fields = "*" } = params;
       const drive = this.drive();
       return (
         await drive.files.get({
           fileId,
-          fields: "*",
+          fields,
         })
       ).data;
     },
@@ -688,6 +689,207 @@ module.exports = {
         q,
       });
       return (await drive.files.list(opts)).data.folders;
+    },
+
+    async createPermission(fileId, opts = {}) {
+      const {
+        role = "reader",
+        type,
+        domain,
+        emailAddress,
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.permissions.create({
+          fileId,
+          requestBody: {
+            role,
+            type,
+            domain: domain || undefined,
+            emailAddress: emailAddress || undefined,
+          },
+        })
+      ).data;
+    },
+    async copyFile(fileId, opts = {}) {
+      const {
+        fields = "*",
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.files.copy({
+          fileId,
+          fields,
+          ...extraParams,
+        })
+      ).data;
+    },
+
+    async createFile(opts = {}) {
+      const {
+        file,
+        mimeType = undefined,
+        name,
+        parentId,
+        fields,
+        requestBody,
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.files.create({
+          fields,
+          media: file
+            ? {
+              mimeType,
+              body: file,
+            }
+            : undefined,
+          requestBody: {
+            name,
+            parents: parentId
+              ? [
+                parentId,
+              ]
+              : undefined,
+            ...requestBody,
+          },
+          ...extraParams,
+        })
+      ).data;
+    },
+
+    async createFolder(opts = {}) {
+      const {
+        name,
+        parentId,
+        fields = "*",
+        ...extraOpts
+      } = opts;
+      return await this.createFile({
+        name,
+        parentId,
+        fields,
+        mimeType: "application/vnd.google-apps.folder",
+        ...extraOpts,
+      });
+    },
+
+    async createDrive(opts = {}) {
+      const {
+        name,
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.drives.create({
+          requestId: uuid(),
+          requestBody: {
+            name,
+          },
+          ...extraParams,
+        })
+      ).data;
+    },
+
+    async deleteFile(fileId) {
+      const drive = this.drive();
+      return (
+        await drive.files.delete({
+          fileId,
+        })
+      ).data;
+    },
+
+    async deleteSharedDrive(driveId) {
+      const drive = this.drive();
+      return (
+        await drive.files.delete({
+          driveId,
+        })
+      ).data;
+    },
+
+    async getSharedDrive(driveId, opts = {}) {
+      const { useDomainAdminAccess } = opts;
+      const drive = this.drive();
+      return (
+        await drive.drives.get({
+          driveId,
+          useDomainAdminAccess,
+        })
+      ).data;
+    },
+
+    async updateFile(fileId, opts = {}) {
+      const {
+        name,
+        file,
+        mimeType,
+        fields,
+        removeParents,
+        addParents,
+        requestBody,
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.files.update({
+          fileId,
+          media: file
+            ? {
+              mimeType,
+              // uploadType: 'media',
+              body: file,
+            }
+            : undefined,
+          removeParents,
+          addParents,
+          fields,
+          requestBody: {
+            name,
+            mimeType,
+            ...requestBody,
+          },
+          ...extraParams,
+        })
+      ).data;
+    },
+
+    async searchDrives(opts = {}) {
+      const {
+        q,
+        useDomainAdminAccess,
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.drives.list({
+          q,
+          useDomainAdminAccess,
+          ...extraParams,
+        })
+      ).data;
+    },
+
+    async updateSharedDrive(driveId, opts = {}) {
+      const {
+        useDomainAdminAccess,
+        requestBody,
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.drives.update({
+          driveId,
+          useDomainAdminAccess,
+          requestBody: {
+            ...requestBody,
+          },
+          ...extraParams,
+        })
+      ).data;
     },
   },
 };

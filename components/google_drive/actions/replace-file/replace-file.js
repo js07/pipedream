@@ -10,7 +10,7 @@ module.exports = {
   key: "google_drive-replace-file",
   name: "Replace File",
   description: "Upload a file that replaces an existing file",
-  version: "0.0.41",
+  version: "0.0.42",
   type: "action",
   props: {
     googleDrive,
@@ -83,7 +83,7 @@ module.exports = {
     if (!fileUrl && !filePath) {
       throw new Error("One of File URL and File Path is required.");
     }
-    const drive = this.googleDrive.drive();
+    // const drive = this.googleDrive.drive();
     // let file;
     // // let fileType = this.fileType || undefined;
     // if (this.fileUrl) {
@@ -102,18 +102,23 @@ module.exports = {
       fileUrl,
       filePath,
     });
-    return (
-      await drive.files.update({
-        fileId,
-        media: {
-          mimeType: mimeType || undefined,
-          uploadType: "media",
-          body: file,
-        },
-        requestBody: {
-          name: name || path.basename(fileUrl || filePath),
-        },
-      })
-    ).data;
+    // return (
+    //   await drive.files.update({
+    //     fileId,
+    //     media: {
+    //       mimeType: mimeType || undefined,
+    //       uploadType: "media",
+    //       body: file,
+    //     },
+    //     requestBody: {
+    //       name: name || path.basename(fileUrl || filePath),
+    //     },
+    //   })
+    // ).data;
+    return await this.googleDrive.updateFile(fileId, {
+      name: name || path.basename(fileUrl || filePath),
+      file,
+      mimeType: mimeType || undefined,
+    });
   },
 };

@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-delete-shared-drive",
   name: "Delete Shared Drive",
   description: "Delete a shared drive without any content",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
@@ -22,11 +22,14 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const drive = this.googleDrive.drive();
-    return (
-      await drive.files.delete({
-        driveId: this.googleDrive.getDriveId(drive),
-      })
-    ).data;
+    // const drive = this.googleDrive.drive();
+    // return (
+    //   await drive.files.delete({
+    //     driveId: this.googleDrive.getDriveId(this.drive),
+    //   })
+    // ).data;
+    return await this.googleDrive.deleteSharedDrive(
+      this.googleDrive.getDriveId(this.drive),
+    );
   },
 };

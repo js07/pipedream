@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-move-file-to-trash",
   name: "Move File to Trash",
   description: "Move a file or folder to trash",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
@@ -34,14 +34,19 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const drive = this.googleDrive.drive();
-    return (
-      await drive.files.update({
-        fileId: this.fileId,
-        requestBody: {
-          trashed: true,
-        },
-      })
-    ).data;
+    // const drive = this.googleDrive.drive();
+    // return (
+    //   await drive.files.update({
+    //     fileId: this.fileId,
+    //     requestBody: {
+    //       trashed: true,
+    //     },
+    //   })
+    // ).data;
+    return await this.googleDrive.updateFile(this.fileId, {
+      requestBody: {
+        trashed: true,
+      },
+    });
   },
 };

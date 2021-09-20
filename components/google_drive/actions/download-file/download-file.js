@@ -10,7 +10,7 @@ module.exports = {
   key: "google_drive-download-file",
   name: "Download File",
   description: "Download a file",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
@@ -48,12 +48,15 @@ module.exports = {
     // Use .export for google file types, .get other
     const drive = this.googleDrive.drive();
     // Get file mimeType
-    const fileMetadata = (
-      await drive.files.get({
-        fileId: this.fileId,
-        fields: "mimeType",
-      })
-    ).data;
+    // const fileMetadata = (
+    //   await drive.files.get({
+    //     fileId: this.fileId,
+    //     fields: "mimeType",
+    //   })
+    // ).data;
+    const fileMetadata = await this.googleDrive.getFile(this.fileId, {
+      fields: "mimeType",
+    });
     const mimeType = fileMetadata.mimeType;
     // Download
     let file;
