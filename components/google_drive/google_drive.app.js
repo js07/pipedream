@@ -26,7 +26,7 @@ module.exports = {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "The drive you want to watch for changes,",
+      description: "The drive you want to watch for changes.",
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this._listDriveOptions(nextPageToken);
@@ -101,21 +101,21 @@ module.exports = {
       type: "string",
       label: "File Path",
       description:
-        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`).",
+        "The path to the file saved to the /tmp (e.g., `/tmp/myFile.csv`).",
       optional: true,
       default: "",
     },
     fileName: {
       type: "string",
       label: "Name",
-      description: "The new name of the file (e.g. `/myFile.csv`).",
+      description: "The name of the file (e.g., `/myFile.csv`).",
       optional: true,
       default: "",
     },
     fileNameSearchTerm: {
       type: "string",
       label: "Search Name",
-      description: "The name of the file to search for.",
+      description: "Enter the name of a file to search for.",
       optional: true,
       default: "",
     },

@@ -25,7 +25,8 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The folder you want to upload the file to.",
+      description:
+        "The folder you want to upload the file to. If not specified, the file will be placed directly in the user's My Drive folder.",
       optional: true,
       default: "",
     },
@@ -35,7 +36,7 @@ module.exports = {
         "fileUrl",
       ],
       description:
-        "The URL of the file to upload. Must specify either File URL or File Path.",
+        "The URL of the file to upload. Must specify either `File URL` or `File Path`.",
     },
     filePath: {
       propDefinition: [
@@ -43,7 +44,7 @@ module.exports = {
         "filePath",
       ],
       description:
-        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`). Must specify either File URL or File Path.",
+        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`). Must specify either `File URL` or `File Path`.",
     },
     name: {
       propDefinition: [

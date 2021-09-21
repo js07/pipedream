@@ -13,7 +13,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to find a file in",
+      description: "The drive you want to find a file in.",
       optional: true,
       default: "",
     },
@@ -49,7 +49,8 @@ module.exports = {
     type: {
       type: "string",
       label: "Type",
-      description: "The type of the grantee.",
+      description:
+        "The type of the grantee. If type is `user` or `group`, you must provide an `Email Address` for the user or group. When `type` is `domain`, you must provide a `domain`.",
       optional: true,
       default: "anyone",
       options: [
@@ -63,7 +64,7 @@ module.exports = {
       type: "string",
       label: "Domain",
       description:
-        "The domain to which this permission refers if type is 'domain'.",
+        "The domain to which this permission refers if `type` is `domain`.",
       optional: true,
       default: "",
     },
@@ -71,7 +72,7 @@ module.exports = {
       type: "string",
       label: "Email Address",
       description:
-        "The email address of the user or group to which this permission refers if type is 'user' or 'group'.",
+        "The email address of the user or group to which this permission refers if `type` is `user` or `group`.",
       optional: true,
       default: "",
     },

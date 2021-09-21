@@ -42,7 +42,7 @@ module.exports = {
         "filePath",
       ],
       description:
-        "The path to the file to saved to the /tmp, e.g. /tmp/myFile.csv to update content with.",
+        "The path to the file to saved to the /tmp (e.g., `/tmp/myFile.csv`) with which to update content.",
     },
     name: {
       propDefinition: [
@@ -57,7 +57,7 @@ module.exports = {
         "mimeType",
       ],
       description:
-        "The new file MIME type (e.g., `image/jpeg`). The value cannot be changed unless a new revision is uploaded.",
+        "The file's MIME type (e.g., `image/jpeg`). The value cannot be changed unless a new revision is uploaded.",
     },
     addParents: {
       type: "string",
@@ -77,7 +77,7 @@ module.exports = {
       type: "boolean",
       label: "Keep Revision Forever",
       description:
-        "Whether to set the 'keepForever' field in the new head revision.",
+        "Whether to set the `keepForever` field in the new head revision.",
       optional: true,
       default: false,
     },

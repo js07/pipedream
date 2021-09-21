@@ -57,14 +57,14 @@ module.exports = {
         "fileName",
       ],
       label: "Name",
-      description: "The new name of the file (e.g., `myFile.csv`).",
+      description: "The name of the new file (e.g., `myFile.csv`).",
     },
     mimeType: {
       propDefinition: [
         googleDrive,
         "mimeType",
       ],
-      description: "The new file's MIME type, (e.g., `image/jpeg`).",
+      description: "The MIME type of the new file (e.g., `image/jpeg`).",
     },
   },
   async run() {

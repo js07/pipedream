@@ -42,7 +42,7 @@ module.exports = {
     content: {
       type: "string",
       label: "Content",
-      description: "The plain text of the new file.",
+      description: "Enter text to create the file with.",
       optional: true,
       default: "",
     },

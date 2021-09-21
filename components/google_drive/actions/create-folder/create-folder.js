@@ -23,7 +23,8 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The folder you want to create the folder in.",
+      description:
+        "Select a folder in which to place the new folder. If not specified, the folder will be placed directly in the user's My Drive folder.",
       optional: true,
       default: "",
     },

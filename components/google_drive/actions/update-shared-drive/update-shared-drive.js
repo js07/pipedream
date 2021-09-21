@@ -25,7 +25,7 @@ module.exports = {
       type: "string",
       label: "Background Image Link",
       description:
-        "A link to the newbackround image for the shared drive. Cannot be set if `themeId` is set in the same request.",
+        "A link to the newbackround image for the shared drive. Cannot be set if `Theme ID` is set in the same request.",
       optional: true,
       default: "",
     },
@@ -33,7 +33,7 @@ module.exports = {
       type: "string",
       label: "Color",
       description:
-        "The new color of this shared drive as an RGB hex string. Cannot be set if `themeId` is set in the same request.",
+        "The new color of this shared drive as an RGB hex string. Cannot be set if `Theme ID` is set in the same request.",
       optional: true,
       default: "",
     },
@@ -41,7 +41,7 @@ module.exports = {
       type: "string",
       label: "Theme ID",
       description:
-        "The ID of the theme from which the background image and color will be set. Cannot be set if `colorRgb` or `backgroundImageFile` is set in the same request.",
+        "The ID of the theme from which the background image and color will be set. Cannot be set if `Color` or `Background Image Link` is set in the same request.",
       optional: true,
       default: "",
     },
