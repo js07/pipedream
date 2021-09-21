@@ -1,64 +1,52 @@
-const googleDrive = require("../../google_drive.app");
-const common = require("../common.js");
+const googleDrive = require('../../google_drive.app');
+const common = require('../common.js');
 
 module.exports = {
   ...common,
-  key: "google_drive-move-file",
-  name: "Move File",
-  description: "Move a file from one folder to another",
-  version: "0.0.2",
-  type: "action",
+  key: 'google_drive-move-file',
+  name: 'Move File',
+  description: 'Move a file from one folder to another',
+  version: '0.0.2',
+  type: 'action',
   props: {
     googleDrive,
     drive: {
-      propDefinition: [
-        googleDrive,
-        "watchedDrive",
-      ],
-      description: "The drive containing the file to move.",
+      propDefinition: [googleDrive, 'watchedDrive'],
+      description: 'The drive containing the file to move.',
     },
     fileId: {
       propDefinition: [
         googleDrive,
-        "fileId",
+        'fileId',
         (c) => ({
           drive: c.drive,
         }),
       ],
-      description: "The file to move.",
+      description: 'The file to move.',
     },
     folderId: {
       propDefinition: [
         googleDrive,
-        "folderId",
+        'folderId',
         (c) => ({
           drive: c.drive,
         }),
       ],
-      description: "The folder you want to move the file to.",
+      description: 'The folder you want to move the file to.',
       optional: true,
-      default: "",
+      default: '',
     },
   },
   methods: {
     ...common.methods,
   },
   async run() {
-    // Find file
-    // Update file, removing old parents, adding new parent (folder)
-    // const drive = this.googleDrive.drive();
+    // Get file to get parents to remove
     const file = await this.googleDrive.getFile(this.fileId);
-    // return (
-    //   await drive.files.update({
-    //     fileId: this.fileId,
-    //     fields: "*",
-    //     removeParents: file.parents.join(","),
-    //     addParents: this.folderId,
-    //   })
-    // ).data;
+    // Update file, removing old parents, adding new parent folder
     return await this.googleDrive.updateFile(this.fileId, {
-      fields: "*",
-      removeParents: file.parents.join(","),
+      fields: '*',
+      removeParents: file.parents.join(','),
       addParents: this.folderId,
     });
   },
