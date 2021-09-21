@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-copy-file",
   name: "Copy File",
   description: "Create a copy of the specified file",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "action",
   props: {
     googleDrive,
@@ -16,8 +16,6 @@ module.exports = {
         "watchedDrive",
       ],
       description: "The drive containing the file to copy.",
-      optional: true,
-      default: "",
     },
     fileId: {
       propDefinition: [

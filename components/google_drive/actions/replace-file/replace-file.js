@@ -10,7 +10,7 @@ module.exports = {
   key: "google_drive-replace-file",
   name: "Replace File",
   description: "Upload a file that replaces an existing file",
-  version: "0.0.42",
+  version: "0.0.62",
   type: "action",
   props: {
     googleDrive,
@@ -98,7 +98,7 @@ module.exports = {
     // } else {
     //   file = fs.createReadStream(this.filePath);
     // }
-    const file = await getFileStream({
+    const fileStream = await getFileStream({
       fileUrl,
       filePath,
     });
@@ -107,18 +107,29 @@ module.exports = {
     //     fileId,
     //     media: {
     //       mimeType: mimeType || undefined,
-    //       uploadType: "media",
+    //       // uploadType: 'multipart',
     //       body: file,
     //     },
-    //     requestBody: {
-    //       name: name || path.basename(fileUrl || filePath),
-    //     },
+    //     // requestBody: {
+    //     //   // name: name || path.basename(fileUrl || filePath),
+    //     //   mimeType: mimeType || undefined,
+    //     // },
     //   })
     // ).data;
-    return await this.googleDrive.updateFile(fileId, {
-      name: name || path.basename(fileUrl || filePath),
-      file,
+    await this.googleDrive.updateFileMedia(fileId, fileStream, {
       mimeType: mimeType || undefined,
     });
+    // if (name) {
+    return await this.googleDrive.updateFile(fileId, {
+      name: name || path.basename(fileUrl || filePath),
+      mimeType,
+    });
+    // }
+    // return file;
+    // return await this.googleDrive.updateFile(fileId, {
+    //   name: name || path.basename(fileUrl || filePath),
+    //   file,
+    //   mimeType: mimeType || undefined,
+    // });
   },
 };

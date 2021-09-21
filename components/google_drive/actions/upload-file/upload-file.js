@@ -18,8 +18,6 @@ module.exports = {
         "watchedDrive",
       ],
       description: "The drive you want to upload the file to.",
-      optional: true,
-      default: "",
     },
     parentId: {
       propDefinition: [

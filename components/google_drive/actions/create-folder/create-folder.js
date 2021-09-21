@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-create-folder",
   name: "Create Folder",
   description: "Create a new empty folder",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     googleDrive,
@@ -16,8 +16,6 @@ module.exports = {
         "watchedDrive",
       ],
       description: "The drive you want to create the folder in.",
-      optional: true,
-      default: "",
     },
     parentId: {
       propDefinition: [

@@ -1,6 +1,7 @@
 const axios = require("axios");
 const { google } = require("googleapis");
 const { uuid } = require("uuidv4");
+// const { v4: uuidv4 } = require("uuid");
 const mimeDb = require("mime-db");
 const mimeTypes = Object.keys(mimeDb);
 
@@ -675,20 +676,26 @@ module.exports = {
     },
 
     async findFolder({
-      drive: driveProp, name, parentId,
+      drive: driveProp,
+      name,
+      parentId,
+      excludeTrashed = true,
     } = {}) {
       const drive = this.drive();
       let q = "mimeType = 'application/vnd.google-apps.folder'";
       if (name) {
-        q += ` and name contains '${name}'`;
+        q += ` and name = '${name}'`;
       }
       if (parentId) {
-        q += ` '${parentId}' in parents`;
+        q += ` and '${parentId}' in parents`;
+      }
+      if (excludeTrashed) {
+        q += " and trashed != true";
       }
       const opts = getListFilesOpts(driveProp, {
         q,
       });
-      return (await drive.files.list(opts)).data.folders;
+      return (await drive.files.list(opts)).data.files;
     },
 
     async createPermission(fileId, opts = {}) {
@@ -748,6 +755,7 @@ module.exports = {
             : undefined,
           requestBody: {
             name,
+            mimeType,
             parents: parentId
               ? [
                 parentId,
@@ -784,7 +792,7 @@ module.exports = {
       const drive = this.drive();
       return (
         await drive.drives.create({
-          requestId: uuid(),
+          requestId: uuid(), // TODO: Update to v4 from uuid
           requestBody: {
             name,
           },
@@ -822,10 +830,27 @@ module.exports = {
       ).data;
     },
 
+    async updateFileMedia(fileId, fileStream, opts = {}) {
+      const {
+        mimeType,
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.files.update({
+          fileId,
+          media: {
+            mimeType,
+            body: fileStream,
+          },
+          ...extraParams,
+        })
+      ).data;
+    },
+
     async updateFile(fileId, opts = {}) {
       const {
         name,
-        file,
         mimeType,
         fields,
         removeParents,
@@ -837,13 +862,6 @@ module.exports = {
       return (
         await drive.files.update({
           fileId,
-          media: file
-            ? {
-              mimeType,
-              // uploadType: 'media',
-              body: file,
-            }
-            : undefined,
           removeParents,
           addParents,
           fields,

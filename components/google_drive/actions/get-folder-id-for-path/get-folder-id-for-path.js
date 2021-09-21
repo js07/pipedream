@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-get-folder-id-for-path",
   name: "Get Folder ID for a Path",
   description: "Retrieve a folderId for a path",
-  version: "0.0.2",
+  version: "0.0.14",
   type: "action",
   props: {
     googleDrive,
@@ -16,8 +16,6 @@ module.exports = {
         "watchedDrive",
       ],
       description: "The drive containing the folder.",
-      optional: true,
-      default: "",
     },
     path: {
       type: "string",
@@ -44,6 +42,11 @@ module.exports = {
         name: part,
         parentId,
       });
+      console.log("folders", folders);
+      if (!folders[0]) {
+        // Folder at path is not found
+        return undefined;
+      }
       parentId = folders[0] && folders[0].id;
     }
 

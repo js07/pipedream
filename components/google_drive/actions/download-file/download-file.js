@@ -10,7 +10,7 @@ module.exports = {
   key: "google_drive-download-file",
   name: "Download File",
   description: "Download a file",
-  version: "0.0.2",
+  version: "0.0.8",
   type: "action",
   props: {
     googleDrive,
@@ -64,15 +64,29 @@ module.exports = {
       // Google MIME type
       // See https://developers.google.com/drive/api/v3/mime-types for a list of
       // Google MIME types.
-      file = await drive.files.export({
-        fileId: this.fileId,
-        mimeType: "application/pdf",
-      });
+      file = (
+        await drive.files.export(
+          {
+            fileId: this.fileId,
+            mimeType: "application/pdf",
+          },
+          {
+            responseType: "stream",
+          },
+        )
+      ).data;
     } else {
-      file = await drive.files.get({
-        fileId: this.fileId,
-        alt: "media",
-      });
+      file = (
+        await drive.files.get(
+          {
+            fileId: this.fileId,
+            alt: "media",
+          },
+          {
+            responseType: "stream",
+          },
+        )
+      ).data;
     }
     const pipeline = promisify(stream.pipeline);
     await pipeline(file, fs.createWriteStream(this.filePath));

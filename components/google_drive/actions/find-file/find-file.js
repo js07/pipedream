@@ -7,7 +7,7 @@ module.exports = {
   key: "google_drive-find-file",
   name: "Find File",
   description: "Search for a specific file by name",
-  version: "0.0.2",
+  version: "0.0.8",
   type: "action",
   props: {
     googleDrive,
@@ -31,11 +31,12 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    // const drive = this.googleDrive.drive();
+    const drive = this.googleDrive.drive();
     const opts = getListFilesOpts(this.drive || undefined, {
-      q: `mimeType != 'application/vnd.google-apps.folder' and name contains '${this.nameSearchTerm}'`,
+      q: `name contains '${this.nameSearchTerm}'`,
     });
-    // return (await drive.files.list(opts)).data.files;
-    return await this.googleDrive.listFilesInPage(null, opts);
+    console.log("opts", opts);
+    return (await drive.files.list(opts)).data;
+    // return (await this.googleDrive.listFilesInPage(null, opts)).files;
   },
 };

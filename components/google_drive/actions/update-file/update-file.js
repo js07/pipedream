@@ -8,7 +8,7 @@ module.exports = {
   key: "google_drive-update-file",
   name: "Update File",
   description: "Update a file's metadata and/or content",
-  version: "0.0.2",
+  version: "0.0.9",
   type: "action",
   props: {
     googleDrive,
@@ -58,7 +58,8 @@ module.exports = {
         googleDrive,
         "mimeType",
       ],
-      description: "The new file MIME type, e.g. image/jpeg .",
+      description:
+        "The new file MIME type (e.g., `image/jpeg`). The value cannot be changed unless a new revision is uploaded.",
     },
     addParents: {
       type: "string",
@@ -103,8 +104,8 @@ module.exports = {
       label: "Advanced Options",
       optional: true,
       description:
-        "Specify less-common properties that you require. See [Create a PaymentIntent]" +
-        "https://developers.google.com/drive/api/v3/reference/files/update#request-body for a list of supported properties.",
+        "Specify less-common properties that you require. See [Create a Payment Intent]" +
+        "(https://developers.google.com/drive/api/v3/reference/files/update#request-body) for a list of supported properties.",
       default: {},
     },
   },
@@ -136,7 +137,7 @@ module.exports = {
     //       }),
     //     }
     //     : undefined;
-    const file =
+    const fileStream =
       fileUrl || filePath
         ? await getFileStream({
           fileUrl,
@@ -160,10 +161,15 @@ module.exports = {
     //     },
     //   })
     // ).data;
+    if (fileStream) {
+      await this.googleDrive.updateFileMedia(fileId, fileStream, {
+        mimeType,
+      });
+    }
 
-    return await this.googleDrive.update(fileId, {
+    return await this.googleDrive.updateFile(fileId, {
       name,
-      file,
+      // fileStream,
       mimeType,
       addParents,
       removeParents,
@@ -173,6 +179,7 @@ module.exports = {
       requestBody: {
         ...advanced,
       },
+      fields: "*",
     });
   },
 };

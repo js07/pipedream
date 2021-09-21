@@ -16,8 +16,6 @@ module.exports = {
         "watchedDrive",
       ],
       description: "The drive containing the file to move.",
-      optional: true,
-      default: "",
     },
     fileId: {
       propDefinition: [

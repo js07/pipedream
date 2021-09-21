@@ -102,7 +102,7 @@ const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS =
  * The MIME type prefix of Google Drive MIME types as defined by the [Google
  * Drive API docs](https://developers.google.com/drive/api/v3/mime-types)
  */
-const GOOGLE_DRIVE_MIME_TYPE_PREFIX = "application/vnd.google-appls";
+const GOOGLE_DRIVE_MIME_TYPE_PREFIX = "application/vnd.google-apps";
 
 /**
  * The MIME type of Google Drive folders as defined by the [Google Drive API
