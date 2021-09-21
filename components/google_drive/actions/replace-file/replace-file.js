@@ -1,29 +1,30 @@
-const path = require('path');
-const googleDrive = require('../../google_drive.app');
-const common = require('../common.js');
+const path = require("path");
+const googleDrive = require("../../google_drive.app");
 
-const { GOOGLE_DRIVE_FOLDER_MIME_TYPE } = require('../../constants');
-const { getFileStream } = require('../../utils');
+const { GOOGLE_DRIVE_FOLDER_MIME_TYPE } = require("../../constants");
+const { getFileStream } = require("../../utils");
 
 module.exports = {
-  ...common,
-  key: 'google_drive-replace-file',
-  name: 'Replace File',
-  description: 'Upload a file that replaces an existing file',
-  version: '0.0.62',
-  type: 'action',
+  key: "google_drive-replace-file",
+  name: "Replace File",
+  description: "Upload a file that replaces an existing file",
+  version: "0.0.62",
+  type: "action",
   props: {
     googleDrive,
     drive: {
-      propDefinition: [googleDrive, 'watchedDrive'],
-      description: 'The drive you want to replace a file in.',
+      propDefinition: [
+        googleDrive,
+        "watchedDrive",
+      ],
+      description: "The drive you want to replace a file in.",
       optional: true,
-      default: '',
+      default: "",
     },
     fileId: {
       propDefinition: [
         googleDrive,
-        'fileId',
+        "fileId",
         (c) => ({
           drive: c.drive,
           baseOpts: {
@@ -32,35 +33,50 @@ module.exports = {
         }),
       ],
       optional: false,
-      description: 'The file to update.',
+      description: "The file to update.",
     },
     fileUrl: {
-      propDefinition: [googleDrive, 'fileUrl'],
+      propDefinition: [
+        googleDrive,
+        "fileUrl",
+      ],
       description:
-        'The URL of the file to attach. Must specify either File URL or File Path.',
+        "The URL of the file to attach. Must specify either File URL or File Path.",
     },
     filePath: {
-      propDefinition: [googleDrive, 'filePath'],
+      propDefinition: [
+        googleDrive,
+        "filePath",
+      ],
       description:
-        'The path to the file saved to the /tmp (e.g., `/tmp/myFile.csv`). Must specify either File URL or File Path.',
+        "The path to the file saved to the /tmp (e.g., `/tmp/myFile.csv`). Must specify either File URL or File Path.",
     },
     name: {
-      propDefinition: [googleDrive, 'fileName'],
-      label: 'Name',
-      description: 'The new name of the file (e.g., `myFile.csv`).',
+      propDefinition: [
+        googleDrive,
+        "fileName",
+      ],
+      label: "Name",
+      description: "The new name of the file (e.g., `myFile.csv`).",
     },
     mimeType: {
-      propDefinition: [googleDrive, 'mimeType'],
+      propDefinition: [
+        googleDrive,
+        "mimeType",
+      ],
       description: "The new file's MIME type, (e.g., `image/jpeg`).",
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
-    const { fileId, fileUrl, filePath, name, mimeType } = this;
+    const {
+      fileId,
+      fileUrl,
+      filePath,
+      name,
+      mimeType,
+    } = this;
     if (!fileUrl && !filePath) {
-      throw new Error('One of File URL and File Path is required.');
+      throw new Error("One of File URL and File Path is required.");
     }
     const fileStream = await getFileStream({
       fileUrl,

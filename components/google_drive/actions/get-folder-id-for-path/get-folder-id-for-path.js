@@ -1,8 +1,6 @@
 const googleDrive = require("../../google_drive.app");
-const common = require("../common.js");
 
 module.exports = {
-  ...common,
   key: "google_drive-get-folder-id-for-path",
   name: "Get Folder ID for a Path",
   description: "Retrieve a folderId for a path",
@@ -25,9 +23,6 @@ module.exports = {
       optional: false,
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
     // For each part of path, find folder with folderId of parent folder in
     // `parents`.
@@ -42,7 +37,6 @@ module.exports = {
         name: part,
         parentId,
       });
-      console.log("folders", folders);
       if (!folders[0]) {
         // Folder at path is not found
         return undefined;

@@ -1,25 +1,26 @@
-const googleDrive = require('../../google_drive.app');
-const common = require('../common.js');
+const googleDrive = require("../../google_drive.app");
 
 module.exports = {
-  ...common,
-  key: 'google_drive-add-file-sharing-preference',
-  name: 'Add File Sharing Preference',
-  description: 'Add File Sharing Preference',
-  version: '0.0.12',
-  type: 'action',
+  key: "google_drive-add-file-sharing-preference",
+  name: "Add File Sharing Preference",
+  description: "Add File Sharing Preference",
+  version: "0.0.12",
+  type: "action",
   props: {
     googleDrive,
     drive: {
-      propDefinition: [googleDrive, 'watchedDrive'],
-      description: 'The drive you want to find a file in',
+      propDefinition: [
+        googleDrive,
+        "watchedDrive",
+      ],
+      description: "The drive you want to find a file in",
       optional: true,
-      default: '',
+      default: "",
     },
     fileId: {
       propDefinition: [
         googleDrive,
-        'fileId',
+        "fileId",
         (c) => ({
           drive: c.drive,
           baseOpts: {
@@ -28,53 +29,61 @@ module.exports = {
         }),
       ],
       optional: false,
-      description: 'The file to add a file sharing preference to.',
+      description: "The file to add a file sharing preference to.",
     },
     role: {
-      type: 'string',
-      label: 'Role',
-      description: 'The role granted by this permission.',
+      type: "string",
+      label: "Role",
+      description: "The role granted by this permission.",
       optional: true,
-      default: 'reader',
+      default: "reader",
       options: [
-        'owner',
-        'organizer',
-        'fileOrganizer',
-        'writer',
-        'commenter',
-        'reader',
+        "owner",
+        "organizer",
+        "fileOrganizer",
+        "writer",
+        "commenter",
+        "reader",
       ],
     },
     type: {
-      type: 'string',
-      label: 'Type',
-      description: 'The type of the grantee.',
+      type: "string",
+      label: "Type",
+      description: "The type of the grantee.",
       optional: true,
-      default: 'anyone',
-      options: ['user', 'group', 'domain', 'anyone'],
+      default: "anyone",
+      options: [
+        "user",
+        "group",
+        "domain",
+        "anyone",
+      ],
     },
     domain: {
-      type: 'string',
-      label: 'Domain',
+      type: "string",
+      label: "Domain",
       description:
         "The domain to which this permission refers if type is 'domain'.",
       optional: true,
-      default: '',
+      default: "",
     },
     emailAddress: {
-      type: 'string',
-      label: 'Email Address',
+      type: "string",
+      label: "Email Address",
       description:
         "The email address of the user or group to which this permission refers if type is 'user' or 'group'.",
       optional: true,
-      default: '',
+      default: "",
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
-    const { fileId, role, type, domain, emailAddress } = this;
+    const {
+      fileId,
+      role,
+      type,
+      domain,
+      emailAddress,
+    } = this;
     await this.googleDrive.createPermission(fileId, {
       role,
       type,

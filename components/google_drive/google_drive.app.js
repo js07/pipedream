@@ -433,7 +433,6 @@ module.exports = {
     // TODO: Document
     async listDriveFilesOptions(drive, pageToken = null, baseOpts = {}) {
       const opts = getListFilesOpts(drive, baseOpts);
-      console.log("opts", opts);
       return this.listFilesOptions(pageToken, opts);
     },
     /**

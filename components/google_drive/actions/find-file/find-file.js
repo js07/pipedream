@@ -1,28 +1,29 @@
-const googleDrive = require('../../google_drive.app');
-const { getListFilesOpts } = require('../../utils');
-const common = require('../common.js');
+const googleDrive = require("../../google_drive.app");
+const { getListFilesOpts } = require("../../utils");
 
 module.exports = {
-  ...common,
-  key: 'google_drive-find-file',
-  name: 'Find File',
-  description: 'Search for a specific file by name',
-  version: '0.0.8',
-  type: 'action',
+  key: "google_drive-find-file",
+  name: "Find File",
+  description: "Search for a specific file by name",
+  version: "0.0.8",
+  type: "action",
   props: {
     googleDrive,
     drive: {
-      propDefinition: [googleDrive, 'watchedDrive'],
-      description: 'The drive you want to find a file in.',
+      propDefinition: [
+        googleDrive,
+        "watchedDrive",
+      ],
+      description: "The drive you want to find a file in.",
       optional: true,
-      default: '',
+      default: "",
     },
     nameSearchTerm: {
-      propDefinition: [googleDrive, 'fileNameSearchTerm'],
+      propDefinition: [
+        googleDrive,
+        "fileNameSearchTerm",
+      ],
     },
-  },
-  methods: {
-    ...common.methods,
   },
   async run() {
     const opts = getListFilesOpts(this.drive || undefined, {

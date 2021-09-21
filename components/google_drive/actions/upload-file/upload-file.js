@@ -1,61 +1,77 @@
-const googleDrive = require('../../google_drive.app');
-const common = require('../common.js');
-const path = require('path');
-const { getFileStream } = require('../../utils');
+const googleDrive = require("../../google_drive.app");
+const path = require("path");
+const { getFileStream } = require("../../utils");
 
 module.exports = {
-  ...common,
-  key: 'google_drive-upload-file',
-  name: 'Upload File',
-  description: 'Copy an existing file to Google Drive',
-  version: '0.0.4',
-  type: 'action',
+  key: "google_drive-upload-file",
+  name: "Upload File",
+  description: "Copy an existing file to Google Drive",
+  version: "0.0.4",
+  type: "action",
   props: {
     googleDrive,
     drive: {
-      propDefinition: [googleDrive, 'watchedDrive'],
-      description: 'The drive you want to upload the file to.',
+      propDefinition: [
+        googleDrive,
+        "watchedDrive",
+      ],
+      description: "The drive you want to upload the file to.",
     },
     parentId: {
       propDefinition: [
         googleDrive,
-        'folderId',
+        "folderId",
         (c) => ({
           drive: c.drive,
         }),
       ],
-      description: 'The folder you want to upload the file to.',
+      description: "The folder you want to upload the file to.",
       optional: true,
-      default: '',
+      default: "",
     },
     fileUrl: {
-      propDefinition: [googleDrive, 'fileUrl'],
+      propDefinition: [
+        googleDrive,
+        "fileUrl",
+      ],
       description:
-        'The URL of the file to upload. Must specify either File URL or File Path.',
+        "The URL of the file to upload. Must specify either File URL or File Path.",
     },
     filePath: {
-      propDefinition: [googleDrive, 'filePath'],
+      propDefinition: [
+        googleDrive,
+        "filePath",
+      ],
       description:
-        'The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`). Must specify either File URL or File Path.',
+        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`). Must specify either File URL or File Path.",
     },
     name: {
-      propDefinition: [googleDrive, 'fileName'],
+      propDefinition: [
+        googleDrive,
+        "fileName",
+      ],
       description:
         "The name of the new file (e.g. `/myFile.csv`). By default, the name is the same as the source file's.",
     },
     mimeType: {
-      propDefinition: [googleDrive, 'mimeType'],
+      propDefinition: [
+        googleDrive,
+        "mimeType",
+      ],
       description:
         "The file's MIME type, (e.g., `image/jpeg`). Google Drive will attempt to automatically detect an appropriate value from uploaded content if no value is provided.",
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
-    const { parentId, fileUrl, filePath, name, mimeType } = this;
+    const {
+      parentId,
+      fileUrl,
+      filePath,
+      name,
+      mimeType,
+    } = this;
     if (!fileUrl && !filePath) {
-      throw new Error('One of File URL and File Path is required.');
+      throw new Error("One of File URL and File Path is required.");
     }
     const file = await getFileStream({
       fileUrl,

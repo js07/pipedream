@@ -1,25 +1,20 @@
-const googleDrive = require('../../google_drive.app');
-const common = require('../common.js');
+const googleDrive = require("../../google_drive.app");
 
 module.exports = {
-  ...common,
-  key: 'google_drive-create-shared-drive',
-  name: 'Create Shared Drive',
-  description: 'Create Shared Drive',
-  version: '0.0.2',
-  type: 'action',
+  key: "google_drive-create-shared-drive",
+  name: "Create Shared Drive",
+  description: "Create Shared Drive",
+  version: "0.0.2",
+  type: "action",
   props: {
     googleDrive,
     name: {
-      type: 'string',
-      label: 'Name',
-      description: 'The name of the new shared drive.',
+      type: "string",
+      label: "Name",
+      description: "The name of the new shared drive.",
       optional: true,
-      default: '',
+      default: "",
     },
-  },
-  methods: {
-    ...common.methods,
   },
   async run() {
     return await this.googleDrive.createDrive({

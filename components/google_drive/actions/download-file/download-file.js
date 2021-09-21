@@ -1,44 +1,42 @@
-const googleDrive = require('../../google_drive.app');
-const common = require('../common.js');
-const fs = require('fs');
-const stream = require('stream');
-const { promisify } = require('util');
-const { GOOGLE_DRIVE_MIME_TYPE_PREFIX } = require('../../constants');
+const googleDrive = require("../../google_drive.app");
+const fs = require("fs");
+const stream = require("stream");
+const { promisify } = require("util");
+const { GOOGLE_DRIVE_MIME_TYPE_PREFIX } = require("../../constants");
 
 module.exports = {
-  ...common,
-  key: 'google_drive-download-file',
-  name: 'Download File',
-  description: 'Download a file',
-  version: '0.0.8',
-  type: 'action',
+  key: "google_drive-download-file",
+  name: "Download File",
+  description: "Download a file",
+  version: "0.0.8",
+  type: "action",
   props: {
     googleDrive,
     drive: {
-      propDefinition: [googleDrive, 'watchedDrive'],
-      description: 'The drive containing the file to download.',
+      propDefinition: [
+        googleDrive,
+        "watchedDrive",
+      ],
+      description: "The drive containing the file to download.",
       optional: true,
-      default: '',
+      default: "",
     },
     fileId: {
       propDefinition: [
         googleDrive,
-        'fileId',
+        "fileId",
         (c) => ({
           drive: c.drive,
         }),
       ],
-      description: 'The file to download.',
+      description: "The file to download.",
     },
     filePath: {
-      type: 'string',
-      label: 'Destination File Path',
+      type: "string",
+      label: "Destination File Path",
       description:
-        'The destination path for the file in /tmp (e.g., `/tmp/myFile.csv`).',
+        "The destination path for the file in /tmp (e.g., `/tmp/myFile.csv`).",
     },
-  },
-  methods: {
-    ...common.methods,
   },
   async run() {
     // Get file metadata to get mime type
@@ -46,7 +44,7 @@ module.exports = {
     const drive = this.googleDrive.drive();
     // Get file mimeType
     const fileMetadata = await this.googleDrive.getFile(this.fileId, {
-      fields: 'mimeType',
+      fields: "mimeType",
     });
     const mimeType = fileMetadata.mimeType;
     // Download
@@ -59,11 +57,11 @@ module.exports = {
         await drive.files.export(
           {
             fileId: this.fileId,
-            mimeType: 'application/pdf',
+            mimeType: "application/pdf",
           },
           {
-            responseType: 'stream',
-          }
+            responseType: "stream",
+          },
         )
       ).data;
     } else {
@@ -71,11 +69,11 @@ module.exports = {
         await drive.files.get(
           {
             fileId: this.fileId,
-            alt: 'media',
+            alt: "media",
           },
           {
-            responseType: 'stream',
-          }
+            responseType: "stream",
+          },
         )
       ).data;
     }

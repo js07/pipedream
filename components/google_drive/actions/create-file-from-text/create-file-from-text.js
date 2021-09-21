@@ -1,56 +1,63 @@
-const googleDrive = require('../../google_drive.app');
-const common = require('../common.js');
-const { Readable } = require('stream');
+const googleDrive = require("../../google_drive.app");
+const { Readable } = require("stream");
 
 module.exports = {
-  ...common,
-  key: 'google_drive-create-file-from-text',
-  name: 'Create New File From Text ',
-  description: 'Create a new file from plain text',
-  version: '0.0.4',
-  type: 'action',
+  key: "google_drive-create-file-from-text",
+  name: "Create New File From Text ",
+  description: "Create a new file from plain text",
+  version: "0.0.4",
+  type: "action",
   props: {
     googleDrive,
     drive: {
-      propDefinition: [googleDrive, 'watchedDrive'],
-      description: 'The drive you want to create a file in.',
+      propDefinition: [
+        googleDrive,
+        "watchedDrive",
+      ],
+      description: "The drive you want to create a file in.",
       optional: true,
-      default: '',
+      default: "",
     },
     parentId: {
       propDefinition: [
         googleDrive,
-        'folderId',
+        "folderId",
         (c) => ({
           drive: c.drive,
         }),
       ],
-      description: 'The folder you want to add the file to.',
+      description: "The folder you want to add the file to.",
       optional: true,
-      default: '',
+      default: "",
     },
     name: {
-      propDefinition: [googleDrive, 'fileName'],
+      propDefinition: [
+        googleDrive,
+        "fileName",
+      ],
       description:
-        'The name of the file you want to create (e.g., `myFile.txt`)',
-      default: '',
+        "The name of the file you want to create (e.g., `myFile.txt`)",
+      default: "",
     },
     content: {
-      type: 'string',
-      label: 'Content',
-      description: 'The plain text of the new file.',
+      type: "string",
+      label: "Content",
+      description: "The plain text of the new file.",
       optional: true,
-      default: '',
+      default: "",
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
-    const { parentId, name, content } = this;
-    const file = Readable.from([content]);
+    const {
+      parentId,
+      name,
+      content,
+    } = this;
+    const file = Readable.from([
+      content,
+    ]);
     return await this.googleDrive.createFile({
-      mimeType: 'text/plain',
+      mimeType: "text/plain",
       file,
       name,
       parentId,
