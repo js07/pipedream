@@ -125,8 +125,8 @@ module.exports = {
         : undefined;
 
     // Update file content, if set, separately from metadata to prevent
-    // multipart upload, which the Google API client doesn't seem to support
-    // for files.update.
+    // multipart upload, which `google-apis-nodejs-client` doesn't seem to
+    // support for [files.update](https://bit.ly/3lP5sWn)
     if (fileStream) {
       await this.googleDrive.updateFileMedia(fileId, fileStream, {
         mimeType,
