@@ -31,9 +31,7 @@ function getListFilesOpts(drive, baseOpts = {}) {
     ? baseOpts
     : {
       ...baseOpts,
-      corpora: drive
-        ? "drive"
-        : "allDrives",
+      corpora: "drive",
       driveId: getDriveId(drive),
       includeItemsFromAllDrives: true,
       supportsAllDrives: true,
