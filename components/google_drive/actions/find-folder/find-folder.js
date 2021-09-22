@@ -1,6 +1,8 @@
 const googleDrive = require("../../google_drive.app");
 const { getListFilesOpts } = require("../../utils");
 
+const { GOOGLE_DRIVE_FOLDER_MIME_TYPE } = require("../../constants");
+
 module.exports = {
   key: "google_drive-find-folder",
   name: "Find Folder",
