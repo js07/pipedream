@@ -28,7 +28,7 @@ module.exports = {
   },
   async run() {
     const opts = getListFilesOpts(this.drive || undefined, {
-      q: `mimeType = 'application/vnd.google-apps.folder' and name contains '${this.nameSearchTerm}'`,
+      q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${this.nameSearchTerm}'`,
     });
     return (await this.googleDrive.listFilesInPage(null, opts)).files;
   },

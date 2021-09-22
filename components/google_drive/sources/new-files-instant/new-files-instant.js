@@ -1,40 +1,40 @@
-const common = require("../common-webhook.js");
+const common = require('../common-webhook.js');
 const {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
-} = require("../../constants");
+} = require('../../constants');
 
 module.exports = {
   ...common,
-  key: "google_drive-new-files-instant",
-  name: "New Files (Instant)",
+  key: 'google_drive-new-files-instant',
+  name: 'New Files (Instant)',
   description:
-    "Emits a new event any time a new file is added in your linked Google Drive",
-  version: "0.0.7",
-  dedupe: "unique",
+    'Emits a new event any time a new file is added in your linked Google Drive',
+  version: '0.0.7',
+  dedupe: 'unique',
   props: {
     ...common.props,
     folders: {
-      type: "string[]",
-      label: "Folders",
+      type: 'string[]',
+      label: 'Folders',
       description:
-        "(Optional) The folders you want to watch for changes. Leave blank to watch for any new file in the Drive.",
+        '(Optional) The folders you want to watch for changes. Leave blank to watch for any new file in the Drive.',
       optional: true,
       default: [],
       options({ prevContext }) {
         const { nextPageToken } = prevContext;
         const baseOpts = {
-          q: "mimeType = 'application/vnd.google-apps.folder'",
+          q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}'`,
         };
         const opts = this.isMyDrive()
           ? baseOpts
           : {
-            ...baseOpts,
-            corpora: "drive",
-            driveId: this.getDriveId(),
-            includeItemsFromAllDrives: true,
-            supportsAllDrives: true,
-          };
+              ...baseOpts,
+              corpora: 'drive',
+              driveId: this.getDriveId(),
+              includeItemsFromAllDrives: true,
+              supportsAllDrives: true,
+            };
         return this.googleDrive.listFilesOptions(nextPageToken, opts);
       },
     },
@@ -49,10 +49,10 @@ module.exports = {
   methods: {
     ...common.methods,
     _getLastFileCreatedTime() {
-      return this.db.get("lastFileCreatedTime");
+      return this.db.get('lastFileCreatedTime');
     },
     _setLastFileCreatedTime(lastFileCreatedTime) {
-      this.db.set("lastFileCreatedTime", lastFileCreatedTime);
+      this.db.set('lastFileCreatedTime', lastFileCreatedTime);
     },
     shouldProcess(file) {
       const watchedFolders = new Set(this.folders);
@@ -62,10 +62,7 @@ module.exports = {
       );
     },
     getUpdateTypes() {
-      return [
-        GOOGLE_DRIVE_NOTIFICATION_ADD,
-        GOOGLE_DRIVE_NOTIFICATION_CHANGE,
-      ];
+      return [GOOGLE_DRIVE_NOTIFICATION_ADD, GOOGLE_DRIVE_NOTIFICATION_CHANGE];
     },
     async processChanges(changedFiles) {
       const lastFileCreatedTime = this._getLastFileCreatedTime();

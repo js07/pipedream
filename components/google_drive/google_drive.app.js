@@ -705,7 +705,7 @@ module.exports = {
         excludeTrashed = true,
       } = opts;
       const drive = this.drive();
-      let q = "mimeType = 'application/vnd.google-apps.folder'";
+      let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}'`;
       if (name) {
         q += ` and name = '${name}'`;
       }
@@ -800,7 +800,7 @@ module.exports = {
         name,
         parentId,
         fields,
-        mimeType: "application/vnd.google-apps.folder",
+        mimeType: `${GOOGLE_DRIVE_FOLDER_MIME_TYPE}`,
         ...extraParams,
       });
     },
