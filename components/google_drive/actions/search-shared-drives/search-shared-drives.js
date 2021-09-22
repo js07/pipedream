@@ -4,11 +4,11 @@ module.exports = {
   key: "google_drive-search-shared-drives",
   name: "Search for Shared Drives",
   description: "Search for shared drives with query options",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     googleDrive,
-    query: {
+    q: {
       type: "string",
       label: "Search Query",
       description:
@@ -24,7 +24,7 @@ module.exports = {
   async run() {
     return (
       await this.googleDrive.searchDrives({
-        q: this.query,
+        q: this.q,
         useDomainAdminAccess: this.useDomainAdminAccess,
       })
     ).drives;
