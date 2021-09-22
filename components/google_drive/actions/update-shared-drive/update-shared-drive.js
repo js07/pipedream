@@ -55,9 +55,9 @@ module.exports = {
   async run() {
     const {
       useDomainAdminAccess,
-      backgroundImageLink = undefined,
-      colorRgb = undefined,
-      themeId = undefined,
+      backgroundImageLink,
+      colorRgb,
+      themeId,
       restrictions,
     } = this;
     return await this.googleDrive.updateSharedDrive(this.driveId, {

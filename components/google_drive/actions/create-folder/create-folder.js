@@ -41,7 +41,7 @@ module.exports = {
   async run() {
     const {
       parentId,
-      name = undefined,
+      name,
     } = this;
     return await this.googleDrive.createFolder({
       name,
