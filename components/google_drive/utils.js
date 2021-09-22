@@ -26,6 +26,18 @@ function getDriveId(drive) {
     : drive;
 }
 
+/**
+ * Gets an options object to be used in functions that use the
+ * [the `drive.drives.list` API](https://bit.ly/3AiWE1x)
+ *
+ * @param {String} drive the ID value of a Google Drive, as provided by the
+ * `drive` prop definition of this app
+ * @param {object} [baseOpts = {}] - an object containing extra/optional
+ * parameters to be fed to the GDrive API call, as defined in [the API
+ * docs](https://bit.ly/3AnQDR1)
+ *
+ * @returns an object containing the options
+ */
 function getListFilesOpts(drive, baseOpts = {}) {
   const opts = isMyDrive(drive)
     ? baseOpts
