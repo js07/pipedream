@@ -28,9 +28,6 @@ module.exports = {
         "fileId",
         (c) => ({
           drive: c.drive,
-          baseOpts: {
-            q: `mimeType != '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and 'me' in writers`,
-          },
         }),
       ],
       optional: false,
