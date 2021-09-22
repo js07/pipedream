@@ -13,7 +13,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive containing the file to move.",
+      description: "The drive containing the file to move",
     },
     fileId: {
       propDefinition: [
@@ -23,7 +23,7 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The file to move.",
+      description: "The file to move",
     },
     folderId: {
       propDefinition: [
@@ -33,7 +33,7 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The folder you want to move the file to.",
+      description: "The folder you want to move the file to",
       optional: true,
       default: "",
     },

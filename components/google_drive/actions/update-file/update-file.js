@@ -15,7 +15,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to find a file in.",
+      description: "The drive you want to find a file in",
       optional: true,
       default: "",
     },
@@ -27,14 +27,14 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The file to update.",
+      description: "The file to update",
     },
     fileUrl: {
       propDefinition: [
         googleDrive,
         "fileUrl",
       ],
-      description: "The URL of the file to use to update content.",
+      description: "The URL of the file to use to update content",
     },
     filePath: {
       propDefinition: [
@@ -42,14 +42,14 @@ module.exports = {
         "filePath",
       ],
       description:
-        "The path to the file to saved to the /tmp (e.g., `/tmp/myFile.csv`) with which to update content.",
+        "The path to the file to saved to the /tmp (e.g., `/tmp/myFile.csv`) with which to update content",
     },
     name: {
       propDefinition: [
         googleDrive,
         "fileName",
       ],
-      description: "The new name of the file.",
+      description: "The new name of the file",
     },
     mimeType: {
       propDefinition: [
@@ -62,14 +62,14 @@ module.exports = {
     addParents: {
       type: "string",
       label: "Add Parents",
-      description: "A comma-separated list of parent folder IDs to add.",
+      description: "A comma-separated list of parent folder IDs to add",
       optional: true,
       default: "",
     },
     removeParents: {
       type: "string",
       label: "Remove Parents",
-      description: "A comma-separated list of parent folder IDs to remove.",
+      description: "A comma-separated list of parent folder IDs to remove",
       optional: true,
       default: "",
     },
@@ -77,7 +77,7 @@ module.exports = {
       type: "boolean",
       label: "Keep Revision Forever",
       description:
-        "Whether to set the `keepForever` field in the new head revision.",
+        "Whether to set the `keepForever` field in the new head revision",
       optional: true,
       default: false,
     },
@@ -85,7 +85,7 @@ module.exports = {
       type: "string",
       label: "OCR Language",
       description:
-        "A language hint for OCR processing during image import (ISO 639-1 code).",
+        "A language hint for OCR processing during image import (ISO 639-1 code)",
       optional: true,
       default: "",
       options: isoLanguages,
@@ -93,7 +93,7 @@ module.exports = {
     useContentAsIndexableText: {
       type: "boolean",
       label: "Use Content As Indexable Text",
-      description: "Whether to use the uploaded content as indexable text.",
+      description: "Whether to use the uploaded content as indexable text",
       optional: true,
       default: false,
     },
@@ -102,7 +102,7 @@ module.exports = {
       label: "Advanced Options",
       optional: true,
       description:
-        "Specify less-common properties that you require. See [Create a Payment Intent]" +
+        "Specify less-common properties that you require. See [Files: update]" +
         "(https://developers.google.com/drive/api/v3/reference/files/update#request-body) for a list of supported properties.",
       default: {},
     },

@@ -13,7 +13,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to find a file or folder in.",
+      description: "The drive you want to find a file or folder in",
       optional: true,
       default: "",
     },
@@ -25,7 +25,7 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The file or folder to move to trash.",
+      description: "The file or folder to move to trash",
     },
   },
   async run() {

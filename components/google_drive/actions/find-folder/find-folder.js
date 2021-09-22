@@ -14,7 +14,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to find a folder in.",
+      description: "The drive you want to find a folder in",
       optional: true,
       default: "",
     },
@@ -23,7 +23,7 @@ module.exports = {
         googleDrive,
         "fileNameSearchTerm",
       ],
-      description: "The name of the folder to search for.",
+      description: "The name of the folder to search for",
     },
   },
   async run() {

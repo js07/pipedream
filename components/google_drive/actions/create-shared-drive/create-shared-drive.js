@@ -11,7 +11,7 @@ module.exports = {
     name: {
       type: "string",
       label: "Name",
-      description: "The name of the new shared drive.",
+      description: "The name of the new shared drive",
       optional: true,
       default: "",
     },

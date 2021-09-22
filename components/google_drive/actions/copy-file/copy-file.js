@@ -13,7 +13,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive containing the file to copy.",
+      description: "The drive containing the file to copy",
     },
     fileId: {
       propDefinition: [
@@ -23,7 +23,7 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The file to copy.",
+      description: "The file to copy",
     },
   },
   async run() {

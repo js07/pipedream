@@ -13,7 +13,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to create the folder in.",
+      description: "The drive you want to create the folder in",
     },
     parentId: {
       propDefinition: [
@@ -34,7 +34,7 @@ module.exports = {
         "fileName",
       ],
       label: "Name",
-      description: "The name of the new folder.",
+      description: "The name of the new folder",
       optional: true,
       default: "",
     },

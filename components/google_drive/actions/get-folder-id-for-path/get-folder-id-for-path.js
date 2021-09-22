@@ -13,13 +13,13 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive containing the folder.",
+      description: "The drive containing the folder",
     },
     path: {
       type: "string",
       label: "Path",
       description:
-        "The path to the folder (e.g., `myFolder/mySubFolder1/mySubFolder2`).",
+        "The path to the folder (e.g., `myFolder/mySubFolder1/mySubFolder2`)",
       optional: false,
     },
   },

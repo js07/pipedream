@@ -15,7 +15,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to upload the file to.",
+      description: "The drive you want to upload the file to",
     },
     parentId: {
       propDefinition: [

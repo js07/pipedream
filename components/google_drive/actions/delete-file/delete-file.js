@@ -14,7 +14,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to find a file in.",
+      description: "The drive you want to find a file in",
       optional: true,
       default: "",
     },
@@ -26,7 +26,7 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The file or folder to delete.",
+      description: "The file or folder to delete",
     },
   },
   async run() {

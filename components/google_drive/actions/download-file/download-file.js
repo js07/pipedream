@@ -17,7 +17,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive containing the file to download.",
+      description: "The drive containing the file to download",
       optional: true,
       default: "",
     },
@@ -29,7 +29,7 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The file to download.",
+      description: "The file to download",
     },
     filePath: {
       type: "string",

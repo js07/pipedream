@@ -3,7 +3,7 @@ const { Readable } = require("stream");
 
 module.exports = {
   key: "google_drive-create-file-from-text",
-  name: "Create New File From Text ",
+  name: "Create New File From Text",
   description: "Create a new file from plain text",
   version: "0.0.4",
   type: "action",
@@ -14,7 +14,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to create a file in.",
+      description: "The drive you want to create a file in",
       optional: true,
       default: "",
     },
@@ -26,7 +26,8 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The folder you want to add the file to.",
+      description:
+        "The folder you want to add the file to. If not specified, the file will be placed directly in the user's My Drive folder.",
       optional: true,
       default: "",
     },

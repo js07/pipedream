@@ -17,7 +17,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to replace a file in.",
+      description: "The drive you want to replace a file in",
       optional: true,
       default: "",
     },
@@ -33,7 +33,7 @@ module.exports = {
         }),
       ],
       optional: false,
-      description: "The file to update.",
+      description: "The file to update",
     },
     fileUrl: {
       propDefinition: [
@@ -57,14 +57,14 @@ module.exports = {
         "fileName",
       ],
       label: "Name",
-      description: "The name of the new file (e.g., `myFile.csv`).",
+      description: "The name of the new file (e.g., `myFile.csv`)",
     },
     mimeType: {
       propDefinition: [
         googleDrive,
         "mimeType",
       ],
-      description: "The MIME type of the new file (e.g., `image/jpeg`).",
+      description: "The MIME type of the new file (e.g., `image/jpeg`)",
     },
   },
   async run() {

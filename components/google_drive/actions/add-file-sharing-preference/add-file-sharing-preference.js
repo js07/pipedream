@@ -3,7 +3,8 @@ const googleDrive = require("../../google_drive.app");
 module.exports = {
   key: "google_drive-add-file-sharing-preference",
   name: "Add File Sharing Preference",
-  description: "Add File Sharing Preference",
+  description:
+    "Add a sharing permission to the sharing preferences of a file and provide a sharing URL",
   version: "0.0.12",
   type: "action",
   props: {
@@ -13,7 +14,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to find a file in.",
+      description: "The drive you want to find a file in",
       optional: true,
       default: "",
     },
@@ -29,12 +30,12 @@ module.exports = {
         }),
       ],
       optional: false,
-      description: "The file to add a file sharing preference to.",
+      description: "The file to share",
     },
     role: {
       type: "string",
       label: "Role",
-      description: "The role granted by this permission.",
+      description: "The role granted by this permission",
       optional: true,
       default: "reader",
       options: [
@@ -64,7 +65,7 @@ module.exports = {
       type: "string",
       label: "Domain",
       description:
-        "The domain to which this permission refers if `type` is `domain`.",
+        "The domain to which this permission refers if `type` is `domain`",
       optional: true,
       default: "",
     },
@@ -72,7 +73,7 @@ module.exports = {
       type: "string",
       label: "Email Address",
       description:
-        "The email address of the user or group to which this permission refers if `type` is `user` or `group`.",
+        "The email address of the user or group to which this permission refers if `type` is `user` or `group`",
       optional: true,
       default: "",
     },

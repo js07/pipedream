@@ -13,7 +13,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "Select a drive to update.",
+      description: "Select a drive to update",
     },
     useDomainAdminAccess: {
       propDefinition: [
