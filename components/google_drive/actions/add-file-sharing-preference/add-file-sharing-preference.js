@@ -51,7 +51,7 @@ module.exports = {
       type: "string",
       label: "Type",
       description:
-        "The type of the grantee. If type is `user` or `group`, you must provide an `Email Address` for the user or group. When `type` is `domain`, you must provide a `domain`.",
+        "The type of the grantee. If type is `user` or `group`, you must provide an `Email Address` for the user or group. When `type` is `domain`, you must provide a `Domain`.",
       optional: true,
       default: "anyone",
       options: [
