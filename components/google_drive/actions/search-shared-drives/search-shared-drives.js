@@ -12,7 +12,7 @@ module.exports = {
       type: "string",
       label: "Search Query",
       description:
-        "The shared drives search query. See [query terms](https://developers.google.com/drive/api/v3/ref-search-terms?authuser=2#drive_properties).",
+        "The [shared drives](https://support.google.com/a/users/answer/9310351) search query. See [query terms](https://developers.google.com/drive/api/v3/ref-search-terms#drive_properties) for a list of shard drive-specific query terms.",
     },
     useDomainAdminAccess: {
       propDefinition: [

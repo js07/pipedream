@@ -13,7 +13,8 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "Select a drive.",
+      description:
+        "Select a [shared drive](https://support.google.com/a/users/answer/9310351).",
     },
     useDomainAdminAccess: {
       propDefinition: [
