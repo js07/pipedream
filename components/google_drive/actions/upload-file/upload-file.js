@@ -17,6 +17,7 @@ module.exports = {
       ],
       description: "The drive you want to upload the file to",
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     parentId: {
       propDefinition: [
         googleDrive,
@@ -28,7 +29,6 @@ module.exports = {
       description:
         "The folder you want to upload the file to. If not specified, the file will be placed directly in the user's My Drive folder.",
       optional: true,
-      default: "",
     },
     fileUrl: {
       propDefinition: [

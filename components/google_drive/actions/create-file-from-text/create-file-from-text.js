@@ -9,6 +9,7 @@ module.exports = {
   type: "action",
   props: {
     googleDrive,
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     drive: {
       propDefinition: [
         googleDrive,
@@ -16,7 +17,6 @@ module.exports = {
       ],
       description: "The drive you want to create a file in",
       optional: true,
-      default: "",
     },
     parentId: {
       propDefinition: [
@@ -29,7 +29,6 @@ module.exports = {
       description:
         "The folder you want to add the file to. If not specified, the file will be placed directly in the user's My Drive folder.",
       optional: true,
-      default: "",
     },
     name: {
       propDefinition: [
@@ -38,7 +37,6 @@ module.exports = {
       ],
       description:
         "The name of the file you want to create (e.g., `myFile.txt`)",
-      default: "",
     },
     content: {
       type: "string",

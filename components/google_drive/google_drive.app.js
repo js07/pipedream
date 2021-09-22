@@ -1,3 +1,5 @@
+/* eslint-disable pipedream/default-value-required-for-optional-props */
+
 const axios = require("axios");
 const { google } = require("googleapis");
 const { uuid } = require("uuidv4");
@@ -95,7 +97,6 @@ module.exports = {
       label: "File URL",
       description: "The URL of the file to upload",
       optional: true,
-      default: "",
     },
     filePath: {
       type: "string",
@@ -103,28 +104,24 @@ module.exports = {
       description:
         "The path to the file saved to the /tmp (e.g., `/tmp/myFile.csv`)",
       optional: true,
-      default: "",
     },
     fileName: {
       type: "string",
       label: "Name",
       description: "The name of the file (e.g., `/myFile.csv`)",
       optional: true,
-      default: "",
     },
     fileNameSearchTerm: {
       type: "string",
       label: "Search Name",
       description: "Enter the name of a file to search for.",
       optional: true,
-      default: "",
     },
     mimeType: {
       type: "string",
       label: "MIME Type",
       description: "The file's MIME type (e.g., `image/jpeg`)",
       optional: true,
-      default: "",
       async options({ page = 0 }) {
         const allTypes = googleMimeTypes.concat(mimeTypes);
         const start = (page - 1) * 10;

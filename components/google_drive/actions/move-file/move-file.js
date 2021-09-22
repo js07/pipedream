@@ -25,6 +25,7 @@ module.exports = {
       ],
       description: "The file to move",
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     folderId: {
       propDefinition: [
         googleDrive,
@@ -35,7 +36,6 @@ module.exports = {
       ],
       description: "The folder you want to move the file to",
       optional: true,
-      default: "",
     },
   },
   async run() {

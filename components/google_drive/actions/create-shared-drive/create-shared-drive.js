@@ -8,12 +8,12 @@ module.exports = {
   type: "action",
   props: {
     googleDrive,
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     name: {
       type: "string",
       label: "Name",
       description: "The name of the new shared drive",
       optional: true,
-      default: "",
     },
   },
   async run() {

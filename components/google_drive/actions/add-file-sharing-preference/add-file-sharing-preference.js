@@ -9,6 +9,7 @@ module.exports = {
   type: "action",
   props: {
     googleDrive,
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     drive: {
       propDefinition: [
         googleDrive,
@@ -16,7 +17,6 @@ module.exports = {
       ],
       description: "The drive you want to find a file in",
       optional: true,
-      default: "",
     },
     fileId: {
       propDefinition: [
@@ -67,7 +67,6 @@ module.exports = {
       description:
         "The domain to which this permission refers if `type` is `domain`",
       optional: true,
-      default: "",
     },
     emailAddress: {
       type: "string",
@@ -75,7 +74,6 @@ module.exports = {
       description:
         "The email address of the user or group to which this permission refers if `type` is `user` or `group`",
       optional: true,
-      default: "",
     },
   },
   async run() {

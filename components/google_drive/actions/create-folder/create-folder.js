@@ -15,6 +15,7 @@ module.exports = {
       ],
       description: "The drive you want to create the folder in",
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     parentId: {
       propDefinition: [
         googleDrive,
@@ -26,7 +27,6 @@ module.exports = {
       description:
         "Select a folder in which to place the new folder. If not specified, the folder will be placed directly in the user's My Drive folder.",
       optional: true,
-      default: "",
     },
     name: {
       propDefinition: [
@@ -36,7 +36,6 @@ module.exports = {
       label: "Name",
       description: "The name of the new folder",
       optional: true,
-      default: "",
     },
   },
   async run() {

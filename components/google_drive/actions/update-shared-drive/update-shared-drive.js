@@ -21,13 +21,13 @@ module.exports = {
         "useDomainAdminAccess",
       ],
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     backgroundImageLink: {
       type: "string",
       label: "Background Image Link",
       description:
         "A link to the newbackround image for the shared drive. Cannot be set if `Theme ID` is set in the same request.",
       optional: true,
-      default: "",
     },
     colorRgb: {
       type: "string",
@@ -35,7 +35,6 @@ module.exports = {
       description:
         "The new color of this shared drive as an RGB hex string. Cannot be set if `Theme ID` is set in the same request.",
       optional: true,
-      default: "",
     },
     themeId: {
       type: "string",
@@ -43,7 +42,6 @@ module.exports = {
       description:
         "The ID of the theme from which the background image and color will be set. Cannot be set if `Color` or `Background Image Link` is set in the same request.",
       optional: true,
-      default: "",
     },
     restrictions: {
       type: "object",

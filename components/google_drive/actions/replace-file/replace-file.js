@@ -12,6 +12,7 @@ module.exports = {
   type: "action",
   props: {
     googleDrive,
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     drive: {
       propDefinition: [
         googleDrive,
@@ -19,7 +20,6 @@ module.exports = {
       ],
       description: "The drive you want to replace a file in",
       optional: true,
-      default: "",
     },
     fileId: {
       propDefinition: [

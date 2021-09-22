@@ -10,6 +10,7 @@ module.exports = {
   type: "action",
   props: {
     googleDrive,
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     drive: {
       propDefinition: [
         googleDrive,
@@ -17,7 +18,6 @@ module.exports = {
       ],
       description: "The drive you want to find a file in",
       optional: true,
-      default: "",
     },
     fileId: {
       propDefinition: [
@@ -64,14 +64,12 @@ module.exports = {
       label: "Add Parents",
       description: "A comma-separated list of parent folder IDs to add",
       optional: true,
-      default: "",
     },
     removeParents: {
       type: "string",
       label: "Remove Parents",
       description: "A comma-separated list of parent folder IDs to remove",
       optional: true,
-      default: "",
     },
     keepRevisionForever: {
       type: "boolean",
@@ -79,7 +77,6 @@ module.exports = {
       description:
         "Whether to set the `keepForever` field in the new head revision",
       optional: true,
-      default: false,
     },
     ocrLanguage: {
       type: "string",
@@ -87,7 +84,6 @@ module.exports = {
       description:
         "A language hint for OCR processing during image import (ISO 639-1 code)",
       optional: true,
-      default: "",
       options: isoLanguages,
     },
     useContentAsIndexableText: {
@@ -95,7 +91,6 @@ module.exports = {
       label: "Use Content As Indexable Text",
       description: "Whether to use the uploaded content as indexable text",
       optional: true,
-      default: false,
     },
     advanced: {
       type: "object",
@@ -104,7 +99,6 @@ module.exports = {
       description:
         "Specify less-common properties that you require. See [Files: update]" +
         "(https://developers.google.com/drive/api/v3/reference/files/update#request-body) for a list of supported properties.",
-      default: {},
     },
   },
   async run() {
