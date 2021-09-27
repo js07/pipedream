@@ -61,6 +61,10 @@ const audio = [
     label: "Audio - Wave",
     value: "audio/vnd.wav",
   },
+];
+
+const voice = [
+  ...audio,
   {
     label: "Video - MP4",
     value: "video/mp4",
@@ -79,4 +83,5 @@ module.exports = {
   image,
   video,
   audio,
+  voice,
 };

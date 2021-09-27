@@ -8,10 +8,10 @@ module.exports = {
   type: "action",
   props: {
     telegram,
-    startOffset: {
+    offset: {
       propDefinition: [
         telegram,
-        "startOffset",
+        "offset",
       ],
     },
     limit: {

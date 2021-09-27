@@ -20,10 +20,10 @@ module.exports = {
         "userId",
       ],
     },
-    untilDate: {
+    until_date: {
       propDefinition: [
         telegram,
-        "untilDate",
+        "until_date",
       ],
     },
   },
