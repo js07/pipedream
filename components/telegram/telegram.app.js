@@ -1,4 +1,5 @@
 const axios = require("axios");
+const TelegramBot = require("node-telegram-bot-api");
 const updateTypes = [
   {
     label: "Message",
@@ -199,7 +200,7 @@ module.exports = {
       ],
       optional: true,
     },
-    startOffset: {
+    offset: {
       type: "string",
       label: "Start offset (Update ID)",
       description: "Enter the update ID <1, last update ID> you want to list from. Note: you can use this field to set your pagination - map last update ID from the result and increase this value by one to get next page.",
@@ -223,7 +224,7 @@ module.exports = {
       description: "Enter the unique identifier of the target user.",
       optional: true,
     },
-    untilDate: {
+    until_date: {
       type: "string",
       label: "Until Date",
       description: "Enter the date when the user will be unbanned. Time zone: America/Denver. For more information about supported date formats, see the [online Help](https://www.integromat.com/en/kb/type-coercion.html).",
@@ -239,6 +240,11 @@ module.exports = {
         "Accept": "application/json",
         "Content-Type": "application/json",
       };
+    },
+    sdk() {
+      return new TelegramBot(this.$auth.token, {
+        polling: false,
+      });
     },
     async createHook(url, allowedUpdates) {
       const config = {
@@ -259,6 +265,150 @@ module.exports = {
         headers: await this._getHeaders(),
       };
       return await axios(config);
+    },
+    async sendMessage(chatId, text, options) {
+      return await this.sdk().sendMessage(chatId, text, options);
+    },
+    async editMessageText(text, options) {
+      const {
+        chatId,
+        messageId,
+        inlineMessageId,
+        ...extraOptions
+      } = options;
+      if (!(chatId && messageId) && !inlineMessageId) {
+        throw new Error("chatId, messageId, or inlineMessageId is required");
+      }
+      return await this.sdk().editMessageText(text, {
+        chat_id: chatId,
+        message_id: messageId,
+        inline_message_id: inlineMessageId,
+        ...extraOptions,
+      });
+    },
+    async forwardMessage(chatId, fromChatId, messageId, options) {
+      return await this.sdk().forwardMessage(chatId, fromChatId, messageId, options);
+    },
+    async deleteMessage(chatId, messageId) {
+      return await this.sdk().deleteMessage(chatId, messageId);
+    },
+    async pinChatMessage(chatId, messageId, options) {
+      return await this.sdk().pinChatMessage(chatId, messageId, options);
+    },
+    async unpinChatMessage(chatId, messageId) {
+      return await this.sdk().unpinChatMessage(chatId, {
+        message_id: messageId,
+      });
+    },
+    /**
+     *
+     * @param {*} sendFn
+     * @param {*} chatId
+     * @param {*} media
+     * @param {*} options
+     * @returns {Promise<TelegramBot.Message>}
+     */
+    async sendMedia(sendFn, chatId, media, options) {
+      const {
+        filename,
+        contentType,
+        ...extraOptions
+      } = options;
+      return await sendFn(chatId, media, extraOptions, {
+        filename,
+        contentType,
+      });
+    },
+    async sendAudio(chatId, audio, options) {
+      const {
+        filename,
+        contentType,
+        ...extraOptions
+      } = options;
+      return await this.sdk().sendAudio(chatId, audio, extraOptions, {
+        filename,
+        contentType,
+      });
+    },
+    async sendDocument(chatId, doc, options) {
+      const {
+        filename,
+        contentType,
+        ...extraOptions
+      } = options;
+      return await this.sdk().sendDocument(chatId, doc, extraOptions, {
+        filename,
+        contentType,
+      });
+    },
+    async sendMediaGroup(chatId, media, options) {
+      return await this.sdk().sendMediaGroup(chatId, media, options);
+    },
+    async sendPhoto(chatId, photo, options) {
+      const {
+        filename,
+        contentType,
+        ...extraOptions
+      } = options;
+      return await this.sdk().sendPhoto(chatId, photo, extraOptions, {
+        filename,
+        contentType,
+      });
+    },
+    async sendSticker(chatId, sticker, options) {
+      const {
+        filename,
+        contentType,
+        ...extraOptions
+      } = options;
+      return await this.sdk().sendSticker(chatId, sticker, extraOptions, {
+        filename,
+        contentType,
+      });
+    },
+    async sendVideo(chatId, video, options) {
+      return await this.sendMedia(this.sdk().sendVideo, chatId, video, options);
+    },
+    async sendVideoNote(chatId, videoNote, options) {
+      return await this.sendMedia(this.sdk().sendVideoNote, chatId, videoNote, options);
+    },
+    async sendVoice(chatId, voice, options) {
+      return await this.sendMedia(this.sdk().sendVoice, chatId, voice, options);
+    },
+    async editMessageMedia(media, options) {
+      const {
+        chatId,
+        messageId,
+        inlineMessageId,
+        ...extraOptions
+      } = options;
+      if (!(chatId && messageId) && !inlineMessageId) {
+        throw new Error("chatId, messageId, or inlineMessageId is required");
+      }
+      return await this.sdk().editMessageMedia(media, {
+        chat_id: chatId,
+        message_id: messageId,
+        inline_message_id: inlineMessageId,
+        ...extraOptions,
+      });
+    },
+    async getUpdates(options) {
+      return await this.sdk().getUpdates(options);
+    },
+    async getChatAdministrators(chatId) {
+      return await this.sdk().getChatAdministrators(chatId);
+    },
+    async getChatMemberCount(chatId) {
+      return await this.sdk().getChatMembersCount(chatId);
+    },
+    async banChatMember(chatId, userId, options) {
+      return await this.sdk().banChatMember(chatId, userId, options);
+    },
+    async promoteChatMember(chatId, userId, options) {
+      return await this.sdk().promoteChatMember(chatId, userId, options);
+    },
+    async restrictChatMember(chatId, userId, options) {
+      return await this.sdk().restrictChatMember(chatId, userId, options);
     },
   },
 };
