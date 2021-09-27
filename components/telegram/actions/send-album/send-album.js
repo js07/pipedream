@@ -8,6 +8,24 @@ module.exports = {
   type: "action",
   props: {
     telegram,
+    chatId: {
+      propDefinition: [
+        telegram,
+        "chatId",
+      ],
+    },
+    media: {
+      type: "any",
+      label: "Media",
+      description: "A JSON-serialized array describing photos and videos to be sent, must include 2–10 items",
+      optional: true,
+    },
+    disable_notification: {
+      propDefinition: [
+        telegram,
+        "disable_notification",
+      ],
+    },
   },
   async run() {
 

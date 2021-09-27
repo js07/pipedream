@@ -1,4 +1,5 @@
 const telegram = require("../../telegram.app.js");
+const { TELEGRAM_BOT_API_UI_MEDIA_TYPES } = require("../../constants.js");
 
 module.exports = {
   key: "telegram-send-media-by-url-or-id",
@@ -8,6 +9,49 @@ module.exports = {
   type: "action",
   props: {
     telegram,
+    chat_id: {
+      propDefinition: [
+        telegram,
+        "chatId",
+      ],
+    },
+    caption: {
+      propDefinition: [
+        telegram,
+        "caption",
+      ],
+    },
+    mediaType: {
+      propDefinition: [
+        telegram,
+        "type",
+      ],
+      options: TELEGRAM_BOT_API_UI_MEDIA_TYPES,
+    },
+    fileSource: {
+      propDefinition: [
+        telegram,
+        "fileSource",
+      ],
+    },
+    disable_notification: {
+      propDefinition: [
+        telegram,
+        "disable_notification",
+      ],
+    },
+    reply_to_message_id: {
+      propDefinition: [
+        telegram,
+        "reply_to_message_id",
+      ],
+    },
+    reply_markup: {
+      propDefinition: [
+        telegram,
+        "reply_markup",
+      ],
+    },
   },
   async run() {
 

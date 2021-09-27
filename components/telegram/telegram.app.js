@@ -137,15 +137,15 @@ module.exports = {
     //   ],
     //   optional: true,
     // },
-    sourceFileName: {
+    filename: {
       type: "string",
       label: "Source File Name",
       description: "Enter a filename.",
     },
-    sourceFileData: {
+    fileSource: {
       type: "string",
-      label: "Source File Data",
-      description: "Map the content data.",
+      label: "File Data Source",
+      description: "The source of the file data.",
     },
     duration: {
       type: "integer",

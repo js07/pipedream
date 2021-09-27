@@ -8,6 +8,55 @@ module.exports = {
   type: "action",
   props: {
     telegram,
+    chatId: {
+      propDefinition: [
+        telegram,
+        "chatId",
+      ],
+    },
+    caption: {
+      propDefinition: [
+        telegram,
+        "caption",
+      ],
+      description: "Enter the file caption.",
+    },
+    filename: {
+      propDefinition: [
+        telegram,
+        "filename",
+      ],
+    },
+    fileSource: {
+      propDefinition: [
+        telegram,
+        "fileSource",
+      ],
+    },
+    parse_mode: {
+      propDefinition: [
+        telegram,
+        "parse_mode",
+      ],
+    },
+    disable_notification: {
+      propDefinition: [
+        telegram,
+        "disable_notification",
+      ],
+    },
+    reply_to_message_id: {
+      propDefinition: [
+        telegram,
+        "reply_to_message_id",
+      ],
+    },
+    reply_markup: {
+      propDefinition: [
+        telegram,
+        "reply_markup",
+      ],
+    },
   },
   async run() {
 

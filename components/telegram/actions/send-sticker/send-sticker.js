@@ -8,6 +8,36 @@ module.exports = {
   type: "action",
   props: {
     telegram,
+    chatId: {
+      propDefinition: [
+        telegram,
+        "chatId",
+      ],
+    },
+    filename: {
+      propDefinition: [
+        telegram,
+        "filename",
+      ],
+    },
+    fileSource: {
+      propDefinition: [
+        telegram,
+        "fileSource",
+      ],
+    },
+    reply_to_message_id: {
+      propDefinition: [
+        telegram,
+        "reply_to_message_id",
+      ],
+    },
+    reply_markup: {
+      propDefinition: [
+        telegram,
+        "reply_markup",
+      ],
+    },
   },
   async run() {
 

@@ -8,6 +8,24 @@ module.exports = {
   type: "action",
   props: {
     telegram,
+    chatId: {
+      propDefinition: [
+        telegram,
+        "chatId",
+      ],
+    },
+    messageId: {
+      propDefinition: [
+        telegram,
+        "messageId",
+      ],
+    },
+    disable_notification: {
+      propDefinition: [
+        telegram,
+        "disable_notification",
+      ],
+    },
   },
   async run() {
 

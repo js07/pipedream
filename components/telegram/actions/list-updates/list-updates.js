@@ -8,6 +8,24 @@ module.exports = {
   type: "action",
   props: {
     telegram,
+    startOffset: {
+      propDefinition: [
+        telegram,
+        "startOffset",
+      ],
+    },
+    limit: {
+      propDefinition: [
+        telegram,
+        "limit",
+      ],
+    },
+    autoPaging: {
+      propDefinition: [
+        telegram,
+        "autoPaging",
+      ],
+    },
   },
   async run() {
 

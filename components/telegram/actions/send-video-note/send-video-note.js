@@ -1,4 +1,5 @@
 const telegram = require("../../telegram.app.js");
+const contentTypes = require("../../content-types");
 
 module.exports = {
   key: "telegram-send-video-note",
@@ -8,6 +9,55 @@ module.exports = {
   type: "action",
   props: {
     telegram,
+    chatId: {
+      propDefinition: [
+        telegram,
+        "chatId",
+      ],
+    },
+    filename: {
+      propDefinition: [
+        telegram,
+        "filename",
+      ],
+    },
+    fileSource: {
+      propDefinition: [
+        telegram,
+        "fileSource",
+      ],
+    },
+    contentType: {
+      propDefinition: [
+        telegram,
+        "contentType",
+      ],
+      options: contentTypes.video,
+    },
+    length: {
+      propDefinition: [
+        telegram,
+        "length",
+      ],
+    },
+    duration: {
+      propDefinition: [
+        telegram,
+        "duration",
+      ],
+    },
+    reply_to_message_id: {
+      propDefinition: [
+        telegram,
+        "reply_to_message_id",
+      ],
+    },
+    reply_markup: {
+      propDefinition: [
+        telegram,
+        "reply_markup",
+      ],
+    },
   },
   async run() {
 
