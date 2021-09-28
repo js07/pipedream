@@ -28,6 +28,8 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.banChatMember(this.chatId, this.userId, {
+      until_date: this.until_date,
+    });
   },
 };

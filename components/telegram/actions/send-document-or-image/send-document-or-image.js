@@ -27,7 +27,7 @@ module.exports = {
         "filename",
       ],
     },
-    fileSource: {
+    document: {
       propDefinition: [
         telegram,
         "fileSource",
@@ -59,6 +59,15 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.sendDocument(this.chatId, this.document, {
+      caption: this.caption,
+      parse_mode: this.parse_mode,
+      disable_notification: this.disable_notification,
+      reply_to_message_id: this.reply_to_message_id,
+      reply_markup: this.reply_markup,
+    }, {
+      filename: this.filename,
+      contentType: this.contentType,
+    });
   },
 };

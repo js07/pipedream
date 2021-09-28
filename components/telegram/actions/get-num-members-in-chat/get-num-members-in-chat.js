@@ -16,6 +16,6 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.getChatMemberCount(this.chatId);
   },
 };

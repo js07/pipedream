@@ -21,7 +21,7 @@ module.exports = {
         "filename",
       ],
     },
-    fileSource: {
+    videoNote: {
       propDefinition: [
         telegram,
         "fileSource",
@@ -60,6 +60,14 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.sendVideoNote(this.chatId, this.videoNote, {
+      length: this.length,
+      duration: this.duration,
+      reply_to_message_id: this.reply_to_message_id,
+      reply_markup: this.reply_markup,
+    }, {
+      filename: this.filename,
+      contentType: this.contentType,
+    });
   },
 };

@@ -22,6 +22,6 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.unpinChatMessage(this.chatId, this.messageId);
   },
 };

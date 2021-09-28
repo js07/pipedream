@@ -27,7 +27,7 @@ module.exports = {
         "filename",
       ],
     },
-    fileSource: {
+    voice: {
       propDefinition: [
         telegram,
         "fileSource",
@@ -38,7 +38,7 @@ module.exports = {
         telegram,
         "contentType",
       ],
-      options: contentTypes.audio,
+      options: contentTypes.voice,
     },
     duration: {
       propDefinition: [
@@ -55,6 +55,14 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.sendAudio(this.chatId, this.voice, {
+      caption: this.caption,
+      disable_notification: this.disable_notification,
+      duration: this.duration,
+      reply_markup: this.reply_markup,
+    }, {
+      filename: this.filename,
+      contentType: this.contentType,
+    });
   },
 };

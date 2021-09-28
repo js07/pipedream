@@ -9,7 +9,7 @@ module.exports = {
   type: "action",
   props: {
     telegram,
-    chat_id: {
+    chatId: {
       propDefinition: [
         telegram,
         "chatId",
@@ -28,7 +28,7 @@ module.exports = {
       ],
       options: TELEGRAM_BOT_API_UI_MEDIA_TYPES,
     },
-    fileSource: {
+    media: {
       propDefinition: [
         telegram,
         "fileSource",
@@ -54,6 +54,15 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.sendMediaByType(
+      this.mediaType,
+      this.chatId,
+      this.media,
+      {
+        disable_notification: this.disable_notification,
+        reply_to_message_id: this.reply_to_message_id,
+        reply_markup: this.reply_markup,
+      },
+    );
   },
 };

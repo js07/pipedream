@@ -28,6 +28,9 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.getUpdates({
+      offset: this.offset,
+      limit: this.limit,
+    });
   },
 };

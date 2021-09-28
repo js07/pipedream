@@ -20,7 +20,7 @@ module.exports = {
         "filename",
       ],
     },
-    fileSource: {
+    sticker: {
       propDefinition: [
         telegram,
         "fileSource",
@@ -40,6 +40,11 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.sendSticker(this.chatId, this.sticker, {
+      reply_to_message_id: this.reply_to_message_id,
+      reply_markup: this.reply_markup,
+    }, {
+      filename: this.filename,
+    });
   },
 };

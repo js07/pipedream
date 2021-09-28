@@ -8,8 +8,39 @@ module.exports = {
   type: "action",
   props: {
     telegram,
+    chatId: {
+      propDefinition: [
+        telegram,
+        "chatId",
+      ],
+    },
+    fromChatId: {
+      propDefinition: [
+        telegram,
+        "fromChatId",
+      ],
+    },
+    messageId: {
+      propDefinition: [
+        telegram,
+        "messageId",
+      ],
+    },
+    disable_notification: {
+      propDefinition: [
+        telegram,
+        "disable_notification",
+      ],
+    },
   },
   async run() {
-
+    return await this.telegram.forwardMessage(
+      this.chatId,
+      this.fromChatId,
+      this.messageId,
+      {
+        disable_notification: this.disable_notification,
+      },
+    );
   },
 };

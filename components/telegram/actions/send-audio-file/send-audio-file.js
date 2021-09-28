@@ -1,4 +1,5 @@
 const telegram = require("../../telegram.app.js");
+const contentTypes = require("../../content-types");
 
 module.exports = {
   key: "telegram-send-audio-file",
@@ -69,8 +70,26 @@ module.exports = {
         "reply_markup",
       ],
     },
+    contentType: {
+      propDefinition: [
+        telegram,
+        "contentType",
+      ],
+      options: contentTypes.audio,
+    },
   },
   async run() {
-
+    return await this.telegram.sendAudio(this.chatId, this.audio, {
+      caption: this.caption,
+      parse_mode: this.parse_mode,
+      disable_notification: this.disable_notification,
+      duration: this.duration,
+      performer: this.performer,
+      title: this.title,
+      reply_markup: this.reply_markup,
+    }, {
+      filename: this.filename,
+      contentType: this.contentType,
+    });
   },
 };

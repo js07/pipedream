@@ -28,6 +28,8 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.sendMediaGroup(this.chatId, this.media, {
+      disable_notification: this.disable_notification,
+    });
   },
 };

@@ -4,6 +4,7 @@ const {
 } = require("../../constants.js");
 const telegram = require("../../telegram.app.js");
 
+// TODO: Support uploading new files?
 module.exports = {
   key: "telegram-edit-media-message",
   name: "Edit a Media Message",
@@ -52,22 +53,17 @@ module.exports = {
         "filename",
       ],
     },
-    fileSource: {
+    media: {
       propDefinition: [
         telegram,
         "fileSource",
       ],
+      description: "",
     },
     parse_mode: {
       propDefinition: [
         telegram,
         "parse_mode",
-      ],
-    },
-    disable_web_page_preview: {
-      propDefinition: [
-        telegram,
-        "disable_web_page_preview",
       ],
     },
     reply_markup: {
@@ -78,6 +74,14 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.editMessageMedia({
+      type: this.type,
+      media: this.media,
+      caption: this.caption,
+      parse_mode: this.parse_mode,
+    }, {
+      chatId: this.chatId,
+      messageId: this.messageId,
+    });
   },
 };

@@ -70,6 +70,15 @@ module.exports = {
     },
   },
   async run() {
-
+    return this.telegram.promoteChatMember(this.chatId, this.userId, {
+      can_change_info: this.can_change_info,
+      can_post_messages: this.can_post_messages,
+      can_edit_messages: this.can_edit_messages,
+      can_delete_messages: this.can_delete_messages,
+      can_invite_users: this.can_invite_users,
+      can_restrict_members: this.can_restrict_members,
+      can_pin_messages: this.can_pin_messages,
+      can_promote_members: this.can_promote_members,
+    });
   },
 };

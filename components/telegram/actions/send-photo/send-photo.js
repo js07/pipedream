@@ -28,7 +28,7 @@ module.exports = {
         "filename",
       ],
     },
-    fileSource: {
+    photo: {
       propDefinition: [
         telegram,
         "fileSource",
@@ -67,6 +67,15 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.sendPhoto(this.chatId, this.photo, {
+      caption: this.caption,
+      disable_notification: this.disable_notification,
+      parse_mode: this.parse_mode,
+      reply_to_message_id: this.reply_to_message_id,
+      reply_markup: this.reply_markup,
+    }, {
+      filename: this.filename,
+      contentType: this.contentType,
+    });
   },
 };

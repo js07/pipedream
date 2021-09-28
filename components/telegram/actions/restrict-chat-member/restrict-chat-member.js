@@ -52,6 +52,12 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.restrictChatMember(this.chatId, this.userId, {
+      until_date: this.until_date,
+      can_send_messages: this.can_send_messages,
+      can_send_media_messages: this.can_send_media_messages,
+      can_send_other_messages: this.can_send_other_messages,
+      can_add_web_page_previews: this.can_add_web_page_previews,
+    });
   },
 };

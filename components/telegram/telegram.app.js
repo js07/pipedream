@@ -1,5 +1,18 @@
-const axios = require("axios");
+// See: https://github.com/yagop/node-telegram-bot-api/issues/319
+process.env.NTBA_FIX_319 = (process.env.NTBA_FIX_319 !== undefined)
+  ? process.env.NTBA_FIX_319
+  : true; // TODO: Remove (testing for removing warning)
 const TelegramBot = require("node-telegram-bot-api");
+const axios = require("axios");
+const {
+  TELEGRAM_BOT_API_UI_MEDIA_AUDIO,
+  TELEGRAM_BOT_API_UI_MEDIA_DOCUMENT,
+  TELEGRAM_BOT_API_UI_MEDIA_PHOTO,
+  TELEGRAM_BOT_API_UI_MEDIA_VIDEO,
+  TELEGRAM_BOT_API_UI_MEDIA_VIDEO_NOTE,
+  TELEGRAM_BOT_API_UI_MEDIA_STICKER,
+  TELEGRAM_BOT_API_UI_MEDIA_VOICE,
+} = require("./constants");
 const updateTypes = [
   {
     label: "Message",
@@ -75,8 +88,9 @@ module.exports = {
       label: "Parse Mode",
       description: "Select Markdown-style or HTML-style of the text, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.",
       options: [
-        "Markdown",
+        "MarkdownV2",
         "HTML",
+        "Markdown",
       ],
       optional: true,
     },
@@ -227,7 +241,7 @@ module.exports = {
     until_date: {
       type: "string",
       label: "Until Date",
-      description: "Enter the date when the user will be unbanned. Time zone: America/Denver. For more information about supported date formats, see the [online Help](https://www.integromat.com/en/kb/type-coercion.html).",
+      description: "Enter the date when the user will be unbanned. Time zone: America/Denver. For more information about supported date formats, see the [online Help](https://pipedream.com).",
       optional: true,
     },
   },
@@ -318,6 +332,28 @@ module.exports = {
         filename,
         contentType,
       });
+    },
+    /**
+     * @typedef {import("./constants.js").UIMediaType} UIMediaType
+     *
+     * @param {UIMediaType} type
+     * @param {*} chatId
+     * @param {*} media
+     * @param {*} options
+     */
+    async sendMediaByType(type, chatId, media, options) {
+      const sdk = this.sdk();
+      const typeToSendFn = {
+        [TELEGRAM_BOT_API_UI_MEDIA_DOCUMENT]: sdk.sendDocument,
+        [TELEGRAM_BOT_API_UI_MEDIA_PHOTO]: sdk.sendPhoto,
+        [TELEGRAM_BOT_API_UI_MEDIA_AUDIO]: sdk.sendAudio,
+        [TELEGRAM_BOT_API_UI_MEDIA_VIDEO]: sdk.sendVideo,
+        [TELEGRAM_BOT_API_UI_MEDIA_VIDEO_NOTE]: sdk.sendVideoNote,
+        [TELEGRAM_BOT_API_UI_MEDIA_VOICE]: sdk.sendVoice,
+        [TELEGRAM_BOT_API_UI_MEDIA_STICKER]: sdk.sendSticker,
+      };
+      const sendFn = typeToSendFn[type];
+      return this.sendMedia(sendFn, chatId, media, options);
     },
     async sendAudio(chatId, audio, options) {
       const {

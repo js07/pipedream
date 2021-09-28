@@ -3,7 +3,7 @@ const telegram = require("../../telegram.app.js");
 module.exports = {
   key: "telegram-edit-text-message",
   name: "Edit a Text Message",
-  description: "Edits text of game messages",
+  description: "Edits text or game messages",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,16 +14,16 @@ module.exports = {
         "chatId",
       ],
     },
-    fromChatId: {
-      propDefinition: [
-        telegram,
-        "fromChatId",
-      ],
-    },
     messageId: {
       propDefinition: [
         telegram,
         "messageId",
+      ],
+    },
+    text: {
+      propDefinition: [
+        telegram,
+        "text",
       ],
     },
     disable_notification: {
@@ -34,6 +34,10 @@ module.exports = {
     },
   },
   async run() {
-
+    return await this.telegram.editMessageText(this.text, {
+      chatId: this.chatId,
+      messageId: this.messageId,
+      disable_notification: this.disable_notification,
+    });
   },
 };
