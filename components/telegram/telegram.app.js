@@ -134,7 +134,7 @@ module.exports = {
     caption: {
       type: "string",
       label: "Caption",
-      description: "Enter the audio caption.",
+      description: "Enter the caption.",
       optional: true,
     },
     filename: {
@@ -145,7 +145,7 @@ module.exports = {
     fileSource: {
       type: "string",
       label: "File Data Source",
-      description: "The source of the file data.",
+      description: "The source of the file data",
     },
     duration: {
       type: "integer",
@@ -208,13 +208,13 @@ module.exports = {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Limits the number of updates to be retrieved <1-100>. It is valid only for the case if auto-paging is not checked - see the parameter below.",
+      description: "Limits the number of updates to be retrieved <1-100>.",
       optional: true,
     },
     autoPaging: {
       type: "boolean",
       label: "Confirm processed requests by increasing the offset in the Telegram server [auto-paging]",
-      description: "Check if to simulate a webhook by increasing the offset automatically. Caution: you can list all updates automatically but only once. The limit will be ignored.",
+      description: "Check if to increasing the offset for the next request automatically. Caution: updates listed with `auto-paging` can be listed only once.",
       optional: true,
     },
     userId: {
@@ -226,7 +226,7 @@ module.exports = {
     until_date: {
       type: "string",
       label: "Until Date",
-      description: "Enter the date when the user will be unbanned. Time zone: America/Denver. For more information about supported date formats, see the [online Help](https://pipedream.com).",
+      description: "Enter the date when the restrictions on the user will be lifted, in [unix time](https://en.wikipedia.org/wiki/Unix_time) (e.g. `1567780450`).",
       optional: true,
     },
   },

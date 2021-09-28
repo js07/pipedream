@@ -4,7 +4,6 @@ const {
 } = require("../../constants.js");
 const telegram = require("../../telegram.app.js");
 
-// TODO: Support uploading new files?
 module.exports = {
   key: "telegram-edit-media-message",
   name: "Edit a Media Message",

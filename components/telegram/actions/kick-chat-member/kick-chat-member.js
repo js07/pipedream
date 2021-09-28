@@ -25,6 +25,7 @@ module.exports = {
         telegram,
         "until_date",
       ],
+      description: "Enter the date when the user will be unbanned, in [unix time](https://en.wikipedia.org/wiki/Unix_time) (e.g. `1567780450`).",
     },
   },
   async run() {

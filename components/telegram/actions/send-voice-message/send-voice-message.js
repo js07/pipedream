@@ -20,6 +20,7 @@ module.exports = {
         telegram,
         "caption",
       ],
+      description: "Enter the voice message caption.",
     },
     filename: {
       propDefinition: [
