@@ -1,7 +1,9 @@
-// See: https://github.com/yagop/node-telegram-bot-api/issues/319
+// If unset, set `process.env.NTBA_FIX_319` to true to enable cancellation of
+// Promises. See: https://github.com/yagop/node-telegram-bot-api/issues/319 for
+// more information.
 process.env.NTBA_FIX_319 = (process.env.NTBA_FIX_319 !== undefined)
   ? process.env.NTBA_FIX_319
-  : true; // TODO: Remove (testing for removing warning)
+  : true;
 const TelegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
 const {
@@ -112,12 +114,6 @@ module.exports = {
       description: "Enter the ID of the original message.",
       optional: true,
     },
-    // enterReplyMarkupField: {
-    //   type: "string",
-    //   label: "Enter/Assemble the Reply Markup Field",
-    //   description: "Select if to enter or assemble the reply markup field.",
-    //   optional: true,
-    // },
     reply_markup: {
       type: "string",
       label: "Reply Markup",
@@ -141,17 +137,6 @@ module.exports = {
       description: "Enter the audio caption.",
       optional: true,
     },
-    // sendBy: {
-    //   type: "string",
-    //   label: "Send by",
-    //   description: "Select if to send using data, by HTTP URL or by file ID.",
-    //   options: [
-    //     "Data",
-    //     "HTTP URL",
-    //     "File ID",
-    //   ],
-    //   optional: true,
-    // },
     filename: {
       type: "string",
       label: "Source File Name",
@@ -255,6 +240,12 @@ module.exports = {
         "Content-Type": "application/json",
       };
     },
+    /**
+     * Returns an instance of the Telegram Bot SDK authenticated with the bot's
+     * token
+     *
+     * @returns The Telegram Bot object
+     */
     sdk() {
       return new TelegramBot(this.$auth.token, {
         polling: false,
@@ -280,16 +271,49 @@ module.exports = {
       };
       return await axios(config);
     },
-    async sendMessage(chatId, text, options) {
-      return await this.sdk().sendMessage(chatId, text, options);
+    /**
+     * Send a text message
+     *
+     * @param {String} chatId - Unique identifier for the target chat or
+     * username of the target channel (in the format `@channelusername`)
+     * @param {String} text - Text of the message to be sent, 1-4096 characters
+     * after entities parsing
+     * @param {Object} [opts] - An object containing additional configuration
+     * options for this method, as defined in [the API
+     * docs](https://core.telegram.org/bots/api#sendmessage)
+     * @returns The sent Message
+     */
+    async sendMessage(chatId, text, opts) {
+      return await this.sdk().sendMessage(chatId, text, opts);
     },
-    async editMessageText(text, options) {
+    /**
+     * Edit a text message
+     *
+     * One of chat_id, message_id, or inline_message_id must be provided in the
+     * `opts` parameter
+     *
+     * @param {String} text - New text of the message
+     * @param {Object} [opts] - An object containing additional configuration
+     * options for this method
+     * @param {Number|String} [opts.chatId] - Required if `inline_message_id` is
+     * not specified. Unique identifier for the target chat or username of the
+     * target channel (in the format @channelusername)
+     * @param {Number|String} [opts.messageId] - Required if inline_message_id
+     * is not specified. Identifier of the message to edit
+     * @param {Number|String} [opts.inlineMessageId] - Required if chat_id and
+     * message_id are not specified. Identifier of the inline message
+     * @param {...*} [opts.extraOpts] - Additional Telegram query options to be
+     * fed to the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api#editmessagetext)
+     * @returns The edited Message
+     */
+    async editMessageText(text, opts) {
       const {
         chatId,
         messageId,
         inlineMessageId,
-        ...extraOptions
-      } = options;
+        ...extraOpts
+      } = opts;
       if (!(chatId && messageId) && !inlineMessageId) {
         throw new Error("chatId, messageId, or inlineMessageId is required");
       }
@@ -297,38 +321,112 @@ module.exports = {
         chat_id: chatId,
         message_id: messageId,
         inline_message_id: inlineMessageId,
-        ...extraOptions,
+        ...extraOpts,
       });
     },
-    async forwardMessage(chatId, fromChatId, messageId, options) {
-      return await this.sdk().forwardMessage(chatId, fromChatId, messageId, options);
+    /**
+     * Forward a message of any kind
+     *
+     * @param {Number|String} chatId - Unique identifier for the message
+     * recipient
+     * @param {Number|String} fromChatId - Unique identifier for the chat where
+     * the original message was sent
+     * @param {Number|String} messageId - Unique message identifier
+     * @param {Object} [opts] - Additional Telegram query options to be fed to
+     * the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api#forwardmessage)
+     * @return The sent message
+     */
+    async forwardMessage(chatId, fromChatId, messageId, opts) {
+      return await this.sdk().forwardMessage(chatId, fromChatId, messageId, opts);
     },
+    /**
+     * Delete a message
+     *
+     * @param  {Number|String} chatId - Unique identifier of the target chat
+     * @param  {Number} messageId - Unique identifier of the target message
+     * @returns `True` on success
+     */
     async deleteMessage(chatId, messageId) {
       return await this.sdk().deleteMessage(chatId, messageId);
     },
-    async pinChatMessage(chatId, messageId, options) {
-      return await this.sdk().pinChatMessage(chatId, messageId, options);
+    /**
+     * Use this method to add a message to the list of pinned messages in a
+     * chat. If the chat is not a private chat, the bot must be an administrator
+     * in the chat for this to work and must have the 'can_pin_messages' admin
+     * right in a supergroup or 'can_edit_messages' admin right in a channel.
+     *
+     * @param {Number|String} chatId - Unique identifier for the message
+     * recipient
+     * @param {Number} messageId - Identifier of a message to pin
+     * @param {Object} [opts] - Additional Telegram query options to be fed to
+     * the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api#pinchatmessage)
+     * @return `True` on success
+     */
+    async pinChatMessage(chatId, messageId, opts) {
+      return await this.sdk().pinChatMessage(chatId, messageId, opts);
     },
+    /**
+     * Use this method to remove a message from the list of pinned messages in a
+     * chat. If the chat is not a private chat, the bot must be an administrator
+     * in the chat for this to work and must have the 'can_pin_messages' admin
+     * right in a supergroup or 'can_edit_messages' admin right in a channel.
+     *
+     * @param {Number|String} chatId - Unique identifier for the message
+     * recipient
+     * @param {Object} [opts] - Additional Telegram query options to be fed to
+     * the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api#unpinchatmessage)
+     * @return `True` on success
+     */
     async unpinChatMessage(chatId, messageId) {
       return await this.sdk().unpinChatMessage(chatId, {
         message_id: messageId,
       });
     },
     /**
+     * @typedef {function} SendMediaFn
+     * @param {string} chatId - Unique identifier for the target chat or
+     * username of the target channel (in the format @channelusername)
+     * @param {String|stream.Stream|Buffer} media - A file path or a Stream. Can
+     * also be a `file_id` previously uploaded
+     * @param {Object} [opts] - An object containing additional configuration
+     * options for this method
+     * @param {Number|String} [opts.filename] - The name of the file to send
+     * @param {Number|String} [opts.contentType] - The MIME type of the file to
+     * send
+     * @param {...*} [opts.extraOpts] - Additional Telegram query options to be
+     * fed to the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api)
+     * @returns {Promise<TelegramBot.Message>} The sent message
+    */
+    /**
+     * Send a file (Document/Image, Photo, Audio, Video, Video Note, Voice,
+     * Sticker)
      *
-     * @param {*} sendFn
-     * @param {*} chatId
-     * @param {*} media
-     * @param {*} options
-     * @returns {Promise<TelegramBot.Message>}
+     * @param {SendMediaFn} sendFn - the function to use to send the media
+     * @param {string} chatId - Unique identifier for the target chat or
+     * username of the target channel (in the format @channelusername)
+     * @param  {String|stream.Stream|Buffer} media - A file path or a Stream. Can
+     * also be a `file_id` previously uploaded
+     * @param {Object} [opts] - An object containing additional configuration
+     * options for this method
+     * @param {Number|String} [opts.filename] - The name of the file to send
+     * @param {Number|String} [opts.contentType] - The MIME type of the file to
+     * send
+     * @param {...*} [opts.extraOpts] - Additional Telegram query options to be
+     * fed to the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api)
+     * @returns {Promise<TelegramBot.Message>} The sent message
      */
-    async sendMedia(sendFn, chatId, media, options) {
+    async sendMedia(sendFn, chatId, media, opts) {
       const {
         filename,
         contentType,
-        ...extraOptions
-      } = options;
-      return await sendFn(chatId, media, extraOptions, {
+        ...extraOpts
+      } = opts;
+      return await sendFn(chatId, media, extraOpts, {
         filename,
         contentType,
       });
@@ -336,12 +434,27 @@ module.exports = {
     /**
      * @typedef {import("./constants.js").UIMediaType} UIMediaType
      *
-     * @param {UIMediaType} type
-     * @param {*} chatId
-     * @param {*} media
-     * @param {*} options
      */
-    async sendMediaByType(type, chatId, media, options) {
+    /**
+     * Send a file (Document/Image, Photo, Audio, Video, Video Note, Voice,
+     * Sticker) as the media type specified by the `type` parameter
+     *
+     * @param {UIMediaType} type - The media type of the file
+     * @param {string} chatId - Unique identifier for the target chat or
+     * username of the target channel (in the format @channelusername)
+     * @param {String|stream.Stream|Buffer} media - A file path or a Stream. Can
+     * also be a `file_id` previously uploaded
+     * @param {Object} [opts] - An object containing additional configuration
+     * options for this method
+     * @param {Number|String} [opts.filename] - The name of the file to send
+     * @param {Number|String} [opts.contentType] - The MIME type of the file to
+     * send
+     * @param {...*} [opts.extraOpts] - Additional Telegram query options to be
+     * fed to the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api)
+     * @returns {Promise<TelegramBot.Message>} The sent message
+     */
+    async sendMediaByType(type, chatId, media, opts) {
       const sdk = this.sdk();
       const typeToSendFn = {
         [TELEGRAM_BOT_API_UI_MEDIA_DOCUMENT]: sdk.sendDocument,
@@ -353,71 +466,90 @@ module.exports = {
         [TELEGRAM_BOT_API_UI_MEDIA_STICKER]: sdk.sendSticker,
       };
       const sendFn = typeToSendFn[type];
-      return this.sendMedia(sendFn, chatId, media, options);
+      return this.sendMedia(sendFn, chatId, media, opts);
     },
-    async sendAudio(chatId, audio, options) {
-      const {
-        filename,
-        contentType,
-        ...extraOptions
-      } = options;
-      return await this.sdk().sendAudio(chatId, audio, extraOptions, {
-        filename,
-        contentType,
-      });
+    /**
+     * @type {SendMediaFn}
+     */
+    async sendAudio(chatId, audio, opts) {
+      return await this.sendMedia(this.sdk().sendAudio, chatId, audio, opts);
     },
-    async sendDocument(chatId, doc, options) {
-      const {
-        filename,
-        contentType,
-        ...extraOptions
-      } = options;
-      return await this.sdk().sendDocument(chatId, doc, extraOptions, {
-        filename,
-        contentType,
-      });
+    /**
+     * @type {SendMediaFn}
+     */
+    async sendDocument(chatId, doc, opts) {
+      return await this.sendMedia(this.sdk().sendDocument, chatId, doc, opts);
+
     },
-    async sendMediaGroup(chatId, media, options) {
-      return await this.sdk().sendMediaGroup(chatId, media, options);
+    async sendMediaGroup(chatId, media, opts) {
+      return await this.sdk().sendMediaGroup(chatId, media, opts);
     },
-    async sendPhoto(chatId, photo, options) {
-      const {
-        filename,
-        contentType,
-        ...extraOptions
-      } = options;
-      return await this.sdk().sendPhoto(chatId, photo, extraOptions, {
-        filename,
-        contentType,
-      });
+    /**
+     * @type {SendMediaFn}
+     */
+    async sendPhoto(chatId, photo, opts) {
+      return await this.sendMedia(this.sdk().sendPhoto, chatId, photo, opts);
+
     },
-    async sendSticker(chatId, sticker, options) {
-      const {
-        filename,
-        contentType,
-        ...extraOptions
-      } = options;
-      return await this.sdk().sendSticker(chatId, sticker, extraOptions, {
-        filename,
-        contentType,
-      });
+    /**
+     * @type {SendMediaFn}
+     */
+    async sendSticker(chatId, sticker, opts) {
+      return await this.sendMedia(this.sdk().sendSticker, chatId, sticker, opts);
     },
-    async sendVideo(chatId, video, options) {
-      return await this.sendMedia(this.sdk().sendVideo, chatId, video, options);
+    /**
+     * @type {SendMediaFn}
+     */
+    async sendVideo(chatId, video, opts) {
+      return await this.sendMedia(this.sdk().sendVideo, chatId, video, opts);
     },
-    async sendVideoNote(chatId, videoNote, options) {
-      return await this.sendMedia(this.sdk().sendVideoNote, chatId, videoNote, options);
+    /**
+     * @type {SendMediaFn}
+     */
+    async sendVideoNote(chatId, videoNote, opts) {
+      return await this.sendMedia(this.sdk().sendVideoNote, chatId, videoNote, opts);
     },
-    async sendVoice(chatId, voice, options) {
-      return await this.sendMedia(this.sdk().sendVoice, chatId, voice, options);
+    /**
+     * @type {SendMediaFn}
+     */
+    async sendVoice(chatId, voice, opts) {
+      return await this.sendMedia(this.sdk().sendVoice, chatId, voice, opts);
     },
-    async editMessageMedia(media, options) {
+    /**
+     * Use this method to edit audio, document, photo, or video messages. If a
+     * message is a part of a message album, then it can be edited only to a
+     * photo or a video. Otherwise, message type can be changed arbitrarily.
+     * When inline message is edited, new file can't be uploaded. Use previously
+     * uploaded file via its file_id or specify a URL.
+     *
+     * One of chat_id, message_id, or inline_message_id must be provided in the
+     * `opts` object param.
+     *
+     * @param {Object} media - A JSON-serialized object for a new media content
+     * of the message, as specified in [the API
+     * docs](https://core.telegram.org/bots/api#editmessagemedia)
+     * @param {Object} [opts] - Additional Telegram query options (one of
+     * chat_id, message_id, or inline_message_is required)
+     * @param {Number|String} [opts.chatId] - Required if `inline_message_id` is
+     * not specified. Unique identifier for the target chat or username of the
+     * target channel (in the format @channelusername)
+     * @param {Number|String} [opts.messageId] - Required if inline_message_id
+     * is not specified. Identifier of the message to edit
+     * @param {Number|String} [opts.inlineMessageId] - Required if chat_id and
+     * message_id are not specified. Identifier of the inline message
+     * @param {...*} [opts.extraOpts] - Additional Telegram query options to be
+     * fed to the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api#editmessagemedia)
+     * @returns The edited Message if the edited message is not an inline
+     * message, otherwise `true`
+     */
+    async editMessageMedia(media, opts) {
       const {
         chatId,
         messageId,
         inlineMessageId,
-        ...extraOptions
-      } = options;
+        ...extraOpts
+      } = opts;
       if (!(chatId && messageId) && !inlineMessageId) {
         throw new Error("chatId, messageId, or inlineMessageId is required");
       }
@@ -425,26 +557,95 @@ module.exports = {
         chat_id: chatId,
         message_id: messageId,
         inline_message_id: inlineMessageId,
-        ...extraOptions,
+        ...extraOpts,
       });
     },
-    async getUpdates(options) {
-      return await this.sdk().getUpdates(options);
+    /**
+     * Use this method to receive incoming updates using long polling
+     *
+     * @param {Object} [opts] - Additional Telegram query options to be fed to
+     * the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api#getupdates)
+     * @returns An Array of Update objects
+     */
+    async getUpdates(opts) {
+      return await this.sdk().getUpdates(opts);
     },
+    /**
+     * Use this method to get a list of administrators in a chat
+     *
+     * @param {Number|String} chatId - Unique identifier for the target group or
+     * username of the target supergroup
+     * @returns An Array of `ChatMember` objects that contains information about
+     * all chat administrators except other bots
+     */
     async getChatAdministrators(chatId) {
       return await this.sdk().getChatAdministrators(chatId);
     },
+    /**
+     * Use this method to get the number of members in a chat
+     *
+     * @param {Number|String} chatId - Unique identifier for the target group or
+     * username of the target supergroup
+     * @param {Object} [opts] - Additional Telegram query options to be fed to
+     * the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api#getchatmembercount)
+     * @returns The number of members in the chat
+     */
     async getChatMemberCount(chatId) {
       return await this.sdk().getChatMembersCount(chatId);
     },
-    async banChatMember(chatId, userId, options) {
-      return await this.sdk().banChatMember(chatId, userId, options);
+    /**
+     * Use this method to ban a user in a group, a supergroup or a channel. In
+     * the case of supergroups and channels, the user will not be able to return
+     * to the chat on their own using invite links, etc., unless unbanned first.
+     * The bot must be an administrator in the chat for this to work and must
+     * have the appropriate admin rights.
+     *
+     * @param {Number|String} chatId - Unique identifier for the target group or
+     * username of the target supergroup
+     * @param {Number} userId - Unique identifier of the target user
+     * @param {Object} [opts] - Additional Telegram query options to be fed to
+     * the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api#banchatmember)
+     * @returns `True` on success
+     */
+    async banChatMember(chatId, userId, opts) {
+      return await this.sdk().banChatMember(chatId, userId, opts);
     },
-    async promoteChatMember(chatId, userId, options) {
-      return await this.sdk().promoteChatMember(chatId, userId, options);
+    /**
+     * Use this method to promote or demote a user in a supergroup or a channel.
+     * The bot must be an administrator in the chat for this to work and must
+     * have the appropriate admin rights. Pass False for all boolean parameters
+     * in `opts` to demote a user.
+     *
+     * @param {Number|String} chatId - Unique identifier for the target chat or
+     * username of the target supergroup
+     * @param {Number} userId - Unique identifier of the target user
+     * @param {Object} [opts] - Additional Telegram query options to be fed to
+     * the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api#promotechatmember)
+     * @returns `True` on success
+     */
+    async promoteChatMember(chatId, userId, opts) {
+      return await this.sdk().promoteChatMember(chatId, userId, opts);
     },
-    async restrictChatMember(chatId, userId, options) {
-      return await this.sdk().restrictChatMember(chatId, userId, options);
+    /**
+     * Use this method to restrict a user in a supergroup. The bot must be an
+     * administrator in the supergroup for this to work and must have the
+     * appropriate admin rights. Pass True for all boolean parameters in `opts`
+     * to lift restrictions from a user.
+     *
+     * @param {Number|String} chatId - Unique identifier for the target chat or
+     * username of the target supergroup
+     * @param {Number} userId - Unique identifier of the target user
+     * @param {Object} [opts] - Additional Telegram query options to be fed to
+     * the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api#restrictchatmember)
+     * @returns `True` on success
+     */
+    async restrictChatMember(chatId, userId, opts) {
+      return await this.sdk().restrictChatMember(chatId, userId, opts);
     },
   },
 };

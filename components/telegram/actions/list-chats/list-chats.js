@@ -28,6 +28,14 @@ module.exports = {
     },
   },
   methods: {
+    /**
+     * Uses an Update object to generate a result object containing chat
+     * metadata, representing the source of the update and chat in which the
+     * update was made
+     *
+     * @param {*} update - an Update to use to generate a result
+     * @returns a result representing a chat
+     */
     generateResultFromUpdate(update) {
       return {
         update_id: update.update_id,
