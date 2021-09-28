@@ -28,7 +28,7 @@ module.exports = {
     },
   },
   async run() {
-    this.telegram.pinChatMessage(this.chatId, this.messageId, {
+    return await this.telegram.pinChatMessage(this.chatId, this.messageId, {
       disable_notification: this.disable_notification,
     });
   },
