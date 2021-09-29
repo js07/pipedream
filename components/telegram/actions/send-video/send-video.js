@@ -5,7 +5,7 @@ module.exports = {
   key: "telegram-send-video",
   name: "Send a Video",
   description: "Sends a video file to your Telegram Desktop application",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     telegram,

@@ -29,6 +29,7 @@ module.exports = {
         telegram,
         "type",
       ],
+      optional: false,
       options: [
         {
           label: "Photo",

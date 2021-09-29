@@ -4,7 +4,7 @@ module.exports = {
   key: "telegram-send-text-message-or-reply",
   name: "Send a Text Message or Reply",
   description: "Sends a text message or a reply to your Telegram Desktop application",
-  version: "0.0.9",
+  version: "0.0.11",
   type: "action",
   props: {
     telegram,
@@ -52,6 +52,7 @@ module.exports = {
     },
   },
   async run() {
+    console.log("run?", this);
     return await this.telegram.sendMessage(this.chatId, this.text, {
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,

@@ -4,7 +4,7 @@ module.exports = {
   key: "telegram-send-document-or-image",
   name: "Send a Document/Image",
   description: "Sends a document or an image to your Telegram Desktop application",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     telegram,

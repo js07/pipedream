@@ -5,7 +5,7 @@ module.exports = {
   key: "telegram-send-media-by-url-or-id",
   name: "Send Media by URL or ID",
   description: "Sends a file (document, photo, video, audio, ...) by HTTP URL or by ID that exists on the Telegram servers",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     telegram,
@@ -59,6 +59,7 @@ module.exports = {
       this.chatId,
       this.media,
       {
+        caption: this.caption,
         disable_notification: this.disable_notification,
         reply_to_message_id: this.reply_to_message_id,
         reply_markup: this.reply_markup,

@@ -4,7 +4,7 @@ module.exports = {
   key: "telegram-send-sticker",
   name: "Send a Sticker",
   description: "Sends a .webp sticker to you Telegram Desktop application",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     telegram,

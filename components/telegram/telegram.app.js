@@ -198,7 +198,6 @@ module.exports = {
         "Photo",
         "Video",
       ],
-      optional: true,
     },
     offset: {
       type: "string",
@@ -599,7 +598,7 @@ module.exports = {
      * @returns The number of members in the chat
      */
     async getChatMemberCount(chatId) {
-      return await this.sdk().getChatMembersCount(chatId);
+      return await this.sdk().getChatMemberCount(chatId);
     },
     /**
      * Use this method to ban a user in a group, a supergroup or a channel. In
