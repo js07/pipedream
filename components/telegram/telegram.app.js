@@ -141,6 +141,7 @@ module.exports = {
       type: "string",
       label: "Source File Name",
       description: "Enter a filename.",
+      optional: true,
     },
     fileSource: {
       type: "string",
@@ -465,20 +466,20 @@ module.exports = {
         [TELEGRAM_BOT_API_UI_MEDIA_VOICE]: sdk.sendVoice,
         [TELEGRAM_BOT_API_UI_MEDIA_STICKER]: sdk.sendSticker,
       };
-      const sendFn = typeToSendFn[type];
+      const sendFn = typeToSendFn[type].bind(sdk);
       return this.sendMedia(sendFn, chatId, media, opts);
     },
     /**
      * @type {SendMediaFn}
      */
     async sendAudio(chatId, audio, opts) {
-      return await this.sendMedia(this.sdk().sendAudio, chatId, audio, opts);
+      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_AUDIO, chatId, audio, opts);
     },
     /**
      * @type {SendMediaFn}
      */
     async sendDocument(chatId, doc, opts) {
-      return await this.sendMedia(this.sdk().sendDocument, chatId, doc, opts);
+      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_DOCUMENT, chatId, doc, opts);
 
     },
     async sendMediaGroup(chatId, media, opts) {
@@ -488,32 +489,37 @@ module.exports = {
      * @type {SendMediaFn}
      */
     async sendPhoto(chatId, photo, opts) {
-      return await this.sendMedia(this.sdk().sendPhoto, chatId, photo, opts);
+      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_PHOTO, chatId, photo, opts);
 
     },
     /**
      * @type {SendMediaFn}
      */
     async sendSticker(chatId, sticker, opts) {
-      return await this.sendMedia(this.sdk().sendSticker, chatId, sticker, opts);
+      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_STICKER, chatId, sticker, opts);
     },
     /**
      * @type {SendMediaFn}
      */
     async sendVideo(chatId, video, opts) {
-      return await this.sendMedia(this.sdk().sendVideo, chatId, video, opts);
+      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_VIDEO, chatId, video, opts);
     },
     /**
      * @type {SendMediaFn}
      */
     async sendVideoNote(chatId, videoNote, opts) {
-      return await this.sendMedia(this.sdk().sendVideoNote, chatId, videoNote, opts);
+      return await this.sendMediaByType(
+        TELEGRAM_BOT_API_UI_MEDIA_VIDEO_NOTE,
+        chatId,
+        videoNote,
+        opts,
+      );
     },
     /**
      * @type {SendMediaFn}
      */
     async sendVoice(chatId, voice, opts) {
-      return await this.sendMedia(this.sdk().sendVoice, chatId, voice, opts);
+      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_VOICE, chatId, voice, opts);
     },
     /**
      * Use this method to edit audio, document, photo, or video messages. If a

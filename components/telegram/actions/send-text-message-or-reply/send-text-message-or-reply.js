@@ -4,7 +4,7 @@ module.exports = {
   key: "telegram-send-text-message-or-reply",
   name: "Send a Text Message or Reply",
   description: "Sends a text message or a reply to your Telegram Desktop application",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     telegram,

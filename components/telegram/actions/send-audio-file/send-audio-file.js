@@ -5,7 +5,7 @@ module.exports = {
   key: "telegram-send-audio-file",
   name: "Send an Audio File",
   description: "Sends an audio file to your Telegram Desktop application",
-  version: "0.0.1",
+  version: "0.0.6",
   type: "action",
   props: {
     telegram,
@@ -51,6 +51,7 @@ module.exports = {
         telegram,
         "duration",
       ],
+      description: "Enter duration of sent audio in seconds.",
     },
     performer: {
       propDefinition: [

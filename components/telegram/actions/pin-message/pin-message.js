@@ -4,7 +4,7 @@ module.exports = {
   key: "telegram-pin-message",
   name: "Pin a Message",
   description: "Pins a message",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     telegram,

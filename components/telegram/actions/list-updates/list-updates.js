@@ -4,7 +4,7 @@ module.exports = {
   key: "telegram-list-updates",
   name: "List Updates",
   description: "Retrieves a list of updates from the Telegram server",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     telegram,
