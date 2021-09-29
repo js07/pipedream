@@ -79,9 +79,37 @@ const voice = [
   },
 ];
 
+const document = [
+  {
+    label: "Plain Text",
+    value: "text/plain",
+  },
+  {
+    label: "HTML Data",
+    value: "text/html",
+  },
+  {
+    label: "XML Files",
+    value: "application/xml",
+  },
+  {
+    label: "PDF Files",
+    value: "application/pdf",
+  },
+];
+
+const all = [
+  ...document,
+  ...image,
+  ...video,
+  ...audio,
+];
+
 module.exports = {
   image,
   video,
   audio,
   voice,
+  document,
+  all,
 };

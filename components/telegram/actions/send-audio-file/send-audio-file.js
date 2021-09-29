@@ -31,8 +31,9 @@ module.exports = {
     audio: {
       propDefinition: [
         telegram,
-        "fileSource",
+        "media",
       ],
+      label: "Audio",
     },
     parse_mode: {
       propDefinition: [

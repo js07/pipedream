@@ -23,8 +23,9 @@ module.exports = {
     sticker: {
       propDefinition: [
         telegram,
-        "fileSource",
+        "media",
       ],
+      label: "Sticker",
     },
     reply_to_message_id: {
       propDefinition: [

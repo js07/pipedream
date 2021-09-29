@@ -5,7 +5,7 @@ module.exports = {
   key: "telegram-send-voice-message",
   name: "Send a Voice Message",
   description: "Sends a voice message",
-  version: "0.0.2",
+  version: "0.0.7",
   type: "action",
   props: {
     telegram,
@@ -31,7 +31,20 @@ module.exports = {
     voice: {
       propDefinition: [
         telegram,
-        "fileSource",
+        "media",
+      ],
+      label: "Voice Message",
+    },
+    parse_mode: {
+      propDefinition: [
+        telegram,
+        "parse_mode",
+      ],
+    },
+    disable_notification: {
+      propDefinition: [
+        telegram,
+        "disable_notification",
       ],
     },
     contentType: {
@@ -58,6 +71,7 @@ module.exports = {
   async run() {
     return await this.telegram.sendAudio(this.chatId, this.voice, {
       caption: this.caption,
+      parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,
       duration: this.duration,
       reply_markup: this.reply_markup,

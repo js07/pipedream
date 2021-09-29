@@ -1,10 +1,11 @@
 const telegram = require("../../telegram.app.js");
+const contentTypes = require("../../content-types");
 
 module.exports = {
   key: "telegram-send-document-or-image",
   name: "Send a Document/Image",
   description: "Sends a document or an image to your Telegram Desktop application",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     telegram,
@@ -27,17 +28,25 @@ module.exports = {
         "filename",
       ],
     },
-    document: {
+    doc: {
       propDefinition: [
         telegram,
-        "fileSource",
+        "media",
       ],
+      label: "Document or Image",
     },
     parse_mode: {
       propDefinition: [
         telegram,
         "parse_mode",
       ],
+    },
+    contentType: {
+      propDefinition: [
+        telegram,
+        "contentType",
+      ],
+      options: contentTypes.all,
     },
     disable_notification: {
       propDefinition: [
@@ -59,7 +68,7 @@ module.exports = {
     },
   },
   async run() {
-    return await this.telegram.sendDocument(this.chatId, this.document, {
+    return await this.telegram.sendDocument(this.chatId, this.doc, {
       caption: this.caption,
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,

@@ -77,7 +77,7 @@ module.exports = {
     chatId: {
       type: "string",
       label: "Chat ID",
-      description: "Enter the unique identifier for the target chat or username of the target channel (in the format @channelusername, or @supergroupusername).",
+      description: "Enter the unique identifier for the target chat or username of the target channel (in the format `@channelusername` or `@supergroupusername`).",
     },
     text: {
       type: "string",
@@ -88,7 +88,7 @@ module.exports = {
     parse_mode: {
       type: "string",
       label: "Parse Mode",
-      description: "Select Markdown-style or HTML-style of the text, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.",
+      description: "Select [MarkdownV2-style](https://core.telegram.org/bots/api#markdownv2-style), [HTML-style](https://core.telegram.org/bots/api#html-style), or [Markdown-style](https://core.telegram.org/bots/api#markdown-style) of the text if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.",
       options: [
         "MarkdownV2",
         "HTML",
@@ -117,7 +117,7 @@ module.exports = {
     reply_markup: {
       type: "string",
       label: "Reply Markup",
-      description: "Enter additional interface options that are a JSON-serialized object including an inline keyboard, a custom reply keyboard, instructions to remove the reply keyboard or instructions to force a reply from the user, e.g. {\"inline_keyboard\":[[{\"text\":\"Some button text 2\",\"url\":\"https://botpress.org\"}]]} or {\"keyboard\":[[\"Yes\",\"No\"],[\"Maybe\"]]}. Note: keyboard cannot be used with channels.",
+      description: "Enter additional interface options that are a JSON-serialized object including an inline keyboard, a custom reply keyboard, instructions to remove the reply keyboard or instructions to force a reply from the user, e.g. `{\"inline_keyboard\":[[{\"text\":\"Some button text 2\",\"url\":\"https://botpress.org\"}]]}` or `{\"keyboard\":[[\"Yes\",\"No\"],[\"Maybe\"]]}`. Note: keyboard cannot be used with channels.",
       optional: true,
     },
     messageId: {
@@ -139,14 +139,14 @@ module.exports = {
     },
     filename: {
       type: "string",
-      label: "Source File Name",
+      label: "File Name",
       description: "Enter a filename.",
       optional: true,
     },
-    fileSource: {
+    media: {
       type: "string",
-      label: "File Data Source",
-      description: "The source of the file data",
+      label: "Media File Source",
+      description: "File to send. Pass a file_id to send a file that exists on the Telegram servers, pass an HTTP URL for Telegram to get a file from the Internet, or pass the path to the file (e.g., `/tmp/myFile.ext`) to upload a new one using a file [downloaded to `/tmp`](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#download-a-file-to-tmp). File must meet Telegram's [requirements](https://core.telegram.org/bots/api#sending-files) for MIME type and size.",
     },
     duration: {
       type: "integer",

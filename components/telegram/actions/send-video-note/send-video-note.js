@@ -24,8 +24,9 @@ module.exports = {
     videoNote: {
       propDefinition: [
         telegram,
-        "fileSource",
+        "media",
       ],
+      label: "Video Note",
     },
     contentType: {
       propDefinition: [

@@ -52,7 +52,6 @@ module.exports = {
     },
   },
   async run() {
-    console.log("run?", this);
     return await this.telegram.sendMessage(this.chatId, this.text, {
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,

@@ -31,8 +31,9 @@ module.exports = {
     video: {
       propDefinition: [
         telegram,
-        "fileSource",
+        "media",
       ],
+      label: "Video",
     },
     contentType: {
       propDefinition: [

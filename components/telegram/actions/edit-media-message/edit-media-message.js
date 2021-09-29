@@ -29,7 +29,6 @@ module.exports = {
         telegram,
         "type",
       ],
-      optional: false,
       options: [
         {
           label: "Photo",
@@ -56,7 +55,7 @@ module.exports = {
     media: {
       propDefinition: [
         telegram,
-        "fileSource",
+        "media",
       ],
       description: "",
     },

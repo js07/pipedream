@@ -5,7 +5,7 @@ module.exports = {
   key: "telegram-send-photo",
   name: "Send a Photo",
   description: "Sends a photo to your Telegram Desktop application",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     telegram,
@@ -31,8 +31,9 @@ module.exports = {
     photo: {
       propDefinition: [
         telegram,
-        "fileSource",
+        "media",
       ],
+      label: "Photo",
     },
     disable_notification: {
       propDefinition: [

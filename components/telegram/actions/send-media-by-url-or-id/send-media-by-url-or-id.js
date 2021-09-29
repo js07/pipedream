@@ -31,8 +31,10 @@ module.exports = {
     media: {
       propDefinition: [
         telegram,
-        "fileSource",
+        "media",
       ],
+      label: "Media",
+      description: "Pass a file_id to send a file that exists on the Telegram servers or pass an HTTP URL for Telegram to get a file from the Internet. File must meet Telegram's [requirements](https://core.telegram.org/bots/api#sending-files) for MIME type and size.",
     },
     disable_notification: {
       propDefinition: [
