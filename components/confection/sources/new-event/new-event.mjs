@@ -13,7 +13,7 @@ export default {
     eventName: {
       propDefinition: [
         confection,
-        "eventName",
+        'eventName',
       ],
       description:
         "Provide the event name to watch. All accounts have `loadtime` & `pageviewBatch` events by default.",
