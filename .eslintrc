@@ -18,8 +18,10 @@
     },
     {
       "files": [
-        "**/actions/**/*.*js",
-        "**/sources/**/*.*js"
+        "**/actions/**/*.js",
+        "**/sources/**/*.js",
+        "**/actions/**/*.mjs",
+        "**/sources/**/*.mjs"
       ],
       "rules": {
         "pipedream/required-properties-key": "error",
@@ -53,7 +55,8 @@
     },
     {
       "files": [
-        "**/*.app.*js"
+        "**/*.app.js",
+        "**/*.app.mjs"
       ],
       "rules": {
         "pipedream/props-label": "error",
