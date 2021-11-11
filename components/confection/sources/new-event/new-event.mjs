@@ -7,7 +7,7 @@ export default {
   version: "0.0.1",
   dedupe: "unique",
   description:
-    "Emit new event when a UUID receives a value for the configured **Event Name**. The latest value as well a history of all values ever received for that **Event Name** will be returned.",
+    'Emit new event when a UUID receives a value for the configured **Event Name**. The latest value as well a history of all values ever received for that **Event Name** will be returned.',
   props: {
     ...common.props,
     eventName: {
