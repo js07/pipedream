@@ -16,7 +16,7 @@ export default {
         'eventName',
       ],
       description:
-        "Provide the event name to watch. All accounts have `loadtime` & `pageviewBatch` events by default.",
+        'Provide the event name to watch. All accounts have `loadtime` & `pageviewBatch` events by default.',
     },
   },
   methods: {
