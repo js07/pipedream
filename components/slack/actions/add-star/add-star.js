@@ -14,7 +14,7 @@ module.exports = {
         "conversation",
       ],
       optional: true,
-      description: "Channel to add star to, or channel where the message to add star to was posted (used with timestamp).",
+      description: "Channel to add star to, or channel where the message to add star to was posted (used with timestamp)",
     },
     timestamp: {
       propDefinition: [
@@ -22,7 +22,7 @@ module.exports = {
         "timestamp",
       ],
       optional: true,
-      description: "Timestamp of the message to add star to.",
+      description: "Timestamp of the message to add star to",
     },
     file: {
       propDefinition: [
@@ -30,7 +30,7 @@ module.exports = {
         "file",
       ],
       optional: true,
-      description: "File to add star to.",
+      description: "File to add star to",
     },
   },
   async run() {
