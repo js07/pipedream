@@ -1,7 +1,7 @@
 const slack = require("../../slack.app.js");
 
 module.exports = {
-  key: "slack-reply-to-a-message",
+  key: "slack-reply-to-a-message-thread",
   name: "Reply to a Message Thread",
   description: "Send a message as a threaded reply",
   version: "0.1.0",

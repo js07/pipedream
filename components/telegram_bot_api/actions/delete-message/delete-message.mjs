@@ -22,8 +22,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const resp = await this.telegramBotApi.deleteMessage(this.chatId, this.messageId);
-    $.export("$summary", `Successfully deleted the message from chat, "${this.chatId}"`);
+    const {
+      chatId,
+      messageId,
+    } = this;
+    const resp = await this.telegramBotApi.deleteMessage(chatId, messageId);
+    $.export("$summary", `Successfully deleted the message from chat, "${chatId}"`);
     return resp;
   },
 };
