@@ -37,8 +37,8 @@ jobs:
     - id: git_diff_on_components
       name: Check git diff for version changes
       env:
-        head_commit: ${{ github.head_ref }}
-        base_commit: ${{ github.base_ref }}
+        head_commit: ${{ github.event.pull_request.head.sha }}
+        base_commit: ${{ github.event.pull_request.base.sha }}
       run: |-
         commit_contained_components_that_did_not_modify_version=0
         for f in ${{ steps.changed_files.outputs.all }}
