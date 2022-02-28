@@ -1,3 +1,4 @@
+// Sendgrid Delivery Event Types
 module.exports = [
   {
     label: "Processed (Delivery Event)",
