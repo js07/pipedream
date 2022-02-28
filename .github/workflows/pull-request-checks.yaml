@@ -15,22 +15,31 @@ jobs:
     name: Ensure component commits modify component versions
     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2.4.0
-      name: Checkout repo
-      with:
-        # See https://github.com/actions/checkout#checkout-v2
-        # This will be slow. The intent is to fetch all commits
-        # since the merge-base (the commit where we branched off)
-        # so we can check the git diff against all changed files.
-        # By default, the checkout action only returns the last commit,
-        # There's no native way to do this in the checkout action, so 
-        # we have to fetch the entire history. See
-        # https://github.com/actions/checkout/issues/266#issuecomment-638346893
-        fetch-depth: 0
-    - uses: jitterbit/get-changed-files@v1
-      id: changed_files
+    # steps:
+    # - uses: actions/checkout@v2.4.0
+    #   name: Checkout repo
+    #   with:
+    #     # See https://github.com/actions/checkout#checkout-v2
+    #     # This will be slow. The intent is to fetch all commits
+    #     # since the merge-base (the commit where we branched off)
+    #     # so we can check the git diff against all changed files.
+    #     # By default, the checkout action only returns the last commit,
+    #     # There's no native way to do this in the checkout action, so 
+    #     # we have to fetch the entire history. See
+    #     # https://github.com/actions/checkout/issues/266#issuecomment-638346893
+    #     fetch-depth: 0
+    # - uses: jitterbit/get-changed-files@v1
+    #   id: changed_files
+    #   name: Get changed files
+
+    - id: get_changed_files
       name: Get changed files
+      env:
+        head_commit: ${{ github.event.pull_request.head.sha }}
+        base_commit: ${{ github.event.pull_request.base.sha }}
+      run: |-
+         FILES=`git diff --name-only $BASE_COMMIT $HEAD_COMMIT`
+         echo "::set-output name=all::${FILES}"
     # Diff the changes in the HEAD ref (new branch) against the BASE ref (target branch, e.g. master)
     # If the changes don't contain modifications to the version, we want to log that fact but not exit early
     # Once we've checked all files, exit the script if any files failed to modify version
@@ -41,7 +50,8 @@ jobs:
         base_commit: ${{ github.event.pull_request.base.sha }}
       run: |-
         commit_contained_components_that_did_not_modify_version=0
-        for f in ${{ steps.changed_files.outputs.all }}
+        echo ${{ steps.get_changed_files.outputs.all }}
+        for f in ${{ steps.get_changed_files.outputs.all }}
         do
           ext="${f##*.}"
           # Only run this check on modified sources or actions, excluding common files
