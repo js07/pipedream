@@ -1,3 +1,4 @@
+// Sendgrid Engagement Event Types
 module.exports = [
   {
     label: "Open (Engagement Event)",

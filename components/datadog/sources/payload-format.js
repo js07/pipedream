@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * This object specifies the fields to include as part of every webhook call
  * payload, and their mappings to Datadog webhook variables.
