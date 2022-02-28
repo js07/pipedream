@@ -19,7 +19,6 @@ export default {
     /**
      * Default isRelevant for components that only filter the results by a specified board.
      * @param {object} result - The result item obtained by the component.
-     * @returns {boolean}
      */
     isRelevant({ result }) {
       return !this.board || this.board === result.idBoard;
