@@ -8,6 +8,7 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
+    /* eslint-disable pipedream/props-label,pipedream/props-description */
     trello: {
       type: "app",
       app: "trello",
