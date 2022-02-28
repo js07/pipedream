@@ -37,9 +37,12 @@ jobs:
       env:
         head_commit: ${{ github.event.pull_request.head.sha }}
         base_commit: ${{ github.event.pull_request.base.sha }}
+        head_ref: ${{ github.event.pull_request.head.ref }}
+        base_ref: ${{ github.event.pull_request.base.ref }}
       run: |-
-         FILES=`git diff --name-only ${{env.base_commit}} ${{env.head_commit}}`
-         echo "::set-output name=all::${FILES}"
+        git fetch --depth=1 +${{env.base_ref}}:${{env.head_ref}}
+        FILES=`git diff --name-only ${{env.base_commit}} ${{env.head_commit}}`
+        echo "::set-output name=all::${FILES}"
     # Diff the changes in the HEAD ref (new branch) against the BASE ref (target branch, e.g. master)
     # If the changes don't contain modifications to the version, we want to log that fact but not exit early
     # Once we've checked all files, exit the script if any files failed to modify version
