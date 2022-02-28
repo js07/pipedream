@@ -36,7 +36,7 @@ jobs:
     # Once we've checked all files, exit the script if any files failed to modify version
     - id: git_diff_on_components
       name: Check git diff for version changes
-      with:
+      env:
         head_commit: ${{ github.head_ref }}
         base_commit: ${{ github.base_ref }}
       run: |-
@@ -49,8 +49,6 @@ jobs:
              ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]]) && \
              [[ "${f}" != *common*.*js ]] && [[ "${f}" != **/actions/common/* ]] && [[ "${f}" != **/sources/common/* ]]
           then
-            export BASE_COMMIT=$INPUT_BASE_COMMIT
-            export HEAD_COMMIT=$INPUT_HEAD_COMMIT
             DIFF=`git diff --unified=0 $BASE_COMMIT...$HEAD_COMMIT ${f}`
             if [[ ${DIFF} != *"version:"* ]]
             then
