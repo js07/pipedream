@@ -142,6 +142,11 @@ jobs:
       - name: Compile TypeScript
         id: compile
         run: npm run build > files.txt
+      - name: Get Changed Files
+        id: files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'csv'
       - name: Publish TypeScript components (dry run)
         env:
             PD_API_KEY: ${{ secrets.PD_API_KEY }}
