@@ -184,7 +184,7 @@ jobs:
                 maybe_source_file=$(echo "$f" | sed 's/\/dist\//\//;s/.mjs/\.ts/')
                 if [[ ${maybe_source_file} == **/${added_modified_file} ]]
                 then
-                  changed_output_file=${f}
+                  changed_output_file="$f"
                   break
                 fi
               done
