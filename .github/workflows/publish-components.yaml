@@ -165,6 +165,7 @@ jobs:
           PUBLISHED=""
           ERRORS=""
           SKIPPED=""
+          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
           # included in the components dir, ends with .ts and not app.ts,
           # doesn't end with /common*.ts, and doesn't follow */common/
           for added_modified_file in "${added_modified_renamed_files[@]}";
