@@ -177,7 +177,7 @@ jobs:
               # XXX This is a hacky way to publish only TS components with changes. If a changed
               # file "path-a/path-b/c.ts" has a corresponding compiled output file
               # "path-a/dist/path-b/c.mjs", attempt to publish the output `.mjs` file.
-              changed_output_file = ""
+              changed_output_file=""
               for f in $output_files; # check each output file for a match
               do
                 # Replaces /dist/path/filename.mjs with /path/filename.ts
