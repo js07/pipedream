@@ -4,7 +4,7 @@ export default {
   ...common,
   name: "New Time Entry",
   version: "0.0.2",
-  key: "tick-new-time-entry",
+  key: "tick-new-project",
   description: "Emit new event on each created time entry.",
   type: "source",
   dedupe: "unique",
