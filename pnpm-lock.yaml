@@ -308,6 +308,9 @@ importers:
   components/algorand_developer_portal:
     specifiers: {}
 
+  components/all_images_ai:
+    specifiers: {}
+
   components/alpaca:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -3271,6 +3274,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/home_connect:
+    specifiers: {}
 
   components/hookdeck:
     specifiers:
