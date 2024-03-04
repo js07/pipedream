@@ -21,7 +21,7 @@ export default {
   key: "google_sheets-upsert-row",
   name: "Upsert Row",
   description: "Upsert a row of data in a Google Sheet",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     googleSheets,
@@ -169,7 +169,7 @@ export default {
         : this.googleSheets.updateRow(...updateParams, insert);
 
       const result = await updatePromise;
-      $.export("$summary", `Successfully updated row ${matchedRow}`);
+      $.export("$summary", `Successfully updated row: ${matchedRow}`);
       return result;
     } finally {
       // Cleanup hidden worksheet
