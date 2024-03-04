@@ -15,7 +15,7 @@ on:
 jobs:
   # See https://pnpm.io/continuous-integration#github-actions
   publish:
-    name: pnpm publish ${{ github.ref == 'refs/heads/main' && '' || ' dry run' }}
+    name: pnpm publish ${{ github.ref == 'refs/heads/master' && '' || ' dry run' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
@@ -23,12 +23,12 @@ jobs:
         with:
           version: 7.33.6
       - name: Get pnpm store directory
-        if: github.ref != 'refs/heads/main' # Cache is used only for dry runs
+        if: github.ref != 'refs/heads/master' # Cache is used only for dry runs
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
       - uses: actions/cache@v4
-        if: github.ref != 'refs/heads/main' # Cache is used only for dry runs
+        if: github.ref != 'refs/heads/master' # Cache is used only for dry runs
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -48,8 +48,8 @@ jobs:
       - name: Setup npmrc for pnpm publish
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - name: pnpm publish
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: pnpm publish -r --no-git-checks
       - name: pnpm publish (dry run)
-        if: github.ref != 'refs/heads/main'
+        if: github.ref != 'refs/heads/master'
         run: pnpm publish -r --no-git-checks --dry-run
