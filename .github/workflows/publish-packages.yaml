@@ -15,7 +15,7 @@ on:
 jobs:
   # See https://pnpm.io/continuous-integration#github-actions
   publish:
-    name: pnpm publish ${{ github.ref == 'refs/heads/master' && '' || ' dry run' }}
+    name: pnpm publish ${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
