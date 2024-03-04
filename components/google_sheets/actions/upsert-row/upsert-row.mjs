@@ -169,7 +169,7 @@ export default {
         : this.googleSheets.updateRow(...updateParams, insert);
 
       const result = await updatePromise;
-      $.export("$summary", `Successfully updated row ${matchedRow}`);
+      $.export("$summary", `Successfully updated row: ${matchedRow}`);
       return result;
     } finally {
       // Cleanup hidden worksheet
